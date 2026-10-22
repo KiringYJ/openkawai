@@ -53,11 +53,25 @@ slot 0x750 -> thunk 0x402781 -> 0x40d230
 compares `match_id`, calls the path checker `0x40b610` (`0x73c`), and returns
 `-1` when a move exists and `0` when none does.
 
-The function also writes several words including `0x41F15A/15C/15E/160`, but
-controlled hint probes did **not** produce values matching the obvious pair
-endpoints. Those words are therefore animation/path scratch, not a reliable
-public hint-endpoint record. The hint handler sets `0x41F158 = -1` and consumes
-one hint resource; the exact paint-side highlight source remains open.
+On a found move it stores the two endpoints at:
+
+```text
+0x41F15A = column of endpoint 1
+0x41F15C = row of endpoint 1
+0x41F15E = column of endpoint 2
+0x41F160 = row of endpoint 2
+```
+
+The coordinate order is **(column, row)**. A fresh board stored
+`(2,1)` and `(12,1)`, which painted the magenta borders on row 1, columns 2
+and 12. After matching that pair, the fields updated to `(4,1)` and `(6,1)`
+for the next legal pair. The paint code at `0x417a84` compares the current
+tile's column/row against these four words.
+
+The hint handler sets `0x41F158 = -1` and consumes one hint resource. It does
+**not** run the move finder itself; it highlights the most recent move-finder
+result. That result is refreshed at level start and after every match/shuffle,
+so it is normally current.
 
 The shuffle handler calls the move finder repeatedly around the shuffle method
 `0x408c00` until a move exists.
@@ -107,14 +121,16 @@ clean reproduction.
 
 ## Confidence and limits
 
-High for the vtable map, the legal-move finder, the level-specific dispatch,
-and the static auto-shuffle branch. The hint highlight source is not yet
-identified: two controlled probes produced `1,1,6,1` and `2,1,12,1` in
-`0x41F15A`–`0x41F160`, neither of which matched the visible pair endpoints.
+High for the vtable map, the legal-move finder, the hint endpoint order and
+highlight paint check, the level-specific dispatch, and the static
+auto-shuffle branch.
+
+The hint uses the move finder's most recent result rather than recomputing on
+click; this was confirmed by matching the highlighted pair and observing the
+endpoint fields advance to the next legal pair.
 
 ## Open questions
 
-- Which fields drive the actual hint highlight?
 - What UI/game-over state follows auto-shuffle exhaustion?
 - Do the level-specific methods change gameplay or only visuals?
 

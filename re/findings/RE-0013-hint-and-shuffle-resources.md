@@ -77,11 +77,11 @@ screen order. Keep the numeric address mapping authoritative.
 High for the icon identity, the one-use costs, and the board-change behavior:
 both were observed live and match the handlers.
 
-The hint highlight source and its candidate order are not yet measured; the
-move finder at `0x40b400` is confirmed for shuffle/no-move use, but the hint
-path is not tied to its scratch coordinates. The exact shuffle permutation
-algorithm is also open. Auto-shuffle when no moves remain is read statically
-(RE-0015) but was not reproduced with a clean no-move board.
+The hint highlight uses the move finder's most recent pair, stored as
+`(column,row)` at `0x41F15A/15C` and `0x41F15E/160`; it does not recompute on
+click. The exact shuffle permutation algorithm is still open. Auto-shuffle
+when no moves remain is read statically (RE-0015) but was not reproduced with a
+clean no-move board.
 
 ## Open questions
 
