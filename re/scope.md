@@ -95,7 +95,7 @@ the difficulty scaling, and the high-score file format.
 | Q-007 | How are score, combo, and time bonus calculated?                      | confirmed pair/clear/time formulas and card rewards; no combo observed |
 | Q-008 | What do hint and shuffle cost, and are they limited?                  | confirmed: hint A and shuffle B each cost one; both start 5 and grow per level/card |
 | Q-009 | What happens when no moves remain? Auto-shuffle or loss?              | partial: README describes auto-shuffle; not yet isolated |
-| Q-010 | What is the menu, mode, and level progression flow?                   | confirmed: 11 full levels, linear timers/resources, final state 3 |
+| Q-010 | What is the menu, mode, and level progression flow?                   | confirmed: 11 full levels, clear/failure states, name entry, menu return |
 | Q-011 | Which sounds and animations accompany selection and matching?         | unknown |
 | Q-012 | Is there persistent score or save data, and where is it stored?       | confirmed: 660-byte `kawai2004.hst`; three contiguous 10-entry name/score/level tables |
 

@@ -54,6 +54,14 @@ through row 0, the padded outer border.
    conditions. The most likely causes are input timing, a stale board read
    during a transition, or the same hidden-screen state seen in the oracle.
    No level-specific path restriction has been demonstrated.
+8. The path dispatcher `0x40b610` orders the two endpoints and dispatches:
+   - same row → `0x40b6e0`
+   - same column → `0x40baa0`
+   - different row and column → `0x40be60` or `0x40c830`,
+     depending on the relative column order.
+   The sub-checkers implement the straight/one-turn/two-turn and outer-border
+   cases and write animation corner points to `0x41F148`–`0x41F14E`.
+   The control oracle's accepted shapes are consistent with this dispatcher.
 
 ## Interpretation
 
@@ -82,6 +90,10 @@ The single mismatch at 38 remaining tiles is recorded as an unexplained
 observation, but it is not sufficient evidence for a level-specific path rule.
 An automation that enters the high-score or another modal screen will ignore
 board clicks; check the screen state before treating a click as a path failure.
+
+The dispatcher and sub-checker addresses are confirmed statically. The exact
+corner/border predicate inside each sub-checker is still being read, but the
+controlled accepted shapes agree with the two-turn model.
 
 ## Open questions
 

@@ -22,6 +22,7 @@ change; it is not a general notes page.
 | [RE-0013](RE-0013-hint-and-shuffle-resources.md) | HUD resources are hint (A) and shuffle (B); one use each | confirmed | high | `src/game/session.ts` |
 | [RE-0014](RE-0014-high-score-file.md) | High-score file is 660 bytes of three contiguous 10-entry tables | confirmed | high | `src/game/session.ts` |
 | [RE-0015](RE-0015-vtable-and-move-finder.md) | Vtable slot map, move finder/hint endpoints, level dispatch, auto-shuffle branch | confirmed | high | `src/core/board.ts`, `src/game/session.ts` |
+| [RE-0016](RE-0016-failure-and-high-score-flow.md) | Failure overlay, high-score name entry, immediate save, return to menu | confirmed | high | `src/game/session.ts`, `src/ui/game-view.ts` |
 
 Add a row when a finding is accepted. Keep `unknown` findings out of the index
 until there is enough evidence to state a question precisely.
