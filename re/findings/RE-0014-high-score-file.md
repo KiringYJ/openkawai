@@ -101,16 +101,19 @@ layout, the difficulty-1 table offset, the descending insertion, and the
 immediate save after Enter: all were directly observed.
 
 The weak/ultra table offsets are inferred from the contiguous layout and the
-difficulty enum. The displayed `100` was not present in the file, disappeared
-when a real 7777 score was inserted, and is therefore a non-persistent
-placeholder row rather than a stored entry.
+difficulty enum.
+
+The earlier `100` was not a default row: it was the **current failed run's
+score** shown provisionally at the top of the name-entry screen. The
+`最佳記錄` screen reads only persisted file entries; with the file containing
+24 and 4, it shows exactly those two rows and no 100. Entering 7777 replaced
+the provisional run score and wrote 7777/24/4.
 
 ## Open questions
 
 - What exact keyboard mapping produced `UGVX` from synthetic VK events?
 - Does the game read all three tables or only the current difficulty table?
 - Are ties sorted by insertion order or by another key?
-- Is the placeholder always `100`, or does it depend on difficulty?
 
 ## Implementation impact
 

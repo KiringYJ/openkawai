@@ -43,9 +43,11 @@ read before and after, then restored from a backup.
    main menu.
 5. The save inserted the record at high-score entry index 10 (the difficulty-1
    table), shifting older entries down. See RE-0014.
-6. The high-score screen before the controlled write showed a default `100`
-   that was not present in the file; after the 7777 save it was gone from the
-   visible top rows.
+6. The high-score entry screen showed the **current failed run's score** (100
+   in the earlier run, 7777 in the controlled run) provisionally at its rank;
+   this value was not yet in the file. After saving, the persisted table
+   contained the new score and the provisional current-run row was gone. The
+   `最佳記錄` screen reads only persisted entries.
 
 ## Interpretation
 
