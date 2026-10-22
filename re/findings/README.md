@@ -19,6 +19,8 @@ change; it is not a general notes page.
 | [RE-0010](RE-0010-level-continuation.md) | Continue advances level, applies the next timer, adds +1/+1 resources, keeps score | confirmed | high | `src/game/session.ts` |
 | [RE-0011](RE-0011-level-table-and-final-clear.md) | 11 full levels, linear timer/resource table, final resource clear bonus | confirmed | high | `src/game/session.ts`, `src/content/layouts.ts` |
 | [RE-0012](RE-0012-chance-card-rewards.md) | Chance stars, 1-3 picks, shuffled 18-card time/resource reward deck | confirmed | high | `src/game/session.ts` |
+| [RE-0013](RE-0013-hint-and-shuffle-resources.md) | HUD resources are hint (A) and shuffle (B); one use each | confirmed | high | `src/game/session.ts` |
+| [RE-0014](RE-0014-high-score-file.md) | High-score file is 660 bytes of 22-byte name/score/level entries | inferred | medium | `src/game/session.ts` |
 
 Add a row when a finding is accepted. Keep `unknown` findings out of the index
 until there is enough evidence to state a question precisely.

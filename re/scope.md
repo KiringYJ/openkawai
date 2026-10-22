@@ -70,7 +70,11 @@ Runtime probes on 2026-10-22 established the following. See
   Picks are 1–3 by difficulty; the 18 rewards are a shuffled permutation of
   fixed time/resource effects (RE-0012).
 - The client is 800 × 600; the game has a top-10 high-score screen and uses
-  `\kawai2004.hst` under the Windows directory.
+  `\kawai2004.hst` under the Windows directory (UAC-virtualized in the observed
+  run). The file is 660 bytes, consistent with 30 entries of
+  name[16] + score u32 + level u16 (RE-0014).
+- The top-right orange circular-arrow icon is shuffle (resource B); the blue
+  star/flower icon is hint (resource A). Each use costs one (RE-0013).
 - The menu has three difficulty settings labelled 弱/強/超強 with
   1000/10000/100000 values.
 
@@ -89,10 +93,10 @@ the difficulty scaling, and the high-score file format.
 | Q-005 | What are the exact turn and path rules for edge cases?                | partial: ≤2 turns and border route confirmed; one L2 contradiction |
 | Q-006 | What is the round time limit, and does it vary by mode?               | confirmed: `[320,225,160] - [20,15,10] * level_index` seconds; 1000 ms/s decay |
 | Q-007 | How are score, combo, and time bonus calculated?                      | confirmed pair/clear/time formulas and card rewards; no combo observed |
-| Q-008 | What do hint and shuffle cost, and are they limited?                  | partial: two HUD resources; exact costs/limits unknown |
+| Q-008 | What do hint and shuffle cost, and are they limited?                  | confirmed: hint A and shuffle B each cost one; both start 5 and grow per level/card |
 | Q-009 | What happens when no moves remain? Auto-shuffle or loss?              | partial: README describes auto-shuffle; not yet isolated |
 | Q-010 | What is the menu, mode, and level progression flow?                   | confirmed: 11 full levels, linear timers/resources, final state 3 |
 | Q-011 | Which sounds and animations accompany selection and matching?         | unknown |
-| Q-012 | Is there persistent score or save data, and where is it stored?       | partial: `\kawai2004.hst` string; format unknown |
+| Q-012 | Is there persistent score or save data, and where is it stored?       | partial: 660-byte `kawai2004.hst`; 22-byte name/score/level entries, table ordering inferred |
 
 Add a finding in `findings/` before changing a provisional constant in `src/`.
