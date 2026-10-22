@@ -49,14 +49,18 @@ slot 0x750 -> thunk 0x402781 -> 0x40d230
 
 ## Move finder and hint
 
-`0x40b400` is the move finder. It scans present cells in row-major order,
-compares `match_id`, calls the path checker `0x40b610` (`0x73c`), and on the
-first legal pair writes the two endpoints to `0x41F15A/15C` and
-`0x41F15E/160`. It returns `-1` when a move exists and `0` when none does.
+`0x40b400` is the legal-move finder. It scans present cells in row-major order,
+compares `match_id`, calls the path checker `0x40b610` (`0x73c`), and returns
+`-1` when a move exists and `0` when none does.
 
-The hint handler sets `0x41F158 = -1`; the paint code uses this flag and the
-stored endpoints to draw the highlight. The shuffle handler calls the move
-finder repeatedly around the shuffle method `0x408c00` until a move exists.
+The function also writes several words including `0x41F15A/15C/15E/160`, but
+controlled hint probes did **not** produce values matching the obvious pair
+endpoints. Those words are therefore animation/path scratch, not a reliable
+public hint-endpoint record. The hint handler sets `0x41F158 = -1` and consumes
+one hint resource; the exact paint-side highlight source remains open.
+
+The shuffle handler calls the move finder repeatedly around the shuffle method
+`0x408c00` until a move exists.
 
 ## Level-specific dispatch
 
@@ -103,14 +107,14 @@ clean reproduction.
 
 ## Confidence and limits
 
-High for the vtable map, the move finder, the level-specific dispatch, and the
-static auto-shuffle branch. The hint coordinate order is not yet interpreted:
-a controlled hint set `0x41F15A/15C/15E/160` to `1,1,6,1`, which does not map
-directly to the two obvious pairs in that probe.
+High for the vtable map, the legal-move finder, the level-specific dispatch,
+and the static auto-shuffle branch. The hint highlight source is not yet
+identified: two controlled probes produced `1,1,6,1` and `2,1,12,1` in
+`0x41F15A`–`0x41F160`, neither of which matched the visible pair endpoints.
 
 ## Open questions
 
-- What is the exact coordinate order in `0x41F15A`–`0x41F160`?
+- Which fields drive the actual hint highlight?
 - What UI/game-over state follows auto-shuffle exhaustion?
 - Do the level-specific methods change gameplay or only visuals?
 
