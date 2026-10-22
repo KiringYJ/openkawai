@@ -36,9 +36,10 @@ independently confirmed fact for this repository; verify before relying on it.
 
 ## Known behaviour
 
-Runtime probes on 2026-10-22 established the following. See
-[`findings/RE-0001`](findings/RE-0001-board-runtime-layout.md) through
-[`RE-0005`](findings/RE-0005-ui-and-high-score-flow.md) and the
+Runtime probes on 2026-10-22/23 established the following. The consolidated
+implementation contract is in [`RULESET.md`](RULESET.md). Detailed evidence is
+in [`findings/RE-0001`](findings/RE-0001-board-runtime-layout.md) through
+[`RE-0016`](findings/RE-0016-failure-and-high-score-flow.md) and the
 [session log](sessions/20261022-kawai2004-runtime.md).
 
 - The game is a matching-pair ("連連看") game distributed as a Windows build.
@@ -62,9 +63,12 @@ Runtime probes on 2026-10-22 established the following. See
 - Continuing past the clear overlay advances the level, resets the timer to
   the next level limit, and adds one to each resource; the score is unchanged
   (RE-0010).
-- There are 11 levels, all starting with 144 tiles. Difficulty-1 timers run
-  from 225 s down to 75 s in 15 s steps; resources run from 5/5 to 15/15. The
-  final clear applies the resource bonus and ends in state 3 (RE-0011).
+- There are 11 levels, all starting with 144 tiles. The initial multiset is
+  invariant across levels and across difficulty 0/1/2: 34 normal kinds ×4 and
+  the eight special IDs ×1 (RE-0001, RE-0011).
+- Difficulty-1 timers run from 225 s down to 75 s in 15 s steps; resources run
+  from 5/5 to 15/15. The final clear applies the resource bonus and ends in
+  state 3 (RE-0011).
 - The `機會` panel shows a normal tile kind (`0x41F0CC`). Matching a pair of
   that kind adds one star (`0x41F0EA`); three stars open an 18-card screen.
   Picks are 1–3 by difficulty; the 18 rewards are a shuffled permutation of
@@ -78,25 +82,26 @@ Runtime probes on 2026-10-22 established the following. See
 - The menu has three difficulty settings labelled 弱/強/超強 with
   1000/10000/100000 values.
 
-Still provisional in the implementation: the exact clear bonus, the
-level-specific reshuffle routines, the card reward table, the resource counts,
-the difficulty scaling, and the high-score file format.
+`src/` still contains the provisional prototype, but the gameplay rules are
+now recorded in `RULESET.md`. The level-specific vtable methods are visual
+updates; they do not write the tile array. Exact RNG sequences and original
+visual/audio assets remain outside the clean-room ruleset.
 
 ## Open questions
 
 | ID    | Question                                                             | Status  |
 | ----- | -------------------------------------------------------------------- | ------- |
-| Q-001 | What is the playable board size and are there layout variants?        | partial: 16×9 playfield, 18×11 array; level shapes not fully mapped |
-| Q-002 | How many tile kinds exist, and what is their distribution per board?  | partial: 34 normal ×4; 8 specials in 2 groups of 4 on L1/L2 |
-| Q-003 | Are diagonal connections allowed, or only orthogonal?                 | partial: orthogonal paths observed; diagonal not exhaustively tested |
-| Q-004 | Is the outer border always traversable? Are there corner restrictions?| partial: border accepted on L1; level exceptions unresolved |
-| Q-005 | What are the exact turn and path rules for edge cases?                | partial: ≤2 turns and border route confirmed; one L2 contradiction |
+| Q-001 | What is the playable board size and are there layout variants?        | confirmed: 18×11 array, full 16×9 playfield on all levels/difficulties |
+| Q-002 | How many tile kinds exist, and what is their distribution per board?  | confirmed: 34 normal ×4, eight special IDs ×1, invariant at start |
+| Q-003 | Are diagonal connections allowed, or only orthogonal?                 | confirmed: orthogonal only |
+| Q-004 | Is the outer border always traversable? Are there corner restrictions?| confirmed: one-cell outer border traversable; no corner exception found |
+| Q-005 | What are the exact turn and path rules for edge cases?                | confirmed: ≤2 turns, no passing through tiles; instructions and oracle agree |
 | Q-006 | What is the round time limit, and does it vary by mode?               | confirmed: `[320,225,160] - [20,15,10] * level_index` seconds; 1000 ms/s decay |
 | Q-007 | How are score, combo, and time bonus calculated?                      | confirmed pair/clear/time formulas and card rewards; no combo observed |
 | Q-008 | What do hint and shuffle cost, and are they limited?                  | confirmed: hint A and shuffle B each cost one; both start 5 and grow per level/card |
-| Q-009 | What happens when no moves remain? Auto-shuffle or loss?              | partial: README describes auto-shuffle; not yet isolated |
+| Q-009 | What happens when no moves remain? Auto-shuffle or loss?              | confirmed static: consume B and shuffle; B=0 enters the failure branch |
 | Q-010 | What is the menu, mode, and level progression flow?                   | confirmed: 11 full levels, clear/failure states, name entry, menu return |
-| Q-011 | Which sounds and animations accompany selection and matching?         | unknown |
+| Q-011 | Which sounds and animations accompany selection and matching?         | out of scope for the clean-room ruleset (original assets not reproduced) |
 | Q-012 | Is there persistent score or save data, and where is it stored?       | confirmed: 660-byte `kawai2004.hst`; three contiguous 10-entry name/score/level tables |
 
 Add a finding in `findings/` before changing a provisional constant in `src/`.

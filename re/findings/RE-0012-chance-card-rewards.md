@@ -45,9 +45,14 @@ cell's `match_id`. On a chance match it increments `0x41F0EA`; when the result
 is at least 3 it writes `-1` to `0x41F0CE`. The same path then opens the card
 screen.
 
-The star increment is one per chance match. Stars are reset to 0 after the
-card sequence (`0x4152e2`). The exact frame at which the reset becomes visible
-was not isolated because a subsequent board click also advances the UI.
+The star increment is one per chance match. The chance kind is written only
+at `0x408b9c` inside `0x408b20`; that method runs at level start and after a
+shuffle, so the chance kind is fixed for a board between shuffles.
+
+Stars are reset to 0 at `0x4152e2` when the card screen closes after the last
+pick. The code checks `0x41F0E8` (picks remaining); while it is positive the
+screen stays open, and when it reaches 0 the screen closes and stars are
+cleared. Stars persist across level transitions until they are spent.
 
 ## Card picks
 
@@ -139,9 +144,10 @@ level.
 
 ## Open questions
 
-- Does the chance kind ever change before the level ends?
-- Does the card screen reset stars immediately or after its close animation?
-- Are stars reset on a level clear or a failed round?
+- Are stars reset on a failed round? The normal path resets them when the
+  card screen closes; failure without a card pick may leave them unchanged.
+- Do multiple picks in one screen behave exactly as the one-pick probe plus
+  the click handler loop?
 
 ## Implementation impact
 

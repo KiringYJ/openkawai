@@ -55,6 +55,10 @@ pairs had been removed.
    - 8 special visual IDs (34–41) ×1 each = 8 tiles.
    The special positions changed between levels, so the deal is shuffled; no
    level used holes or a different board shape at the start.
+10. Controlled level-1 starts at **弱 (difficulty 0)** and **超強
+    (difficulty 2)** had the same 144-cell multiset: 34 normal kinds ×4 and
+    the eight special IDs ×1. Difficulty changes timers/scores/resources, not
+    the initial board composition.
 
 ## Interpretation
 
@@ -80,16 +84,15 @@ they were observed directly in a live process and confirmed by a successful
 special-tile removal. The sprite-name mapping is descriptive only; the
 authoritative values are the numeric IDs.
 
-The 11-level sweep proves the initial full-board distribution at difficulty 1.
-It does not prove that reshuffles or difficulty changes preserve the same
-multiset.
+The 11-level sweep proves the initial full-board distribution at difficulty 1;
+the difficulty 0/2 start checks show the same multiset. It does not prove that
+reshuffles preserve the exact multiset, though they appear to preserve tile
+counts and kinds.
 
 ## Open questions
 
-- Does difficulty 0/2 change the initial distribution?
-- How does the level-specific reshuffle operate on this array?
-- Is there any level that intentionally starts with holes under another menu
-  mode?
+- Does a shuffle ever alter the special-tile multiset? No evidence yet.
+- How does the shuffle permutation order the remaining tiles?
 
 ## Implementation impact
 

@@ -98,6 +98,11 @@ Level 1 (index 0) takes the default path and calls none of these. The methods
 are level-specific board/background update methods, not mutually exclusive
 level generators; the earlier “11 routines = 11 levels” reading was wrong.
 
+The decompiled `0x409040` reads `DAT_0041f118` cells only to test
+`present == -1` and to choose what to draw; there are no writes to the board
+array. The level-specific methods are therefore visual/background updates, not
+gameplay-rule changes.
+
 ## Auto-shuffle
 
 At `0x40d990` the post-match path calls the move finder:
@@ -131,8 +136,10 @@ endpoint fields advance to the next legal pair.
 
 ## Open questions
 
-- What UI/game-over state follows auto-shuffle exhaustion?
-- Do the level-specific methods change gameplay or only visuals?
+- What UI/game-over state follows auto-shuffle exhaustion? The static branch
+  sets state 2 and `0x41F188=3` when resource B is empty.
+- The level-specific methods are read-only with respect to the tile array and
+  are treated as visual updates.
 
 ## Implementation impact
 

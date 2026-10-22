@@ -62,6 +62,11 @@ through row 0, the padded outer border.
    The sub-checkers implement the straight/one-turn/two-turn and outer-border
    cases and write animation corner points to `0x41F148`–`0x41F14E`.
    The control oracle's accepted shapes are consistent with this dispatcher.
+9. The built-in `遊戲說明` screen states the same rule directly:
+   - `連線路徑不得超過二個轉折`
+   - `不能穿過其他牌`
+   - `MOUSE 左鍵 - 選取，右鍵 - 取消`
+   This confirms the two-turn model and adds the right-click cancel behavior.
 
 ## Interpretation
 
@@ -98,14 +103,15 @@ controlled accepted shapes agree with the two-turn model.
 ## Open questions
 
 - Does a turn at the padded border count the same as a turn inside the board?
-- Are there level-specific blocked border cells or masks?
+  Controlled border routes were accepted; no separate corner rule was found.
 - Is a path allowed to pass through a cell whose `present` flag is zero but
-  which is visually covered by another layer?
-- What is the exact rejection timing when the same tile is clicked twice or a
-  non-matching pair is selected?
+  which is visually covered by another layer? The current evidence says the
+  `present` flag is authoritative.
+- What is the exact rejection animation when a non-matching pair is selected?
 
 ## Implementation impact
 
 The current BFS in `src/core/board.ts` matches the confirmed cases, including
-interior detours and border routes. Do not add a level-specific exception for
-the unresolved level-2 click without a reproducible state trace.
+interior detours and border routes. Add right-click deselection at the UI
+boundary. Do not add a level-specific exception for the unresolved level-2
+click without a reproducible state trace.
