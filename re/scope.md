@@ -75,8 +75,9 @@ in [`findings/RE-0001`](findings/RE-0001-board-runtime-layout.md) through
   fixed time/resource effects (RE-0012).
 - The client is 800 × 600; the game has a top-10 high-score screen and uses
   `\kawai2004.hst` under the Windows directory (UAC-virtualized in the observed
-  run). The file is 660 bytes, consistent with 30 entries of
-  name[16] + score u32 + level u16 (RE-0014).
+  run). The file is 660 bytes, confirmed as three contiguous 10-entry tables
+  of name[16] + score u32 + level u16 (RE-0014). The visible `100` is a
+  non-persistent placeholder row, not a file entry.
 - The top-right orange circular-arrow icon is shuffle (resource B); the blue
   star/flower icon is hint (resource A). Each use costs one (RE-0013).
 - The menu has three difficulty settings labelled 弱/強/超強 with

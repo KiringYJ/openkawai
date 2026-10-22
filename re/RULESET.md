@@ -105,7 +105,9 @@ then sets resources to 0 and enters the completed state.
 - The hint does not recompute on click. The move finder refreshes at level
   start, after a match, and after a shuffle.
 - If no legal move remains after a match: consume one B and shuffle if B > 0;
-  otherwise the no-move failure branch runs.
+  otherwise the no-move failure branch runs (state 2, `0x41F188=3`). The
+  branch is confirmed statically; the artificial-board live probe did not
+  reproduce a normal post-match no-move state.
 
 ## Chance stars and cards
 
@@ -153,8 +155,8 @@ timer 0 or no-move failure -> failure overlay -> name entry (if qualifying)
 - Difficulty 1 (強) uses entries 10–19. Scores are sorted descending and
   newly entered scores shift later entries down.
 - The file is written immediately after Enter on the name screen.
-- The displayed `100` default is not stored in the observed file; its exact
-  source is still a UI-detail question.
+- The displayed `100` default is a non-persistent placeholder row; it is not
+  written to the file and a real score replaces it. Treat it as cosmetic UI.
 
 ## Out of scope / nondeterministic
 
@@ -164,3 +166,5 @@ timer 0 or no-move failure -> failure overlay -> name entry (if qualifying)
   under the clean-room policy.
 - Synthetic keyboard events produced a different name spelling (`UGVX` instead
   of `TEST`); this is an input-injection detail, not a game rule.
+- The displayed high-score `100` is a non-persistent placeholder; no file
+  format work is needed for it.

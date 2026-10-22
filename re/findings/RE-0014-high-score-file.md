@@ -101,16 +101,16 @@ layout, the difficulty-1 table offset, the descending insertion, and the
 immediate save after Enter: all were directly observed.
 
 The weak/ultra table offsets are inferred from the contiguous layout and the
-difficulty enum. The name input encoding and the source of the displayed
-default `100` remain open.
+difficulty enum. The displayed `100` was not present in the file, disappeared
+when a real 7777 score was inserted, and is therefore a non-persistent
+placeholder row rather than a stored entry.
 
 ## Open questions
 
-- Is `100` a built-in default row, a placeholder for an empty rank, or a
-  different table's entry?
 - What exact keyboard mapping produced `UGVX` from synthetic VK events?
 - Does the game read all three tables or only the current difficulty table?
 - Are ties sorted by insertion order or by another key?
+- Is the placeholder always `100`, or does it depend on difficulty?
 
 ## Implementation impact
 
