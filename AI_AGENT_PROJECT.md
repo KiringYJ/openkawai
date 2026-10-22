@@ -109,6 +109,15 @@ The following remain local and untracked: `node_modules/`, `dist/`, `coverage/`,
 
 ## Project-Specific Constraints
 
+- **Correctness first:** correctness of reverse-engineered behavior and of the
+  implementation outranks speed, token/turn efficiency, convenience, and
+  preserving earlier conclusions. Use any lawful, authorized analysis method
+  needed: static decompilation, resource/file/table inspection, controlled
+  runtime probes, or local emulation. Prefer direct code/control-flow evidence;
+  use runtime probes to validate, not as a substitute for code evidence. Never
+  label a guess `confirmed`; mark it `inferred` or `unknown`, and when new
+  evidence conflicts, correct or reject the old finding and update
+  `re/RULESET.md` and `re/scope.md`.
 - **Clean-room:** do not commit the original executable, game archive, extracted
   artwork/audio/fonts, third-party runtime binaries, or decompiled code. See
   `re/decisions/0002-*` and `docs/ASSETS.md`.

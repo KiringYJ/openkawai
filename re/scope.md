@@ -81,12 +81,16 @@ in [`findings/RE-0001`](findings/RE-0001-board-runtime-layout.md) through
   persisted file entries.
 - The top-right orange circular-arrow icon is shuffle (resource B); the blue
   star/flower icon is hint (resource A). Each use costs one (RE-0013).
+- Each level has a different post-match board rearrangement. L2 is column-down
+  compaction and L3 is row-left compaction; L4–L11 are still under static
+  analysis (RE-0015).
 - The menu has three difficulty settings labelled 弱/強/超強 with
   1000/10000/100000 values.
 
-`src/` still contains the provisional prototype, but the gameplay rules are
-now recorded in `RULESET.md`. The level-specific vtable methods are visual
-updates; they do not write the tile array. Exact RNG sequences and original
+`src/` still contains the provisional prototype, but the gameplay rules
+recorded here are being corrected where needed. The level-specific vtable
+methods are **board rearrangements**, not visual updates; L2 (down) and L3
+(left) are decoded, while L4–L11 remain open. Exact RNG sequences and original
 visual/audio assets remain outside the clean-room ruleset.
 
 ## Open questions
@@ -105,5 +109,6 @@ visual/audio assets remain outside the clean-room ruleset.
 | Q-010 | What is the menu, mode, and level progression flow?                   | confirmed: 11 full levels, clear/failure states, name entry, menu return |
 | Q-011 | Which sounds and animations accompany selection and matching?         | out of scope for the clean-room ruleset (original assets not reproduced) |
 | Q-012 | Is there persistent score or save data, and where is it stored?       | confirmed: 660-byte `kawai2004.hst`; three contiguous 10-entry name/score/level tables |
+| Q-013 | What is each level's post-match board rearrangement?                  | partial: L2 compacts columns down, L3 compacts rows left; L4–L11 open |
 
 Add a finding in `findings/` before changing a provisional constant in `src/`.

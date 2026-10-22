@@ -76,7 +76,8 @@ The vtable slot map and dispatch table are now explicit; see RE-0015.
 
 High for the vtable slots, move finder, card initializer, and level dispatch
 map: they were read from the live form vtable and decoded thunk targets. The
-level-specific method semantics (visual versus gameplay) still need review.
+level-specific method semantics are only partly decoded; L2 is a downward
+column compaction and L3 a leftward row compaction, while L4–L11 remain open.
 
 Ghidra's `0x40afa0` decompilation timed out; its function body is not fully
 decompiled. VB event handlers are invoked through runtime metadata rather than
@@ -86,7 +87,7 @@ direct calls, so `callers` lists are empty for several paint/mouse functions.
 
 1. Parse the VB event table to map `Form_KeyDown`, `Form_Load`,
    `Form_MouseDown`, `Form_MouseMove`, and `Form_Paint` to addresses.
-2. Review the level-specific methods `0x409040`–`0x40afa0` to separate visual
-   animation from board-rule changes.
+2. Decode the level-specific board transformations `0x409040`–`0x40afa0`
+   statically; L2/L3 are known, L4–L11 remain open.
 3. Finish the high-score save/load routine and its default `100` row.
 4. Reproduce auto-shuffle exhaustion with a clean no-move board.

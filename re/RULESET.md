@@ -58,6 +58,24 @@ difficulty 2: 160 - 10 * level_index
 Level 1 starts with resources A=5 (hint) and B=5 (shuffle). Every continuation
 adds +1 to both counters. The level index is stored at `0x41F166`.
 
+## Per-level rearrangement
+
+The original README states that each level has a different `消牌重整方式`.
+These are board transformations, not visual effects.
+
+Confirmed statically:
+
+- **Level 1**: no rearrangement.
+- **Level 2 / `0x409040`**: each column is compacted downward; holes move to
+  the column top.
+- **Level 3 / `0x4092b0`**: each row is compacted left; holes move to the row
+  right end.
+
+Levels 4–11 use `0x409980`, `0x409510`, `0x40a490`, `0x40a020`, `0x40afa0`,
+and `0x40ab40` in the dispatch combinations in RE-0015. Their exact
+transformations are **not yet confirmed** and must not be guessed. Some methods
+contain conditional or randomized control flow.
+
 ## Score and timer
 
 Let:

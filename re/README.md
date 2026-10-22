@@ -48,6 +48,10 @@ session and supersede the finding.
 
 ## Evidence rules
 
+- Correctness outranks speed, token/turn efficiency, convenience, and
+  preserving earlier conclusions. Prefer direct code/control-flow evidence;
+  use runtime probes to validate it, not as a substitute. Never promote a guess
+  to `confirmed`; update or reject old findings when evidence changes.
 - Record the target hash, OS, display mode, and tool versions for every session.
 - Prefer observable behaviour and minimal captures over decompiled output.
 - Do not paste large pseudocode, disassembly, or original resource bytes into

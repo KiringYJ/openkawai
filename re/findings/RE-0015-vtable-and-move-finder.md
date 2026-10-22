@@ -95,13 +95,22 @@ uses the 10-entry jump table at `0x40da9c`:
 | 11 | 10 | `0x40a490` + `0x40a020` |
 
 Level 1 (index 0) takes the default path and calls none of these. The methods
-are level-specific board/background update methods, not mutually exclusive
-level generators; the earlier “11 routines = 11 levels” reading was wrong.
+are **post-match board rearrangement methods**, not visual/background updates.
+The original README explicitly states that the 11 levels have different
+`消牌重整方式`; the earlier “visual only” conclusion is rejected.
 
-The decompiled `0x409040` reads `DAT_0041f118` cells only to test
-`present == -1` and to choose what to draw; there are no writes to the board
-array. The level-specific methods are therefore visual/background updates, not
-gameplay-rule changes.
+Static decompilation of the board-writing loops gives:
+
+- **Level 2 / `0x409040`**: each column is compacted toward the bottom; the
+  removed tiles' holes move to the top of the column (blocks fall down).
+- **Level 3 / `0x4092b0`**: each row is compacted toward the left; holes move
+  to the right end (blocks fall left).
+
+The remaining level methods (`0x409980`, `0x409510`, `0x40a490`, `0x40a020`,
+`0x40afa0`, `0x40ab40`) are not yet reduced to final rules. Some contain
+conditional/randomized control flow, so single-pair observations must not be
+promoted to `confirmed`. Their vtable dispatch is known; their transformations
+remain open.
 
 ## Auto-shuffle
 
@@ -130,6 +139,9 @@ High for the vtable map, the legal-move finder, the hint endpoint order and
 highlight paint check, the level-specific dispatch, and the static
 auto-shuffle branch.
 
+Confirmed for level methods: L2 packs columns downward, L3 packs rows left.
+The other nine methods are open; any prior “visual only” statement is rejected.
+
 The hint uses the move finder's most recent result rather than recomputing on
 click; this was confirmed by matching the highlighted pair and observing the
 endpoint fields advance to the next legal pair.
@@ -138,11 +150,14 @@ endpoint fields advance to the next legal pair.
 
 - What UI/game-over state follows auto-shuffle exhaustion? The static branch
   sets state 2 and `0x41F188=3` when resource B is empty.
-- The level-specific methods are read-only with respect to the tile array and
-  are treated as visual updates.
+- What are the exact L4–L11 board transformations, including whether any use
+  randomized control flow?
+- Does the level method run once after every match, and how does it interact
+  with the no-move check?
 
 ## Implementation impact
 
-Use a legal-move finder for both hint and no-move detection. Keep the level
-dispatch as visual/level behavior separate from the board rules. Implement
-auto-shuffle as a one-use shuffle-B action when no move exists.
+Use a legal-move finder for both hint and no-move detection. Implement the
+level-specific rearrangement methods as board transformations; do not treat
+them as visual effects. So far only L2 (down) and L3 (left) are ready to
+implement.
