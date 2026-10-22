@@ -1,0 +1,23 @@
+{
+  "schemaVersion": 1,
+  "target": {
+    "name": "KAWAI 連連看 2004",
+    "version": "v1.01",
+    "archive": "kawai2004v101.zip",
+    "archiveSha256": "3e722be316006e07fa3da8c39fa7926db41966b1501f756513df2335a93142c8"
+  },
+  "environment": {
+    "os": "Windows 11 x64",
+    "locale": "zh-TW",
+    "display": "windowed",
+    "notes": ""
+  },
+  "tools": {
+    "rea": null,
+    "provider": null,
+    "hasher": "sha256"
+  },
+  "files": [],
+  "unexamined": [],
+  "notes": []
+}
