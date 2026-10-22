@@ -142,12 +142,13 @@ Not yet observed live: timer-reward caps at different levels, multiple picks in
 one screen, star reset timing, and whether the chance kind can change within a
 level.
 
-## Open questions
+## Resolved edge cases
 
-- Are stars reset on a failed round? The normal path resets them when the
-  card screen closes; failure without a card pick may leave them unchanged.
-- Do multiple picks in one screen behave exactly as the one-pick probe plus
-  the click handler loop?
+- A failed round returns to the menu; the next new game writes stars = 0 at
+  `0x4199a6`, so no carried star state survives into a new game.
+- Multiple picks use the same click-handler loop: each unselected card applies
+  one reward, decrements picks, and the screen closes when picks reaches 0.
+  The one-pick probe exercises the same handler path.
 
 ## Implementation impact
 
