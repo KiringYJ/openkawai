@@ -1,8 +1,9 @@
 ---
 id: RE-0003
-title: Pair score scales with level and each match adds four seconds of time
-status: inferred
+title: Pair score, timer, and level-flow observations (formula superseded by RE-0008)
+status: superseded
 confidence: medium
+superseded_by: RE-0008
 target: KAWAI 連連看 2004 v1.01
 environment:
   os: Windows 11 x64
@@ -48,47 +49,55 @@ used a 200000 ms timer patch to prevent incidental expiry.
    The exact split between a final-pair bonus, a clear bonus, and a
    next-level award is not isolated.
 7. Level 1 loaded with 144 tiles; level 2 also loaded with 144 tiles.
-8. Timer display at level 1 was approximately 224016 ms about one second after
-   start. The cap is likely **225000 ms**, but a first-frame read is missing.
+8. The level-start dispatcher `0x40dad0` computes
+   `timer_ms = [0x41f184] * 1000` and writes it to `0x41f1b4`. On a fresh
+   level 1, `0x41f184` was **225000**, so the initial timer is exactly
+   **225.000 seconds**. A live read about one second after start showed
+   `224016 ms`, consistent with decay.
+9. At the same level-1 start, the difficulty word `0x41f180` was `1` and the
+   two resource words `0x41f1ac`/`0x41f1ae` were both `5`, matching the HUD
+   `005` / `005`. The dispatcher's assembly branches to `8` for difficulty
+   value 0 and `5` for values 1 or 2.
 
 ## Interpretation
 
-The strongest supported model is:
+The observations are retained as raw evidence, but the `4 × level` model was
+a difficulty-1 special case. **RE-0008** derives the exact formula from the
+match and level-start assembly:
 
 ```text
-points_per_pair = 4 * level_number       # 4 on L1, 8 on L2 (confirmed for L2)
-time_bonus_per_pair = 4000 ms
-time_cap = 225000 ms                     # inferred
-playfield = 16 x 9 = 144 tiles = 72 pairs
+score_gain = (difficulty + 1)^2 * (level_index + 1)
+time_bonus_ms = [6000, 4000, 3000][difficulty]
+level_time_limit_ms = [320 - 20*i, 225 - 15*i, 160 - 10*i][difficulty] * 1000
 ```
 
-If the level multiplier continues, level 3 would award 12 points per pair and
-level 11 would award 44. That is an extrapolation, not yet observed.
-
-The clear/level bonus requires its own controlled run. The observed 548 at the
-level-1 clear and 1448 at level-2 start imply a combined +1164 to +1160 over
-the base pair score, but the event boundary is not proven.
+At difficulty 1 this gives +4 on level 1 and +8 on level 2, matching every
+measured pair. **RE-0009** resolves the clear jump: the clear routine drains
+remaining time into score and adds a base bonus. The observed 284 → 548 jump
+(264 points) is `100 + 4*41`, consistent with about 42 seconds remaining.
+The later 548 → 1448 jump is the same clear count-up finishing: the log read
+548 mid-animation, and 900 = 100 + 4*200. Card rewards do not add score
+(RE-0012).
 
 ## Confidence and limits
 
 Confirmed: +4 on level 1, +8 on level 2, +4000 ms per match, 1000 ms/s decay,
-72 pairs at the start of levels 1 and 2.
+72 pairs at the start of levels 1 and 2, and a 225000 ms level-1 initial
+timer. At difficulty value 1, both HUD resources started at 5.
 
-Inferred: 225000 ms cap, `4 × level` scoring, and the clear-bonus amount.
+Superseded: the `4 × level` scoring interpretation and the flat timer; see
+RE-0008. Clear scoring is resolved in RE-0009, continuation in RE-0010, and
+the 11-level table in RE-0011. The 548 → 1448 jump is the clear count-up
+finishing, not a next-level score bonus.
 
 The automated timer patch means the recorded level-clear timer is not a clean
 observation of the natural transition.
 
 ## Open questions
 
-- What exactly produces the 284 → 548 jump at level-1 clear?
-- What is awarded when the level-2 board reaches zero?
-- Does the per-level score multiplier reset or compound across the 11 levels?
-- Does the timer reset to a per-level maximum or carry over?
-- What is the first-frame initial timer for each level and difficulty?
+- Does a natural timer expiry use a different overlay or penalty than a clear?
 
 ## Implementation impact
 
-`src/game/session.ts` currently uses a flat 100/25 score model and a 5-minute
-timer. Replace it with level-scaled pair points and a 225000 ms timer after the
-clear-bonus experiments are complete.
+Use the RE-0008 formulas in `src/game/session.ts`; do not implement `4 × level`
+or a flat five-minute timer.

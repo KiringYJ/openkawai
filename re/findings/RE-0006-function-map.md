@@ -35,17 +35,10 @@ have no ordinary direct callers in Ghidra.
 | `0x00408020` | `Form_Load` | Creates the DirectX object, calls `SetDisplayMode(800, 600, 16)`, creates surfaces, loads resources, initializes FMod |
 | `0x00408370` | resource loader | Loads `CUSTOM` 101/102/103 into surfaces; strings `tempx.bmp`, resource IDs 0x65–0x67 |
 | `0x004085d0` | surface helper | Creates a DirectDraw surface with width/height and a 0x40 flag |
-| `0x004087b0` | level 1 setup | Initializes `DAT_0041f118`; loops 18×11, playable 16×9; writes the 6-byte cells |
-| `0x00408b20` | level 2 setup | Same family; different literal/loop structure |
-| `0x00408c00` | level 3 setup | Same family |
-| `0x00409040` | level 4 setup | Same family |
-| `0x004092b0` | level 5 setup | Same family |
-| `0x00409510` | level 6 setup | Same family |
-| `0x00409980` | level 7 setup | Same family |
-| `0x0040a020` | level 8 setup | Same family |
-| `0x0040a490` | level 9 setup | Same family |
-| `0x0040ab40` | level 10 setup | Same family |
-| `0x0040afa0` | level 11 setup | Same family; Ghidra decompiler did not finish this one within the test budget |
+| `0x004087b0` | form method called by the level-start dispatcher | Initializes `DAT_0041f118`; loops 18×11, playable 16×9; Frida caller `0x40dd7d` |
+| `0x00408b20` | form method called by the level-start dispatcher | Same family; called at `0x40dd84` |
+| `0x00408c00` | form method called by the level-start dispatcher | Same family; called at `0x40dd8b` |
+| `0x00409040`–`0x0040afa0` | eight more form methods | Same board-writing family; their vtable roles and call conditions are not yet mapped |
 | `0x00415490` | main paint/HUD (likely `Form_Paint`) | References `"SCORE"`, `"LEVEL"`, `"GAME PAUSE"`, `"CLICK TO CONTINUE"`; 2489-line pseudocode |
 | `0x00416180` | overlay/flow routine | References `"ALL PASS"`, `"CLICK TO CONTINUE"` |
 | `0x00416b80` | pause/flow routine | References `"GAME PAUSE"`, `"CLICK TO CONTINUE"` |
@@ -66,10 +59,12 @@ Form_Load (0x408020)
   → overlays and high-score flow (0x416180, 0x416b80, 0x418ad0, 0x41a950)
 ```
 
-The eleven consecutive routines are the strongest structural match for the
-README's "11 levels, each with a different reshuffle method." They share the
-same 18 × 11 board writing pattern; the differing constants/loops are the
-level-specific arrangement logic.
+The original "eleven consecutive routines = one per level" hypothesis is
+**rejected**: Frida showed `0x4087b0`, `0x408c00`, and `0x408b20` all running
+on a single level-1 start, through the three vtable calls in `0x40dad0`. They
+are common form methods, not mutually exclusive level numbers. The remaining
+eight methods are unclassified; their call conditions may still be
+level-specific, but that has not been observed.
 
 ## Confidence and limits
 

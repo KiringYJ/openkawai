@@ -50,10 +50,25 @@ Runtime probes on 2026-10-22 established the following. See
   visual IDs 34–41 match by `match_id` groups 34 and 35.
 - A legal path is orthogonal, may use the one-cell outer border, and allows at
   most two turns.
-- Level 1 scores 4 points per pair; level 2 scores 8. A match adds about
-  4000 ms to the timer; natural decay is 1000 ms per second.
-- The `機會` panel shows a normal tile kind. Matching a pair of that kind adds
-  one star; three stars open an 18-card resource-bonus screen.
+- Score per pair is `(difficulty+1)^2 * (level_index+1)`: level 1 / difficulty
+  1 scores 4, level 2 / difficulty 1 scores 8. A match adds `[6000,4000,3000]`
+  ms by difficulty. Per-level time limits are `[320,225,160] - [20,15,10] *
+  level_index` seconds for 弱/強/超強. The level-start dispatcher at `0x40dad0`
+  initializes level 1 with exactly **225000 ms** at difficulty 1.
+- Clearing a level converts the remaining timer into score in 1000 ms ticks,
+  then adds a base clear bonus; see RE-0009. At level 1 / difficulty 1, two
+  controlled clears produced 120 and 156 points for 1 s and 10 s remaining;
+  a level-2 clear with 200 s produced 1988.
+- Continuing past the clear overlay advances the level, resets the timer to
+  the next level limit, and adds one to each resource; the score is unchanged
+  (RE-0010).
+- There are 11 levels, all starting with 144 tiles. Difficulty-1 timers run
+  from 225 s down to 75 s in 15 s steps; resources run from 5/5 to 15/15. The
+  final clear applies the resource bonus and ends in state 3 (RE-0011).
+- The `機會` panel shows a normal tile kind (`0x41F0CC`). Matching a pair of
+  that kind adds one star (`0x41F0EA`); three stars open an 18-card screen.
+  Picks are 1–3 by difficulty; the 18 rewards are a shuffled permutation of
+  fixed time/resource effects (RE-0012).
 - The client is 800 × 600; the game has a top-10 high-score screen and uses
   `\kawai2004.hst` under the Windows directory.
 - The menu has three difficulty settings labelled 弱/強/超強 with
@@ -72,11 +87,11 @@ the difficulty scaling, and the high-score file format.
 | Q-003 | Are diagonal connections allowed, or only orthogonal?                 | partial: orthogonal paths observed; diagonal not exhaustively tested |
 | Q-004 | Is the outer border always traversable? Are there corner restrictions?| partial: border accepted on L1; level exceptions unresolved |
 | Q-005 | What are the exact turn and path rules for edge cases?                | partial: ≤2 turns and border route confirmed; one L2 contradiction |
-| Q-006 | What is the round time limit, and does it vary by mode?               | partial: ~225 s cap, 1000 ms/s decay; per-level/difficulty unknown |
-| Q-007 | How are score, combo, and time bonus calculated?                      | partial: +4/+8 per pair on L1/L2, +4 s; clear bonus unknown |
+| Q-006 | What is the round time limit, and does it vary by mode?               | confirmed: `[320,225,160] - [20,15,10] * level_index` seconds; 1000 ms/s decay |
+| Q-007 | How are score, combo, and time bonus calculated?                      | confirmed pair/clear/time formulas and card rewards; no combo observed |
 | Q-008 | What do hint and shuffle cost, and are they limited?                  | partial: two HUD resources; exact costs/limits unknown |
 | Q-009 | What happens when no moves remain? Auto-shuffle or loss?              | partial: README describes auto-shuffle; not yet isolated |
-| Q-010 | What is the menu, mode, and level progression flow?                   | partial: L1/L2, clear/time-out, high score; 11 levels total |
+| Q-010 | What is the menu, mode, and level progression flow?                   | confirmed: 11 full levels, linear timers/resources, final state 3 |
 | Q-011 | Which sounds and animations accompany selection and matching?         | unknown |
 | Q-012 | Is there persistent score or save data, and where is it stored?       | partial: `\kawai2004.hst` string; format unknown |
 

@@ -37,9 +37,23 @@ through row 0, the padded outer border.
 4. Two special tiles with different visual IDs but the same `match_id` are
    legal (RE-0001).
 5. A generic two-turn BFS found a path for a later level-2 pair that the game
-   did not remove. That pair is a **contradiction**, not yet explained, so the
-   exact turn/path rule is confirmed only for the directly observed level-1
-   cases.
+   did not remove. That pair was recorded as an unexplained contradiction.
+6. A controlled path oracle later placed two matching tiles on an otherwise
+   empty board, optionally with blockers, and tested acceptance without relying
+   on a natural board:
+   - straight, one-turn, and two-turn interior detours were accepted;
+   - a same-row pair with blockers on its direct line was accepted via a row
+     above the line;
+   - border routes on row 0 and column 0 were accepted;
+   - the earlier rejected same-row detour was accepted when retested with a
+     longer settle time.
+   Repeated automation eventually reached the high-score screen, after which
+   clicks were ignored. That screen, not a path restriction, explains the
+   failed cases in that run.
+7. The level-2 contradiction has not been reproduced under controlled
+   conditions. The most likely causes are input timing, a stale board read
+   during a transition, or the same hidden-screen state seen in the oracle.
+   No level-specific path restriction has been demonstrated.
 
 ## Interpretation
 
@@ -54,18 +68,20 @@ The minimum confirmed contract is:
 ```
 
 This is sufficient to reproduce the observed level-1 behaviour, including the
-border route. It is not yet proven that every level uses the same border/path
-rule; the level-2 contradiction must be resolved first.
+border route. The controlled oracle also accepted the same shapes on a later
+level, so the same rule likely applies to all levels. The single level-2
+mismatch is treated as an operational/state artifact until reproduced.
 
 ## Confidence and limits
 
-High for the accepted border route, the two-turn limit, and special-tile
-matching. Medium for the exact definition of a "turn" at cells adjacent to the
-border and for level-specific exceptions.
+High for the accepted border route, the two-turn limit, special-tile matching,
+and the controlled interior/border path shapes. Medium for the exact definition
+of a "turn" at cells adjacent to the border.
 
-The mismatch at 38 remaining tiles may be a stale board read during a screen
-transition, an input timing failure, or a genuine level-specific restriction.
-It is recorded rather than explained away.
+The single mismatch at 38 remaining tiles is recorded as an unexplained
+observation, but it is not sufficient evidence for a level-specific path rule.
+An automation that enters the high-score or another modal screen will ignore
+board clicks; check the screen state before treating a click as a path failure.
 
 ## Open questions
 
@@ -78,5 +94,6 @@ It is recorded rather than explained away.
 
 ## Implementation impact
 
-The current BFS in `src/core/board.ts` matches the confirmed level-1 cases.
-Add the level-2 contradiction as a regression fixture once its cause is known.
+The current BFS in `src/core/board.ts` matches the confirmed cases, including
+interior detours and border routes. Do not add a level-specific exception for
+the unresolved level-2 click without a reproducible state trace.

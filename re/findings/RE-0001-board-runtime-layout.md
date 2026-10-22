@@ -49,6 +49,12 @@ pairs had been removed.
    key for special tiles.
 8. The same 16 × 9 structure and 6-byte cell layout were observed on level 2
    after a card-bonus return; only the occupancy changed.
+9. A controlled sweep captured the initial board of **all 11 levels**. Every
+   level started with **144 present cells** and the same multiset:
+   - 34 normal visual IDs (0–33) ×4 each = 136 tiles;
+   - 8 special visual IDs (34–41) ×1 each = 8 tiles.
+   The special positions changed between levels, so the deal is shuffled; no
+   level used holes or a different board shape at the start.
 
 ## Interpretation
 
@@ -74,15 +80,16 @@ they were observed directly in a live process and confirmed by a successful
 special-tile removal. The sprite-name mapping is descriptive only; the
 authoritative values are the numeric IDs.
 
-The board array alone does not prove that every level uses the same initial
-full 16 × 9 distribution. Level 1 and the start of level 2 were both full at
-144 tiles.
+The 11-level sweep proves the initial full-board distribution at difficulty 1.
+It does not prove that reshuffles or difficulty changes preserve the same
+multiset.
 
 ## Open questions
 
-- Are 34 normal groups + 2 special groups invariant across all 11 levels?
-- Does the initial deal always fill 144 cells, or do later levels use holes?
+- Does difficulty 0/2 change the initial distribution?
 - How does the level-specific reshuffle operate on this array?
+- Is there any level that intentionally starts with holes under another menu
+  mode?
 
 ## Implementation impact
 

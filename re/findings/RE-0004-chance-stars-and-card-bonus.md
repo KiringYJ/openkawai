@@ -1,8 +1,9 @@
 ---
 id: RE-0004
 title: The chance tile is a visual tile kind; three stars open an 18-card resource bonus
-status: confirmed
+status: superseded
 confidence: medium
+superseded_by: RE-0012
 target: KAWAI 連連看 2004 v1.01
 environment:
   os: Windows 11 x64
@@ -59,7 +60,8 @@ The match must use the visual kind shown at the time, not the special
 across the card bonus in the observed run.
 
 The card screen's card count was 18; the observed chance count was 1. The
-reward type and distribution are not yet measured.
+exact pick distribution and reward table are resolved in **RE-0012**. The
+`1 次` text is the number of card picks, not a fixed property of the screen.
 
 ## Confidence and limits
 
