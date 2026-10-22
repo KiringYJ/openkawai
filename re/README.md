@@ -33,6 +33,7 @@ session and supersede the finding.
 | `findings/`   | One claim per file, with confidence and evidence links.         |
 | `evidence/`   | Sanitised excerpts, screenshots, and exported observations.     |
 | `assets/`     | Asset manifest policy; extracted files stay local and ignored.  |
+| `tools/`      | Optional read-only runtime probes; not part of the web build.    |
 | `decisions/`  | Architecture and policy decisions derived from findings.        |
 
 ## Confidence levels
@@ -81,3 +82,9 @@ static and runtime analysis. If you use it:
 
 Tool output is evidence, not an implementation. The code in `src/` must remain
 an independent expression of the observed behaviour.
+
+A read-only board probe is available at
+[`tools/read_board.py`](tools/read_board.py); see
+[`tools/README.md`](tools/README.md) for the windowed-launch prerequisite and
+the exact build hash. It attaches to a running, lawfully owned process and does
+not modify it.

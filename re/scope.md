@@ -36,30 +36,48 @@ independently confirmed fact for this repository; verify before relying on it.
 
 ## Known behaviour
 
-Only the following are currently treated as facts:
+Runtime probes on 2026-10-22 established the following. See
+[`findings/RE-0001`](findings/RE-0001-board-runtime-layout.md) through
+[`RE-0005`](findings/RE-0005-ui-and-high-score-flow.md) and the
+[session log](sessions/20261022-kawai2004-runtime.md).
 
 - The game is a matching-pair ("連連看") game distributed as a Windows build.
 - The target build is v1.01 with the archive hash above.
+- The live board is an 18 × 11 VB array of 6-byte cells; the playable area is
+  16 × 9 (144 cells). The cell fields are `present`, `visual_id`, and
+  `match_id`.
+- Normal tiles match by `visual_id`/`match_id` (equal); the eight special
+  visual IDs 34–41 match by `match_id` groups 34 and 35.
+- A legal path is orthogonal, may use the one-cell outer border, and allows at
+  most two turns.
+- Level 1 scores 4 points per pair; level 2 scores 8. A match adds about
+  4000 ms to the timer; natural decay is 1000 ms per second.
+- The `機會` panel shows a normal tile kind. Matching a pair of that kind adds
+  one star; three stars open an 18-card resource-bonus screen.
+- The client is 800 × 600; the game has a top-10 high-score screen and uses
+  `\kawai2004.hst` under the Windows directory.
+- The menu has three difficulty settings labelled 弱/強/超強 with
+  1000/10000/100000 values.
 
-Everything else in the implementation is a provisional choice. The current tile
-set, board size, five-minute timer, scoring, and hint/shuffle behaviour are
-**not** confirmed against the original.
+Still provisional in the implementation: the exact clear bonus, the
+level-specific reshuffle routines, the card reward table, the resource counts,
+the difficulty scaling, and the high-score file format.
 
 ## Open questions
 
 | ID    | Question                                                             | Status  |
 | ----- | -------------------------------------------------------------------- | ------- |
-| Q-001 | What is the playable board size and are there layout variants?        | unknown |
-| Q-002 | How many tile kinds exist, and what is their distribution per board?  | unknown |
-| Q-003 | Are diagonal connections allowed, or only orthogonal?                 | unknown |
-| Q-004 | Is the outer border always traversable? Are there corner restrictions?| unknown |
-| Q-005 | What are the exact turn and path rules for edge cases?                | unknown |
-| Q-006 | What is the round time limit, and does it vary by mode?               | unknown |
-| Q-007 | How are score, combo, and time bonus calculated?                      | unknown |
-| Q-008 | What do hint and shuffle cost, and are they limited?                  | unknown |
-| Q-009 | What happens when no moves remain? Auto-shuffle or loss?              | unknown |
-| Q-010 | What is the menu, mode, and level progression flow?                   | unknown |
+| Q-001 | What is the playable board size and are there layout variants?        | partial: 16×9 playfield, 18×11 array; level shapes not fully mapped |
+| Q-002 | How many tile kinds exist, and what is their distribution per board?  | partial: 34 normal ×4; 8 specials in 2 groups of 4 on L1/L2 |
+| Q-003 | Are diagonal connections allowed, or only orthogonal?                 | partial: orthogonal paths observed; diagonal not exhaustively tested |
+| Q-004 | Is the outer border always traversable? Are there corner restrictions?| partial: border accepted on L1; level exceptions unresolved |
+| Q-005 | What are the exact turn and path rules for edge cases?                | partial: ≤2 turns and border route confirmed; one L2 contradiction |
+| Q-006 | What is the round time limit, and does it vary by mode?               | partial: ~225 s cap, 1000 ms/s decay; per-level/difficulty unknown |
+| Q-007 | How are score, combo, and time bonus calculated?                      | partial: +4/+8 per pair on L1/L2, +4 s; clear bonus unknown |
+| Q-008 | What do hint and shuffle cost, and are they limited?                  | partial: two HUD resources; exact costs/limits unknown |
+| Q-009 | What happens when no moves remain? Auto-shuffle or loss?              | partial: README describes auto-shuffle; not yet isolated |
+| Q-010 | What is the menu, mode, and level progression flow?                   | partial: L1/L2, clear/time-out, high score; 11 levels total |
 | Q-011 | Which sounds and animations accompany selection and matching?         | unknown |
-| Q-012 | Is there persistent score or save data, and where is it stored?       | unknown |
+| Q-012 | Is there persistent score or save data, and where is it stored?       | partial: `\kawai2004.hst` string; format unknown |
 
 Add a finding in `findings/` before changing a provisional constant in `src/`.
