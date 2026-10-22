@@ -1,8 +1,8 @@
 ---
 id: RE-0006
 title: Function-level map of the v1.01 executable
-status: inferred
-confidence: medium
+status: confirmed
+confidence: high
 target: KAWAI 連連看 2004 v1.01
 environment:
   os: Windows 11 x64
@@ -35,10 +35,13 @@ have no ordinary direct callers in Ghidra.
 | `0x00408020` | `Form_Load` | Creates the DirectX object, calls `SetDisplayMode(800, 600, 16)`, creates surfaces, loads resources, initializes FMod |
 | `0x00408370` | resource loader | Loads `CUSTOM` 101/102/103 into surfaces; strings `tempx.bmp`, resource IDs 0x65–0x67 |
 | `0x004085d0` | surface helper | Creates a DirectDraw surface with width/height and a 0x40 flag |
-| `0x004087b0` | form method called by the level-start dispatcher | Initializes `DAT_0041f118`; loops 18×11, playable 16×9; Frida caller `0x40dd7d` |
-| `0x00408b20` | form method called by the level-start dispatcher | Same family; called at `0x40dd84` |
-| `0x00408c00` | form method called by the level-start dispatcher | Same family; called at `0x40dd8b` |
-| `0x00409040`–`0x0040afa0` | eight more form methods | Same board-writing family; their vtable roles and call conditions are not yet mapped |
+| `0x004087b0` | form vtable `0x70c`, level/board setup | Initializes `DAT_0041f118`; loops 18×11, playable 16×9; Frida caller `0x40dd7d` |
+| `0x00408b20` | form vtable `0x710`, chance/board setup | Writes the chance kind at `0x408b9c`; called at level start and after a shuffle |
+| `0x00408c00` | form vtable `0x714`, shuffle | Called by the manual/auto-shuffle paths |
+| `0x00409040`–`0x0040afa0` | form vtable `0x718`–`0x734`, level-specific dispatch | Ten methods selected by the post-match jump table at `0x40da9c`; level 1 uses none |
+| `0x0040b400` | move finder | Scans for a legal pair, stores hint endpoints, returns `-1`/`0` |
+| `0x0040b610` | path checker | Called by the move finder for a candidate pair |
+| `0x0040d230` | card deck initializer | Shuffles the 18 card reward codes and writes selected/reward records |
 | `0x00415490` | main paint/HUD (likely `Form_Paint`) | References `"SCORE"`, `"LEVEL"`, `"GAME PAUSE"`, `"CLICK TO CONTINUE"`; 2489-line pseudocode |
 | `0x00416180` | overlay/flow routine | References `"ALL PASS"`, `"CLICK TO CONTINUE"` |
 | `0x00416b80` | pause/flow routine | References `"GAME PAUSE"`, `"CLICK TO CONTINUE"` |
@@ -60,31 +63,30 @@ Form_Load (0x408020)
 ```
 
 The original "eleven consecutive routines = one per level" hypothesis is
-**rejected**: Frida showed `0x4087b0`, `0x408c00`, and `0x408b20` all running
-on a single level-1 start, through the three vtable calls in `0x40dad0`. They
-are common form methods, not mutually exclusive level numbers. The remaining
-eight methods are unclassified; their call conditions may still be
-level-specific, but that has not been observed.
+**rejected**. The live vtable map in RE-0015 shows:
+
+- `0x4087b0`, `0x408b20`, `0x408c00` are common setup/shuffle methods called
+  at level start and by the shuffle path.
+- `0x409040`–`0x40afa0` occupy vtable slots `0x718`–`0x734` and are selected
+  by the post-match level dispatch table, not one fixed routine per level.
+
+The vtable slot map and dispatch table are now explicit; see RE-0015.
 
 ## Confidence and limits
 
-Medium. The address/role mapping for startup, resource loading, the 11
-routines, the paint routine, and the save-file routine is supported by code
-shape and string references. The exact ownership of the overlay functions and
-the level-by-level reshuffle semantics need dynamic confirmation and complete
-decompilation.
+High for the vtable slots, move finder, card initializer, and level dispatch
+map: they were read from the live form vtable and decoded thunk targets. The
+level-specific method semantics (visual versus gameplay) still need review.
 
-Ghidra's `0x40afa0` decompilation timed out; its function body and the exact
-event-table handler mapping remain incomplete. VB event handlers are invoked
-through runtime metadata rather than direct calls, so `callers` lists are
-empty for several paint/mouse functions.
+Ghidra's `0x40afa0` decompilation timed out; its function body is not fully
+decompiled. VB event handlers are invoked through runtime metadata rather than
+direct calls, so `callers` lists are empty for several paint/mouse functions.
 
 ## Follow-ups
 
 1. Parse the VB event table to map `Form_KeyDown`, `Form_Load`,
    `Form_MouseDown`, `Form_MouseMove`, and `Form_Paint` to addresses.
-2. Decompile `0x408b20`–`0x40afa0` with per-function timeouts and compare their
-   array-writing loops.
-3. Set breakpoints on `0x4087b0`–`0x40afa0` while starting each level to prove
-   which routine runs for which level.
-4. Decompile `0x41a950` fully to recover the `kawai2004.hst` record format.
+2. Review the level-specific methods `0x409040`–`0x40afa0` to separate visual
+   animation from board-rule changes.
+3. Finish the high-score save/load routine and its default `100` row.
+4. Reproduce auto-shuffle exhaustion with a clean no-move board.

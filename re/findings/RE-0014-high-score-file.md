@@ -1,8 +1,8 @@
 ---
 id: RE-0014
 title: The high-score file is 660 bytes of 22-byte name/score/level entries under a virtualized Windows path
-status: inferred
-confidence: medium
+status: confirmed
+confidence: high
 target: KAWAI 連連看 2004 v1.01
 environment:
   os: Windows 11 x64
@@ -52,37 +52,69 @@ runs, and the file was read as bytes.
   a built-in/default row or the file had not yet been rewritten when it was
   read.
 
+### Controlled write
+
+A fresh difficulty-1 game was given score **7777**, then timer 0 to force a
+time-out. The lose overlay was dismissed; the high-score name entry screen
+appeared with score 7777. After a synthetic four-character name and Enter, the
+file was re-read:
+
+```text
+index 10: name = "UGVX" + spaces, score = 7777, level = 0
+index 11: name = spaces,         score = 24,   level = 0
+index 12: name = spaces,         score = 4,    level = 0
+```
+
+The new entry was inserted at index **10**, not index 0, and the old entries
+shifted down. This proves the 10-entry tables are contiguous and that
+difficulty 1 (強) uses the second table, entries 10–19.
+
+The synthetic key events produced `UGVX` rather than the intended `TEST`; the
+name bytes are nevertheless plain single-byte characters padded with spaces.
+The original high-score file was restored from the pre-test backup after the
+probe.
+
 ## Interpretation
 
-The most likely layout is **three difficulty tables of ten rank entries**, each
-22 bytes, for a total of 30 entries. The file may store the tables contiguously
-(weak/strong/ultra) or interleave them by rank; the observed two non-empty
-entries at indices 10 and 11 are consistent with the second table, but the
-screen order and default `100` row are not yet explained.
+The layout is **three contiguous difficulty tables of ten rank entries**,
+each 22 bytes:
 
 ```text
 record: name[16] + score u32 + level u16
 count: 10 ranks * 3 difficulty tables = 30 records = 660 bytes
+table 0: entries  0-9   (weak / 弱, inferred)
+table 1: entries 10-19  (strong / 強, confirmed by the controlled write)
+table 2: entries 20-29  (ultra / 超強, inferred)
 ```
+
+Entries are sorted by descending score within a table; a new score is inserted
+at its rank and later entries shift down. The stored level is the zero-based
+level index (`0` for level 1), matching `0x41F166`.
+
+The file is rewritten immediately after the name is entered and Enter is
+pressed, while the high-score screen is still active.
 
 ## Confidence and limits
 
-Medium for the 22-byte atomic entry and the 660-byte size, which are directly
-observed. The 10×3 grouping and table ordering are inferred.
+High for the 22-byte entry, the 660-byte size, the contiguous 10×3 table
+layout, the difficulty-1 table offset, the descending insertion, and the
+immediate save after Enter: all were directly observed.
 
-The name encoding, sort order, save timing, and how the built-in `100` row is
-represented remain unconfirmed. A controlled high-score entry with a unique
-name and score is the next test.
+The weak/ultra table offsets are inferred from the contiguous layout and the
+difficulty enum. The name input encoding and the source of the displayed
+default `100` remain open.
 
 ## Open questions
 
-- Are the three 10-entry tables contiguous or interleaved?
-- Is `100` a default score in memory, a data-table row, or a file row?
-- Is the name ASCII, DBCS, or UTF-16? How is it terminated/padded?
-- When is the file rewritten: immediately on name entry, on returning to the
-  menu, or on exit?
+- Is `100` a built-in default row, a placeholder for an empty rank, or a
+  different table's entry?
+- What exact keyboard mapping produced `UGVX` from synthetic VK events?
+- Does the game read all three tables or only the current difficulty table?
+- Are ties sorted by insertion order or by another key?
 
 ## Implementation impact
 
-Do not implement a high-score file format until a controlled write maps the
-table index. The UI itself only needs ten rows with name/score/level.
+The persistent format is now known: three contiguous 10-entry tables of
+16-byte padded names, u32 scores, and u16 zero-based levels. The UI shows one
+table for the active difficulty. Keep the file I/O out of the DOM and use the
+same 660-byte layout for compatibility.

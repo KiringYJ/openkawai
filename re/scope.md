@@ -97,6 +97,6 @@ the difficulty scaling, and the high-score file format.
 | Q-009 | What happens when no moves remain? Auto-shuffle or loss?              | partial: README describes auto-shuffle; not yet isolated |
 | Q-010 | What is the menu, mode, and level progression flow?                   | confirmed: 11 full levels, linear timers/resources, final state 3 |
 | Q-011 | Which sounds and animations accompany selection and matching?         | unknown |
-| Q-012 | Is there persistent score or save data, and where is it stored?       | partial: 660-byte `kawai2004.hst`; 22-byte name/score/level entries, table ordering inferred |
+| Q-012 | Is there persistent score or save data, and where is it stored?       | confirmed: 660-byte `kawai2004.hst`; three contiguous 10-entry name/score/level tables |
 
 Add a finding in `findings/` before changing a provisional constant in `src/`.

@@ -77,9 +77,10 @@ screen order. Keep the numeric address mapping authoritative.
 High for the icon identity, the one-use costs, and the board-change behavior:
 both were observed live and match the handlers.
 
-The exact hint pair selection order and the exact shuffle permutation algorithm
-are not yet measured. Auto-shuffle when no moves remain was read statically but
-not reproduced with a controlled no-move board.
+The hint pair uses the move finder at `0x40b400`; its candidate order and the
+exact shuffle permutation algorithm are not yet measured. Auto-shuffle when no
+moves remain is read statically (RE-0015) but was not reproduced with a clean
+no-move board.
 
 ## Open questions
 
