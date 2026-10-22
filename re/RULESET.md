@@ -141,7 +141,15 @@ clear overlay click -> next level, score kept, +1/+1 resources
 level 11 clear -> final resource bonus -> completed
 timer 0 or no-move failure -> failure overlay -> name entry (if qualifying)
 -> write active high-score table -> menu
+
+playing -> pause button -> GAME PAUSE overlay (timer frozen)
+GAME PAUSE click -> resume timer
+playing -> exit button -> menu (round abandoned, no save)
 ```
+
+`最佳記錄` reads the persisted table only. The name-entry screen shows the
+current run score provisionally at its rank; that pending value is not part of
+the best-records read.
 
 ## High score file
 
