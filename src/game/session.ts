@@ -493,12 +493,14 @@ export class GameSession {
     this.gameBoard.rearrange(this.currentLevelIndex);
     this.refreshHint();
     if (!this.cachedHint) {
-      if (this.shuffleCount === 0) {
+      if (this.shuffleCount === 0 && this.mode === 'classic') {
         this.lose('no-moves');
         return;
       }
-      this.shuffleCount -= 1;
-      this.shuffleUses += 1;
+      if (this.shuffleCount > 0) {
+        this.shuffleCount -= 1;
+        this.shuffleUses += 1;
+      }
       if (!this.gameBoard.shuffle()) {
         this.lose('no-moves');
         return;

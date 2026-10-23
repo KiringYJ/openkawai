@@ -86,7 +86,9 @@ default to `classic`; `zen` uses the strong difficulty's scores, resources,
 and card-pick weights. Zen keeps `timeLeftMs` at zero as an inactive timer,
 ignores elapsed ticks and time top-ups, and omits the remaining-time clear
 bonus. Its 18-card deck replaces time slots with hint/shuffle rewards. The
-same level, pause, and no-move transitions apply. Mode is fixed for the
+same level and paid pause transitions apply. A deadlock spends a shuffle
+while resources remain; after they run out, Zen reshuffles for free without
+incrementing paid shuffle usage, while Classic loses. Mode is fixed for the
 session and retained on restart. Only Classic runs can register high scores.
 
 ## Rendering and input

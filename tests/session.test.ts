@@ -288,6 +288,60 @@ describe('GameSession Zen mode', () => {
     expect(session.timeLeftMs).toBe(0);
   });
 
+  it.each([5, 1, 0])('recovers from a deadlock with %i shuffles left', (remainingShuffles) => {
+    const prepared = Board.fromGrid(
+      [
+        ['c', 'c'],
+        ['a', 'b'],
+        ['b', 'a'],
+      ],
+      () => 0.99999,
+    );
+    const session = new GameSession({
+      layout: { ...testLayout, rows: 3, cols: 2 },
+      mode: 'zen',
+      board: prepared,
+      seed: 1,
+    });
+    for (let count = remainingShuffles; count < 5; count += 1) {
+      expect(session.shuffle()).toBe(true);
+    }
+    const shuffleUses = session.stats.shuffles;
+
+    const result = match(session, 0, 0, 0, 1);
+
+    expect(result).toMatchObject({ type: 'matched', phase: 'playing', points: 4 });
+    expect(session.phase).toBe('playing');
+    expect(session.lossReason).toBeNull();
+    expect(session.shuffleResource).toBe(Math.max(0, remainingShuffles - 1));
+    expect(session.stats.shuffles).toBe(shuffleUses + (remainingShuffles > 0 ? 1 : 0));
+    expect(session.score).toBe(4);
+    expect(session.timeLeftMs).toBe(0);
+    expect(session.board.remainingCount).toBe(4);
+    expect(tileKindCounts(session.board)).toEqual({ a: 2, b: 2 });
+    expect(session.board.hasMoves()).toBe(true);
+    const pair = session.hint()!;
+    expect(pair).not.toBeNull();
+    expect(session.board.findPath(pair[0], pair[1])).not.toBeNull();
+    match(session, pair[0].row, pair[0].col, pair[1].row, pair[1].col);
+    const lastPair = session.board.findHint()!;
+    expect(match(session, lastPair[0].row, lastPair[0].col, lastPair[1].row, lastPair[1].col))
+      .toMatchObject({ type: 'matched', phase: 'won' });
+  });
+
+  it('keeps manual shuffling unavailable without resources on a playable board', () => {
+    const session = sessionWith([['a', 'a', 'b', 'b']], { mode: 'zen' });
+    for (let count = 0; count < 5; count += 1) expect(session.shuffle()).toBe(true);
+    const before = boardKinds(session.board);
+
+    expect(session.shuffle()).toBe(false);
+    expect(boardKinds(session.board)).toEqual(before);
+    expect(session.shuffleResource).toBe(0);
+    expect(session.stats.shuffles).toBe(5);
+    expect(session.phase).toBe('playing');
+    expect(session.board.hasMoves()).toBe(true);
+  });
+
   it('completes the final level with the normal resource and completion bonuses', () => {
     const session = sessionWith([['a', 'a']], {
       mode: 'zen',

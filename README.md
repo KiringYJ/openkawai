@@ -73,10 +73,13 @@ and tooling versions are recorded in `package.json` and `package-lock.json`.
   to the next level.
 - Choose Zen mode to play all 11 levels without a countdown or timeout.
   It uses the strong difficulty's match scores and starting resources, with
-  no time bonus. Time cards become hint or shuffle rewards. Hints, shuffles,
-  pause costs, and no-move failures still apply.
+  no time bonus. Time cards become hint or shuffle rewards. Hints and manual
+  shuffles remain limited, and pausing still costs a shuffle. If no legal pair
+  remains after shuffles run out, Zen automatically reshuffles for free so
+  the run can continue.
 - Hints and shuffles are limited. A hint remains active until a match. A board
-  with no legal moves automatically spends a shuffle; without one, the run ends.
+  with no legal moves automatically spends a shuffle; without one, Classic
+  ends and Zen reshuffles for free.
 - Pausing requires a shuffle resource. Resuming spends one and reshuffles.
 - Match the current chance animal to earn a star. Three stars open an
   18-card reward screen; stars carry across levels until the cards are used.
@@ -129,7 +132,8 @@ VB random sequence, each level samples 36 kinds from a curated animal pool
 ([selection policy](docs/ANIMAL_SELECTION.md)), artwork comes from open emoji projects, score tables use
 browser storage instead of a Windows `.hst` file, score registration can be
 skipped, web names preserve case and strip unsafe invisible/control formatting,
-and Zen provides an untimed alternative to the original Classic rules.
+and Zen provides an untimed alternative with free deadlock recovery after
+shuffle resources run out.
 Original audio, original artwork, and exact animation timings are outside
 scope. A service worker, saved-run restore, and custom asset-pack upload are
 not implemented.
@@ -174,8 +178,8 @@ Vuetify。每關從 75 種候選動物隨機選取 36 種，各四張，實作 1
 [`kawai-win11-compat`](https://github.com/KiringYJ/kawai-win11-compat)。
 該專案提供 2003、2004、2005 版的相容性工具與本機設定說明，原始遊戲檔案需另行取得。
 
-禪意模式保留 11 關、提示／洗牌次數、暫停費用與無解時的結束規則，沒有時間加分，
-時間牌改為提示或洗牌獎勵，成績不列入經典模式最佳紀錄。主選單與設定可選擇
+禪意模式保留 11 關、提示／洗牌次數與暫停費用；無解且洗牌用完時，會免費自動洗牌，
+讓遊戲繼續。沒有時間加分，時間牌改為提示或洗牌獎勵，成績不列入經典模式最佳紀錄。主選單與設定可選擇
 模式；模式和經典模式難度會保存，遊戲中的變更於下次新遊戲生效。
 
 玩家名稱最多 16 個字，支援各種文字、數字、符號與表情符號，保留輸入的大小寫；

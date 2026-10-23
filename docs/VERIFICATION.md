@@ -139,7 +139,8 @@ hidden game state or injecting a prepared board.
 - A blocked Zen pair was rejected. A successful two-turn outer-ring match
   removed two tiles and awarded four points. Hint highlighted a legal pair;
   shuffle and paid resume each consumed a shuffle resource.
-- A natural Zen run exhausted its shuffles and reached a no-move result after
+- Before free deadlock recovery was added, a natural Zen run exhausted its
+  shuffles and reached a no-move result after
   13 matches with 52 points. Confirming returned to the menu without name
   entry; Classic's strong leaderboard remained empty.
 - Both modes fit 375 × 812, 844 × 390, 683 × 384, and 320 × 180 CSS viewports
@@ -149,6 +150,26 @@ hidden game state or injecting a prepared board.
 Unit tests cover arbitrary elapsed ticks, Zen card rewards, level continuation,
 restart, and final completion. This browser pass did not play a complete
 eleven-level Zen campaign.
+
+## Zen deadlock recovery
+
+The 2026-10-24 update lets Zen automatically reshuffle for free when a match
+leaves no legal pair and no shuffle resources remain.
+
+- A real deadlock fixture failed before the change by entering `lost` with
+  zero shuffles. Regression cases now cover 5, 1, and 0 remaining shuffles,
+  resource accounting, refreshed legal hints, and clearing the remaining board.
+  Manual shuffling still requires a resource. Classic no-move loss tests pass.
+- `npm test` passed all 95 tests, and `npm run build` passed.
+- A production-preview Zen run spent four manual shuffles and its last shuffle
+  on resume. Its fifteenth match left no legal pair; the board automatically
+  reshuffled with 114 tiles and 15 legal pairs, still showing zero shuffles
+  and no result dialog. A subsequent match succeeded.
+- Rules were readable at 1280 by 720 and 375 by 812. All five themes rendered
+  without broken images at both sizes and preserved the board signature.
+  Gameplay also fit 844 by 390, 683 by 384, and 320 by 180 without page
+  scrolling. Blocked pairs, right-click cancellation, hints, paid pause,
+  restart, and saved mode preference were checked through actual controls.
 
 ## Expanded-pool browser checks
 
