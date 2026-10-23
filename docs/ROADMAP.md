@@ -15,12 +15,13 @@
 - [x] 375 local images with pinned sources, full licences, and hash checks.
 - [x] Persistent settings and per-difficulty top-ten records.
 - [x] Unit tests for rules, persistence, and bundled art.
+- [x] [GitHub Pages deployment](DEPLOYMENT.md) at `/openkawai/`.
 
 ## Further verification and release work
 
 - [ ] Longer player sessions to assess animal recognition speed and difficulty.
 - [ ] Broader browser, screen-reader, touch-device, and low-end hardware testing.
-- [ ] Static hosting deployment and release packaging.
+- [ ] Downloadable release packaging.
 - [ ] Final review of all distribution notices and public-facing naming.
 
 ## Possible extensions (not implemented)

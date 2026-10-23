@@ -1,6 +1,27 @@
 # Implementation verification
 
-Verified on 2026-10-23 with the repository's Node 24.16.0 runtime.
+Latest hosting verification: 2026-10-24, using Node 24.16.0. Earlier
+implementation browser checks below were recorded on 2026-10-23.
+
+## GitHub Pages deployment
+
+- Published <https://kiringyj.github.io/openkawai/> from source commit
+  `dc0a3ae4333b2af25c332f878e0624eb6322276b`, built with
+  `npm.cmd run build -- --base=/openkawai/`.
+- `npm test`: 78 tests passed. The production build and whitespace check passed.
+- All 375 image files in the deployment matched the source manifest hashes.
+- Destination commit `169436fd84ddf1fcd3957ba8ccd852bdf22d4ade` is on the
+  `gh-pages` branch of `KiringYJ/KiringYJ.github.io`. Its
+  [Pages deployment](https://github.com/KiringYJ/KiringYJ.github.io/actions/runs/40001783180)
+  completed successfully.
+- The live release metadata and both JS/CSS bundles matched the locally
+  verified build. All 375 image URLs and six artwork-license URLs returned
+  successful responses; image response sizes matched the manifest.
+- The live game opened and started a 144-tile Classic board with all 145
+  images, including the chance animal, loaded successfully.
+
+See [deployment](DEPLOYMENT.md) for the manual update procedure. These are
+hosting checks; they do not repeat the complete gameplay matrix below.
 
 ## Automated checks
 
@@ -142,6 +163,6 @@ editing hidden game state or injecting a prepared board.
 All eleven transforms and level/difficulty formulas have automated coverage.
 The browser run above exercised levels one and two, not a complete eleven-level
 campaign. Broad browser/device/screen-reader testing, player recognition-speed
-testing, hosting, sound, and installable offline caching remain roadmap items.
+testing, sound, and installable offline caching remain roadmap items.
 These checks validate the implementation against the recorded rules; they do
 not expand the original-game evidence boundary in `re/AUDIT.md`.

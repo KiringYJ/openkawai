@@ -11,6 +11,7 @@ browser-local best records; Zen mode has no time limit. The artwork is from
 four independent open emoji libraries, with five selectable themes, independent
 of the original game's assets.
 
+[Play online](https://kiringyj.github.io/openkawai/) ·
 [繁體中文](#繁體中文) · [Architecture](docs/ARCHITECTURE.md) ·
 [Roadmap](docs/ROADMAP.md) · [Asset credits](docs/ASSETS.md) ·
 [Verification](docs/VERIFICATION.md) · [Rule evidence](re/README.md)
@@ -34,6 +35,10 @@ npm run preview
 The build is a static site in `dist/`, including all 375 tile images, credits,
 and artwork licences. There is no backend or external image dependency at
 runtime. Serve it over HTTP; opening `index.html` directly is not supported.
+
+The hosted game is published under `/openkawai/` in
+[`KiringYJ.github.io`](https://github.com/KiringYJ/KiringYJ.github.io).
+See [deployment](docs/DEPLOYMENT.md) for the build and publication procedure.
 
 | Command | Purpose |
 | --- | --- |
