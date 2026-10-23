@@ -143,6 +143,10 @@ The following remain local and untracked: `node_modules/`, `dist/`, `coverage/`,
 - **Interface copy:** keep labels, rules, and feedback concise and functional.
   Avoid slogans, promotional prose, anthropomorphism, and cutesy wording. This
   is a simple remake of the original game.
+- **Tile presentation:** use tightly packed portrait rectangular faces. Keep
+  interior faces flat; exposed sides use ivory planes with a consistent diagonal
+  extrusion, covered by adjacent tiles. Center artwork and connection endpoints
+  on the face.
 - **Determinism:** board creation and shuffles must remain seedable. Do not
   introduce `Math.random()` into game state; use `src/core/rng.ts`.
 - **Tests:** every rule change in `src/core/` or `src/game/` needs a unit test.

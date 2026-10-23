@@ -24,7 +24,7 @@ const difficulties = [{ title: '弱', value: 0 }, { title: '強', value: 1 }, { 
         />
         <div class="theme-preview mt-4" aria-label="36 種圖案預覽">
           <div v-for="animal in TILE_KINDS" :key="animal.id" class="theme-preview__tile" :title="animal.label" :aria-label="animal.label" role="img">
-            <TileArtwork :kind="animal.id" :theme="settings.tileTheme" />
+            <span class="tile-face"><TileArtwork :kind="animal.id" :theme="settings.tileTheme" /></span>
           </div>
         </div>
         <p class="text-caption text-medium-emphasis mt-3 mb-5">切換圖案不影響棋盤與進度。</p>

@@ -32,6 +32,11 @@ Public coordinates are zero-based. Paths may use `-1`, `rows`, or `cols` to
 travel through the one-cell empty ring. The renderer reserves the same ring
 and maps tile centers and path points into one coordinate space.
 
+Portrait tile faces fill their grid cells without row or column gaps. Their
+exposed sides form ivory planes projected diagonally down and right; adjacent
+tiles cover the interior sides. The SVG layer maps to face centers and keeps a
+constant stroke width when stretched.
+
 Pathfinding searches `(row, column, direction, turns)` states, permitting
 orthogonal travel through empty cells with at most two turns. A target tile
 is enterable only as the final cell. Paths are simplified into corner points.

@@ -19,7 +19,12 @@ const cells = computed(() => {
   return Array.from({ length: (props.board.rows + 2) * (props.board.cols + 2) }, (_, index) => {
     const row = Math.floor(index / (props.board.cols + 2)) - 1;
     const col = index % (props.board.cols + 2) - 1;
-    return { row, col, tile: props.board.tileAt(row, col) };
+    const tile = props.board.tileAt(row, col);
+    return {
+      row, col, tile,
+      exposedRight: tile !== null && props.board.tileAt(row, col + 1) === null,
+      exposedBottom: tile !== null && props.board.tileAt(row + 1, col) === null,
+    };
   });
 });
 const firstTile = computed(() => cells.value.find((cell) => cell.tile)?.tile);
@@ -77,11 +82,13 @@ watch(() => props.revision, async () => {
           :aria-label="`${tileKind(cell.tile.kind).label}，第 ${cell.row + 1} 列，第 ${cell.col + 1} 欄`"
           :aria-pressed="same(selected, cell)" :tabindex="same(focusPoint, cell) ? 0 : -1"
           :disabled="disabled"
-          :class="{ 'game-tile--selected': same(selected, cell), 'game-tile--hint': hint?.some((p) => same(p, cell)), 'game-tile--mismatch': mismatch.some((p) => same(p, cell)) }"
+          :class="{ 'game-tile--selected': same(selected, cell), 'game-tile--hint': hint?.some((p) => same(p, cell)), 'game-tile--mismatch': mismatch.some((p) => same(p, cell)), 'game-tile--edge-right': cell.exposedRight, 'game-tile--edge-bottom': cell.exposedBottom }"
           @focus="focused = { row: cell.row, col: cell.col }" @click="emit('select', cell.row, cell.col)"
         >
-          <TileArtwork :kind="cell.tile.kind" :theme="theme" />
-          <span v-if="hint?.some((p) => same(p, cell))" class="tile-marker" aria-hidden="true">✦</span>
+          <span class="tile-face">
+            <TileArtwork :kind="cell.tile.kind" :theme="theme" />
+            <span v-if="hint?.some((p) => same(p, cell))" class="tile-marker" aria-hidden="true">✦</span>
+          </span>
         </VBtn>
         <span v-else class="empty-cell" aria-hidden="true" />
       </template>
