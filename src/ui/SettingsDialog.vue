@@ -11,7 +11,7 @@ const emit = defineEmits<{
   'update:modelValue': [value: boolean]; 'update:settings': [value: Settings];
 }>();
 const difficulties = [{ title: '弱', value: 0 }, { title: '強', value: 1 }, { title: '超強', value: 2 }];
-const modes = [{ title: 'Classic mode', value: 'classic' }, { title: 'Zen mode', value: 'zen' }];
+const modes = [{ title: '經典模式', value: 'classic' }, { title: '禪意模式', value: 'zen' }];
 </script>
 
 <template>
@@ -36,10 +36,10 @@ const modes = [{ title: 'Classic mode', value: 'classic' }, { title: 'Zen mode',
           @update:model-value="emit('update:settings', { ...settings, mode: $event as GameMode })"
         />
         <VSelect
-          v-if="settings.mode === 'classic'" :model-value="settings.difficulty" :items="difficulties" label="Classic 難度"
+          v-if="settings.mode === 'classic'" :model-value="settings.difficulty" :items="difficulties" label="經典模式難度"
           @update:model-value="emit('update:settings', { ...settings, difficulty: $event as Difficulty })"
         />
-        <p v-if="settings.mode === 'zen'" class="text-body-2 mb-3">Zen mode 沒有時間限制。</p>
+        <p v-if="settings.mode === 'zen'" class="text-body-2 mb-3">禪意模式沒有時間限制。</p>
         <p class="text-caption text-medium-emphasis mt-3">模式與難度於下次遊戲生效。設定儲存於此瀏覽器。</p>
         <VAlert v-if="timedGame" type="info" variant="tonal" density="compact" class="mt-4">計時持續進行。</VAlert>
         <VAlert v-if="!storageAvailable" type="warning" variant="tonal" density="compact" class="mt-4">無法儲存，僅保留於本次頁面。</VAlert>

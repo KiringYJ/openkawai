@@ -7,7 +7,7 @@ import {
 } from 'vuetify/components';
 import {
   mdiAlertCircleOutline, mdiArrowRight, mdiArrowULeftTop, mdiCardsOutline, mdiCheck,
-  mdiCogOutline, mdiHelpCircleOutline, mdiHomeOutline, mdiInformationOutline, mdiLightbulbOutline,
+  mdiCogOutline, mdiGithub, mdiHelpCircleOutline, mdiHomeOutline, mdiInformationOutline, mdiLightbulbOutline,
   mdiPause, mdiPlay, mdiShuffleVariant, mdiStar, mdiStarOutline, mdiTrophyOutline,
 } from '@mdi/js';
 import { createLayout, type Difficulty } from '../content/layouts';
@@ -297,14 +297,14 @@ onUnmounted(() => {
 
         <main v-if="!game" class="menu-layout">
             <VCard border class="menu-panel pa-6">
-              <h1 class="menu-title mb-6">KAWAI 連連看 2004</h1>
+              <h1 class="menu-title mb-6">連連看</h1>
               <h2 class="text-subtitle-2 mb-3">遊戲模式</h2>
               <VBtnToggle :model-value="settings.mode" mandatory divided color="primary" variant="outlined" class="d-flex mb-5" aria-label="遊戲模式" @update:model-value="updateSettings({ ...settings, mode: $event })">
-                <VBtn value="classic" class="w-50" :aria-pressed="settings.mode === 'classic'">Classic mode</VBtn>
-                <VBtn value="zen" class="w-50" :aria-pressed="settings.mode === 'zen'">Zen mode</VBtn>
+                <VBtn value="classic" class="w-50" :aria-pressed="settings.mode === 'classic'">經典模式</VBtn>
+                <VBtn value="zen" class="w-50" :aria-pressed="settings.mode === 'zen'">禪意模式</VBtn>
               </VBtnToggle>
               <template v-if="settings.mode === 'classic'">
-                <h2 class="text-subtitle-2 mb-3">Classic 難度</h2>
+                <h2 class="text-subtitle-2 mb-3">經典模式難度</h2>
                 <div class="difficulty-options">
                   <VBtn v-for="difficulty in DIFFICULTIES" :key="difficulty.value" height="44" :variant="settings.difficulty === difficulty.value ? 'tonal' : 'outlined'" :color="settings.difficulty === difficulty.value ? 'primary' : undefined" :aria-pressed="settings.difficulty === difficulty.value" @click="updateSettings({ ...settings, difficulty: difficulty.value })">
                     {{ difficulty.title }}
@@ -312,7 +312,7 @@ onUnmounted(() => {
                 </div>
               </template>
               <p class="text-caption text-medium-emphasis mt-4 mb-4">{{ settings.mode === 'zen' ? '無時間限制' : `第一關 ${formatTime(menuDifficulty.seconds * 1000)}` }} · 提示 {{ menuDifficulty.resources }} 次 · 洗牌 {{ menuDifficulty.resources }} 次</p>
-              <p v-if="settings.mode === 'zen'" class="text-caption text-medium-emphasis mb-4">共 11 關，提示與洗牌有次數限制。不列入 Classic 最佳紀錄。</p>
+              <p v-if="settings.mode === 'zen'" class="text-caption text-medium-emphasis mb-4">共 11 關，提示與洗牌有次數限制。不列入經典模式最佳紀錄。</p>
               <VBtn id="start-game" color="primary" variant="flat" size="large" block @click="startGame">開始遊戲</VBtn>
             </VCard>
         </main>
@@ -323,7 +323,7 @@ onUnmounted(() => {
               <div class="board-toolbar">
                 <div class="level-heading">
                   <h1 class="level-title">{{ game.layout.name }}</h1>
-                  <VChip color="primary" variant="tonal" size="x-small">{{ game.mode === 'zen' ? 'Zen' : `Classic · ${DIFFICULTIES[game.difficulty]?.title}` }} · {{ game.levelIndex + 1 }} / 11</VChip>
+                  <VChip color="primary" variant="tonal" size="x-small">{{ game.mode === 'zen' ? '禪意' : `經典 · ${DIFFICULTIES[game.difficulty]?.title}` }} · {{ game.levelIndex + 1 }} / 11</VChip>
                 </div>
                 <div class="clock-stat" :class="{ 'text-error': game.mode === 'classic' && timeLeft <= 30000 }"><span class="text-caption">{{ game.mode === 'zen' ? '時間' : '剩餘時間' }}</span><strong>{{ game.mode === 'zen' ? '不限時' : formatTime(timeLeft) }}</strong></div>
                 <div class="board-stat"><span class="text-caption">分數</span><strong>{{ game.score.toLocaleString() }}</strong></div>
@@ -351,7 +351,10 @@ onUnmounted(() => {
           </section>
         </main>
 
-        <footer v-if="!game" class="site-footer"><VBtn size="small" variant="text" @click="creditsOpen = true">素材與授權</VBtn></footer>
+        <footer v-if="!game" class="site-footer">
+          <VBtn size="small" variant="text" :prepend-icon="mdiGithub" href="https://github.com/KiringYJ/openkawai" target="_blank" rel="noopener noreferrer" aria-label="GitHub 原始碼（另開分頁）">GitHub</VBtn>
+          <VBtn size="small" variant="text" @click="creditsOpen = true">素材與授權</VBtn>
+        </footer>
         <VAlert v-if="!storageAvailable && !game" type="warning" variant="tonal" density="compact" class="mb-4">無法儲存設定與紀錄，僅保留於本次頁面。</VAlert>
       </VContainer>
     </VMain>
@@ -398,7 +401,7 @@ onUnmounted(() => {
     </VDialog>
 
     <VDialog v-model="recordsOpen" max-width="620" aria-labelledby="records-title">
-      <VCard><VCardTitle id="records-title" class="dialog-heading">Classic 最佳紀錄</VCardTitle><VTabs v-model="recordsDifficulty" color="primary" grow><VTab v-for="difficulty in DIFFICULTIES" :key="difficulty.value" :value="difficulty.value">{{ difficulty.title }}</VTab></VTabs><VCardText class="pt-2"><VTable density="comfortable"><thead><tr><th>排名</th><th>玩家</th><th class="text-right">分數</th><th class="text-right">關卡</th></tr></thead><tbody><tr v-for="row in recordRows" :key="row.rank"><td>{{ String(row.rank).padStart(2, '0') }}</td><td>{{ row.entry ? row.entry.name.trim() || '（未署名）' : '—' }}</td><td class="text-right font-weight-bold">{{ row.entry?.score.toLocaleString() ?? '—' }}</td><td class="text-right">{{ row.entry ? row.entry.level === 11 ? 'ALL PASS' : row.entry.level + 1 : '—' }}</td></tr></tbody></VTable><p class="text-caption text-medium-emphasis mt-3">Classic 各難度前十名，儲存於此瀏覽器。</p></VCardText><VCardActions class="pa-5 pt-0"><VSpacer /><VBtn color="primary" @click="recordsOpen = false">關閉</VBtn></VCardActions></VCard>
+      <VCard><VCardTitle id="records-title" class="dialog-heading">經典模式最佳紀錄</VCardTitle><VTabs v-model="recordsDifficulty" color="primary" grow><VTab v-for="difficulty in DIFFICULTIES" :key="difficulty.value" :value="difficulty.value">{{ difficulty.title }}</VTab></VTabs><VCardText class="pt-2"><VTable density="comfortable"><thead><tr><th>排名</th><th>玩家</th><th class="text-right">分數</th><th class="text-right">關卡</th></tr></thead><tbody><tr v-for="row in recordRows" :key="row.rank"><td>{{ String(row.rank).padStart(2, '0') }}</td><td>{{ row.entry ? row.entry.name.trim() || '（未署名）' : '—' }}</td><td class="text-right font-weight-bold">{{ row.entry?.score.toLocaleString() ?? '—' }}</td><td class="text-right">{{ row.entry ? row.entry.level === 11 ? '全部過關' : row.entry.level + 1 : '—' }}</td></tr></tbody></VTable><p class="text-caption text-medium-emphasis mt-3">經典模式各難度前十名，儲存於此瀏覽器。</p></VCardText><VCardActions class="pa-5 pt-0"><VSpacer /><VBtn color="primary" @click="recordsOpen = false">關閉</VBtn></VCardActions></VCard>
     </VDialog>
 
     <VDialog v-model="rulesOpen" max-width="580" aria-labelledby="rules-title">
@@ -406,11 +409,11 @@ onUnmounted(() => {
         <VCardTitle id="rules-title" class="dialog-heading">玩法</VCardTitle>
         <VCardText>
           <ol class="rules-list">
-            <li><strong>遊戲模式。</strong>Classic mode 有弱、強、超強三種難度；Zen mode 不限時，沒有時間加分，也不列入 Classic 最佳紀錄。</li>
+            <li><strong>遊戲模式。</strong>經典模式有弱、強、超強三種難度；禪意模式不限時，沒有時間加分，也不列入經典模式最佳紀錄。</li>
             <li><strong>配對相同圖案。</strong>連線只能經過空格，最多轉兩次彎，可繞行棋盤外框。</li>
-            <li><strong>清除棋盤。</strong>每關 72 對，共 11 關。配對加分，Classic 另補充時間；各關消牌後的排列方式不同。</li>
+            <li><strong>清除棋盤。</strong>每關 72 對，共 11 關。配對加分，經典模式另補充時間；各關消牌後的排列方式不同。</li>
             <li><strong>提示與洗牌。</strong>每次消耗 1 次。無解時自動洗牌；無可配對圖案且無法洗牌時結束。</li>
-            <li><strong>機會翻牌。</strong>配對當前機會圖案得 1 星，3 星可翻牌獲得提示或洗牌，Classic 另有時間獎勵。每次配對後會更新機會圖案。</li>
+            <li><strong>機會翻牌。</strong>配對當前機會圖案得 1 星，3 星可翻牌獲得提示或洗牌，經典模式另有時間獎勵。每次配對後會更新機會圖案。</li>
             <li><strong>暫停。</strong>需有洗牌次數。繼續時消耗 1 次並洗牌。</li>
           </ol>
           <VDivider class="my-4" />
@@ -421,7 +424,23 @@ onUnmounted(() => {
     </VDialog>
 
     <VDialog v-model="creditsOpen" max-width="580" aria-labelledby="credits-title">
-      <VCard><VCardTitle id="credits-title" class="dialog-heading">素材與授權</VCardTitle><VCardText><p class="text-body-2 mb-4">使用下列開源圖庫，圖檔未修改。</p><div v-for="theme in TILE_THEMES" :key="theme.id" class="credit-row"><div><a :href="theme.sourceUrl" target="_blank" rel="noopener noreferrer">{{ theme.label }}</a><p class="text-caption text-medium-emphasis mt-1">{{ theme.attribution }}</p><a v-if="'noticeFile' in theme" :href="`${publicBase}licenses/${theme.noticeFile}`" class="text-caption" target="_blank" rel="noopener noreferrer">著作權聲明</a></div><a :href="`${publicBase}licenses/${theme.licenseFile}`" target="_blank" rel="noopener noreferrer">{{ theme.license }}</a></div><p class="text-caption text-medium-emphasis mt-4">openkawai 為獨立網頁重製版，程式碼採 MIT 授權。未使用原作圖像、音樂或程式碼。</p></VCardText><VCardActions class="pa-5 pt-0"><VSpacer /><VBtn color="primary" @click="creditsOpen = false">關閉</VBtn></VCardActions></VCard>
+      <VCard>
+        <VCardTitle id="credits-title" class="dialog-heading">素材與授權</VCardTitle>
+        <VCardText>
+          <p class="text-body-2 mb-4">openkawai 是以《KAWAI 連連看 2004》為基礎的獨立網頁重製版，另提供不限時的禪意模式。</p>
+          <p class="text-body-2 mb-4">使用下列開源圖庫，圖檔未修改。</p>
+          <div v-for="theme in TILE_THEMES" :key="theme.id" class="credit-row">
+            <div>
+              <a :href="theme.sourceUrl" target="_blank" rel="noopener noreferrer">{{ theme.label }}</a>
+              <p class="text-caption text-medium-emphasis mt-1">{{ theme.attribution }}</p>
+              <a v-if="'noticeFile' in theme" :href="`${publicBase}licenses/${theme.noticeFile}`" class="text-caption" target="_blank" rel="noopener noreferrer">著作權聲明</a>
+            </div>
+            <a :href="`${publicBase}licenses/${theme.licenseFile}`" target="_blank" rel="noopener noreferrer">{{ theme.license }}</a>
+          </div>
+          <p class="text-caption text-medium-emphasis mt-4">程式碼採 MIT 授權。未使用原作圖像、音樂或程式碼。</p>
+        </VCardText>
+        <VCardActions class="pa-5 pt-0"><VSpacer /><VBtn color="primary" @click="creditsOpen = false">關閉</VBtn></VCardActions>
+      </VCard>
     </VDialog>
 
     <VDialog :model-value="leaveAction !== null" max-width="420" aria-labelledby="leave-title" @update:model-value="!$event && (leaveAction = null)">

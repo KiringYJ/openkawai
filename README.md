@@ -6,8 +6,8 @@ interface and an independently implemented, deterministic TypeScript game core.
 The game implements the rules in [`re/RULESET.md`](re/RULESET.md) with a
 deliberate animal-pool adaptation: each level randomly selects 36 kinds from
 75 candidates. It retains a 16 × 9 board, 11 levels, finite resources, and
-chance cards. Classic mode offers the original three difficulties and
-browser-local best records; Zen mode has no time limit. The artwork is from
+chance cards. Classic mode (經典模式) offers the original three difficulties and
+browser-local best records; Zen mode (禪意模式) has no time limit. The artwork is from
 four independent open emoji libraries, with five selectable themes, independent
 of the original game's assets.
 
@@ -156,12 +156,12 @@ music, fonts, or runtime DLLs included.
 
 **openkawai** 是《KAWAI 連連看 2004》的瀏覽器重寫版，介面使用 Vue 與
 Vuetify。每關從 75 種候選動物隨機選取 36 種，各四張，實作 16 × 9 棋盤、
-11 關消牌變形、計分、有限提示／洗牌及機會翻牌。Classic mode 保留弱、強、
-超強三種計時難度與最佳紀錄；Zen mode 沒有時間限制。
+11 關消牌變形、計分、有限提示／洗牌及機會翻牌。經典模式保留弱、強、
+超強三種計時難度與最佳紀錄；禪意模式沒有時間限制。
 
-Zen 保留 11 關、提示／洗牌次數、暫停費用與無解時的結束規則，沒有時間加分，
-時間牌改為提示或洗牌獎勵，成績不列入 Classic 最佳紀錄。主選單與設定可選擇
-模式；模式和 Classic 難度會保存，遊戲中的變更於下次新遊戲生效。
+禪意模式保留 11 關、提示／洗牌次數、暫停費用與無解時的結束規則，沒有時間加分，
+時間牌改為提示或洗牌獎勵，成績不列入經典模式最佳紀錄。主選單與設定可選擇
+模式；模式和經典模式難度會保存，遊戲中的變更於下次新遊戲生效。
 
 在「設定」可切換 Fluent 3D、Fluent Animated、Noto Color Emoji、Twemoji、
 OpenMoji，預覽全部 75 種候選動物。候選須在四個圖庫都有全身像，排除害蟲
