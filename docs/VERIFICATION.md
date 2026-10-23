@@ -23,6 +23,32 @@ implementation browser checks below were recorded on 2026-10-23.
 See [deployment](DEPLOYMENT.md) for the manual update procedure. These are
 hosting checks; they do not repeat the complete gameplay matrix below.
 
+## Local mouse controls and rules dialog (2026-10-24)
+
+These checks used the current local source. The hosted build documented above
+predates these interface changes.
+
+- The rules dialog uses one font family and 14px body text, including the list,
+  bold lead-ins, and mouse instructions, at desktop and 375px widths.
+- Left-click selected a tile and right-click cleared it. A blocked interior
+  pair retained all 144 tiles. A legal two-turn outer-ring pair removed two
+  tiles; matching the on-screen hint removed another pair and increased score.
+- With a tile selected, H, S, P, R, Escape, all four arrow keys, Enter, and
+  Space left the selection, score, resources, tile count, and dialog state
+  unchanged. P also left the pause dialog open. All tile buttons have a
+  negative tab index, and no gameplay shortcut hints remain.
+- The on-screen hint and shuffle buttons consumed their resources. Pausing
+  and resuming through buttons spent one shuffle on resume. Cancelling a
+  restart preserved progress; confirming reset score, resources, and the
+  144-tile board.
+- All five themes rendered 144 board images and 75 preview images after
+  loading. Theme changes preserved tile positions, identities, and selection;
+  the original theme preference was restored afterward.
+- At 1280x720, 375x812, 667x280, and 960x540 CSS viewports, the board and its
+  outer ring fit without page scrolling. Centering error within the board's
+  available area was below 0.01px on both axes.
+- `npm test`: 78 tests passed. `npm run build` and `git diff --check` passed.
+
 ## Automated checks
 
 - `npm test`: 78 tests passed across four files, including per-level species

@@ -253,26 +253,12 @@ function confirmLeave(): void {
   }
 }
 
-function keyboard(event: KeyboardEvent): void {
-  const target = event.target;
-  if (event.repeat || event.ctrlKey || event.metaKey || event.altKey || !session.value
-    || settingsOpen.value || recordsOpen.value || rulesOpen.value || creditsOpen.value || leaveAction.value || nameEntry.value
-    || (target instanceof HTMLElement && (target.isContentEditable || target.closest('input, textarea, select, [role="combobox"]')))) return;
-  const key = event.key.toLowerCase();
-  if (game.value?.phase === 'paused' && key === 'p') { event.preventDefault(); resume(); return; }
-  if (!isPlaying.value) return;
-  const actions: Record<string, () => void> = { h: useHint, s: shuffle, p: pause, r: () => { leaveAction.value = 'restart'; }, escape: cancelSelection };
-  if (actions[key]) { event.preventDefault(); actions[key](); }
-}
-
 onMounted(() => {
   clock = window.setInterval(advanceTime, 100);
-  document.addEventListener('keydown', keyboard);
 });
 onUnmounted(() => {
   window.clearInterval(clock);
   clearEffects();
-  document.removeEventListener('keydown', keyboard);
 });
 </script>
 
@@ -343,9 +329,9 @@ onUnmounted(() => {
               <VAlert v-if="!storageAvailable" type="warning" variant="text" density="compact" :icon="false" class="game-storage-notice">無法儲存設定與紀錄，僅保留於本次頁面。</VAlert>
             </VCard>
             <div class="play-actions">
-              <VBtn variant="tonal" color="primary" :prepend-icon="mdiLightbulbOutline" :disabled="!isPlaying || game.hints === 0 || !!game.hint" @click="useHint">提示 <span class="resource-count">{{ game.hints }}</span><kbd>H</kbd></VBtn>
-              <VBtn variant="tonal" color="primary" :prepend-icon="mdiShuffleVariant" :disabled="!isPlaying || game.shuffles === 0" @click="shuffle">洗牌 <span class="resource-count">{{ game.shuffles }}</span><kbd>S</kbd></VBtn>
-              <VBtn variant="outlined" :prepend-icon="mdiPause" :disabled="!isPlaying || game.shuffles === 0" @click="pause">暫停<kbd>P</kbd></VBtn>
+              <VBtn variant="tonal" color="primary" :prepend-icon="mdiLightbulbOutline" :disabled="!isPlaying || game.hints === 0 || !!game.hint" @click="useHint">提示 <span class="resource-count">{{ game.hints }}</span></VBtn>
+              <VBtn variant="tonal" color="primary" :prepend-icon="mdiShuffleVariant" :disabled="!isPlaying || game.shuffles === 0" @click="shuffle">洗牌 <span class="resource-count">{{ game.shuffles }}</span></VBtn>
+              <VBtn variant="outlined" :prepend-icon="mdiPause" :disabled="!isPlaying || game.shuffles === 0" @click="pause">暫停</VBtn>
               <VBtn variant="text" :prepend-icon="mdiArrowULeftTop" :disabled="!isPlaying" @click="leaveAction = 'restart'">重新開始</VBtn>
             </div>
           </section>
@@ -417,7 +403,7 @@ onUnmounted(() => {
             <li><strong>暫停。</strong>需有洗牌次數。繼續時消耗 1 次並洗牌。</li>
           </ol>
           <VDivider class="my-4" />
-          <p class="text-body-2">鍵盤：方向鍵移動、Enter／空白鍵選取、H 提示、S 洗牌、P 暫停／繼續、R 重新開始、Esc 取消選取。滑鼠右鍵也可取消。</p>
+          <p class="text-body-2">滑鼠左鍵選取圖案，右鍵取消選取。</p>
         </VCardText>
         <VCardActions class="pa-5 pt-0"><VBtn block color="primary" variant="flat" @click="rulesOpen = false">關閉</VBtn></VCardActions>
       </VCard>

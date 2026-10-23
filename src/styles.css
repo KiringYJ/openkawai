@@ -109,8 +109,6 @@ a { color: #2f6b4f; text-underline-offset: 4px; }
 .game-board .game-tile--hint .tile-face { border-color: #b77f2f; background: #fff1cd; }
 .game-board .game-tile--mismatch { animation: shake 250ms ease; }
 .game-board .game-tile--mismatch .tile-face { background: #ffe4db; outline: 2px solid #b14d42; }
-.game-board .game-tile:focus-visible { outline: none; z-index: 3; }
-.game-board .game-tile:focus-visible .tile-face { outline: 3px solid #3a6a8c; outline-offset: -1px; }
 .tile-marker { position: absolute; right: -0.2em; top: -0.4em; color: #995d17; font-size: min(14px, 2cqw, 2cqh); line-height: 1; }
 .empty-cell { min-width: 0; min-height: 0; }
 /* Faces and path points share the same gapless grid coordinates. */
@@ -120,7 +118,6 @@ a { color: #2f6b4f; text-underline-offset: 4px; }
 .play-actions { display: flex; justify-content: center; gap: 10px; flex-shrink: 0; }
 .play-actions .v-btn { height: 40px; }
 .resource-count { margin-left: 10px; font-variant-numeric: tabular-nums; font-weight: 800; }
-kbd { font-family: inherit; border: 1px solid #b9c8b4; border-radius: 4px; padding: 0 4px; margin-left: 12px; font-size: 10px; font-weight: 400; color: #657361; }
 .chance-panel { display: flex; align-items: center; gap: 8px; }
 .chance-panel h2 { margin: 0; font-weight: 600; }
 .chance-animal { width: 36px; height: 36px; flex: none; }
@@ -169,7 +166,6 @@ kbd { font-family: inherit; border: 1px solid #b9c8b4; border-radius: 4px; paddi
   .play-actions .v-btn__prepend { margin-inline: 0 4px; }
   .play-actions .v-icon { font-size: 18px; }
   .resource-count { margin-left: 4px; }
-  .play-actions kbd { display: none; }
   .theme-preview { grid-template-columns: repeat(6, minmax(0, 1fr)); padding: 9px 13px 14px 9px; }
   .theme-preview__tile:nth-child(6n), .theme-preview__tile:last-child { --tile-edge-right: var(--tile-side); }
   .theme-preview__tile:nth-last-child(-n+6) { --tile-edge-bottom: var(--tile-depth); }

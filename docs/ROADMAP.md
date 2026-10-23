@@ -9,7 +9,7 @@
 - [x] Finite hint/shuffle resources, cached hints, no-move handling, paid pause.
 - [x] Chance stars, weighted card picks, rewards, and deferred transforms.
 - [x] Menu, continuation, completion/failure, name entry, and best records.
-- [x] Vue + Vuetify presentation, keyboard operation, centered viewport-fitted board.
+- [x] Vue + Vuetify presentation, pointer tile selection, on-screen gameplay controls, and centered viewport-fitted board.
 - [x] Curated 75-animal pool in five themes from four independent libraries.
 - [x] Seeded selection of 36 distinct kinds per level, with four copies each.
 - [x] 375 local images with pinned sources, full licences, and hash checks.

@@ -82,11 +82,11 @@ and tooling versions are recorded in `package.json` and `package-lock.json`.
   menu without saving. Names accept A–Z and spaces, up to 16 characters;
   blank names are allowed. Zen runs do not enter the Classic records.
 
-Keyboard: arrows move between tiles, Enter/Space selects, H hints, S shuffles,
-P pauses/resumes, R restarts, and Escape cancels selection. Right-click also
-cancels. During play, the complete board stays centered and scales to the
-available width and height without scrolling. Game information and chance
-stars sit above it; the action buttons remain below it.
+During play, select tiles with left-click. Right-click cancels the active
+selection. Use the on-screen buttons for hints, shuffles, pause/resume, and
+restart. The complete board stays centered and scales to the available width
+and height without scrolling. Game information and chance stars sit above it;
+the action buttons remain below it.
 
 ## Choose your emoji style
 
@@ -179,8 +179,9 @@ Fluent Animated 有 73 種動態圖案；珊瑚與牡蠣因官方未提供動畫
 Fluent 3D 靜態圖。系統偏好減少動態效果時，全部使用靜態圖。原先儲存的
 Fluent Flat 設定會自動轉為 Fluent Animated。
 
-遊戲中棋盤置中，依視窗寬高等比例縮放，完整顯示棋盤與外圈，不需捲動。
-時間、分數與機會圖案集中在上方，操作按鈕固定在下方。
+遊戲中使用滑鼠左鍵選取圖案，右鍵取消目前選取；提示、洗牌、暫停／繼續及
+重新開始請使用畫面上的按鈕。棋盤置中，依視窗寬高等比例縮放，完整顯示棋盤與
+外圈，不需捲動。時間、分數與機會圖案集中在上方，操作按鈕固定在下方。
 
 ```sh
 npm ci

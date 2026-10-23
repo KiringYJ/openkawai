@@ -5,7 +5,7 @@
 ```text
 index.html -> src/main.ts (Vue + Vuetify configuration)
                 -> src/ui/App.vue (session lifetime, timer, menus, dialogs)
-                   -> GameBoard.vue (tile input, focus, SVG connection path)
+                   -> GameBoard.vue (tile pointer input, SVG connection path)
                    -> SettingsDialog.vue (theme and next-game preferences)
                    -> TileArtwork.vue (local image and glyph fallback)
 
@@ -96,19 +96,21 @@ Explicit revisions refresh a session snapshot only after game interactions.
 A separate timer ref updates every 100 ms, keeping ticking independent of
 board rendering. The SVG path is transient presentation state.
 
-The board uses Vuetify tile buttons with labels and pressed state, a roving
-tab stop, arrow navigation, and focus restoration after removal. Empty cells
-are noninteractive. The gameplay shell shares the centered 1200px maximum
-width of the menu and uses the dynamic viewport height;
-information and actions reserve their own space while the board takes
-the remaining area. A CSS size container fits the complete grid to both axes,
+The board uses Vuetify tile buttons with labels and pressed state. During
+gameplay, left-click selects tiles and right-click cancels an active selection;
+hint, shuffle, pause/resume, and restart are available through the on-screen
+action buttons. Empty cells are noninteractive. The gameplay shell shares the
+centered 1200px maximum width of the menu and uses the dynamic viewport height;
+information and actions reserve their own space while the board takes the
+remaining area. A CSS size container fits the complete grid to both axes,
 preserving the 3:4 tile faces and the empty outer ring without page or board
-scrolling. Short and narrow layouts compact the surrounding controls. Focus
-restoration prevents scrolling. Viewport size determines layout, never input
-type. Routine actions use tile feedback and updated counters rather than a
-status-message strip or remaining-pair counter. A visually hidden live region
-announces action results and exact hint coordinates. Storage warnings appear
-only when needed. Content dialogs retain their own scrolling when needed.
+scrolling. Short and narrow layouts compact the surrounding controls. Viewport
+size determines layout, never input type. Normal browser, form, and dialog
+keyboard behavior outside gameplay remains unchanged. Routine actions use tile
+feedback and updated counters rather than a status-message strip or
+remaining-pair counter. A visually hidden live region announces action results
+and exact hint coordinates. Storage warnings appear only when needed. Content
+dialogs retain their own scrolling when needed.
 
 ## Content and persistence
 

@@ -10,7 +10,7 @@ depend on the DOM:
   shuffles, and seeded RNG. No browser APIs.
 - `src/game/` — `GameSession`, the run state machine (`playing`, `paused`,
   `cards`, `won`, `completed`, `lost`) covering rules and progression.
-- `src/ui/` — Vue/Vuetify app, board input/focus, artwork, settings, menus,
+- `src/ui/` — Vue/Vuetify app, board pointer input, artwork, settings, menus,
   chance cards, and pause/result/name-entry/record dialogs.
 - `src/content/` — level data, a curated animal candidate catalog, and five visual themes.
 - `src/config/` — validated persistent settings and injected storage access.
@@ -75,7 +75,7 @@ completion.
 | `src/core/rng.ts` | Deterministic mulberry32 and seed helpers. |
 | `src/game/session.ts` | Run transitions, formulas, cards, timer, resources. |
 | `src/ui/App.vue` | Session lifetime, timer, menus, and dialogs. |
-| `src/ui/GameBoard.vue` | Vuetify tiles, focus, and connection paths. |
+| `src/ui/GameBoard.vue` | Vuetify tiles, pointer selection/cancellation, and connection paths. |
 | `src/content/layouts.ts` | Confirmed levels, sizes, and difficulty timers. |
 | `src/content/tile-catalog.json` | Curated candidates and pinned upstream path mappings. |
 | `src/content/tile-kinds.ts` | Shared animal identity lookup. |
