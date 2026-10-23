@@ -110,6 +110,10 @@ may retain their library opacity behavior. A paragraph does not change color
 just because it follows another paragraph. Muted is reserved for metadata/help.
 Links have no persistent underline; hover and visible keyboard focus reveal it.
 
+The countdown uses primary (error at 30 seconds or less) over an opaque
+surface-variant track. Set the track color and opacity explicitly so the
+remaining time stays visible independently of the theme's border opacity.
+
 Ivory tile faces/extrusions use the material tokens at the top of
 `src/styles.css`. Those colors describe image surfaces, not UI text. Licensed
 artwork keeps its original colors. All five artwork packs share the same UI

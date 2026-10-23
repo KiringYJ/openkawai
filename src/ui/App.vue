@@ -323,7 +323,7 @@ onUnmounted(() => {
                   </div>
                 </aside>
               </div>
-              <VProgressLinear v-if="game.mode === 'classic'" :model-value="timeLeft / game.layout.timeLimitMs * 100" :color="timeLeft <= 30000 ? 'error' : 'primary'" height="5" :aria-label="`剩餘時間 ${formatTime(timeLeft)}`" />
+              <VProgressLinear v-if="game.mode === 'classic'" :model-value="timeLeft / game.layout.timeLimitMs * 100" :color="timeLeft <= 30000 ? 'error' : 'primary'" bg-color="surface-variant" :bg-opacity="1" height="5" :aria-label="`剩餘時間 ${formatTime(timeLeft)}`" />
               <VDivider v-else />
               <div class="board-surface" :class="{ 'board-surface--covered': game.phase === 'paused' }">
                 <GameBoard :board="game.board" :revision="revision" :selected="game.selected" :hint="game.hint" :theme="settings.tileTheme" :disabled="!isPlaying" :path="path" :mismatch="mismatch" @select="selectTile" @cancel="cancelSelection" />
