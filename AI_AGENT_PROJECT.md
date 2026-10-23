@@ -28,6 +28,14 @@ The approach and trade-offs are recorded in `re/decisions/0001-*` and
 2026-10-23; see `docs/decisions/0001-vuetify-presentation.md`. Do not add another
 UI framework, state library, or rendering engine without a project decision.
 
+## Visual Design Contract
+
+Read `DESIGN.md` before changing interface typography, colors, or component
+presentation. It defines the shared roles and their owners: `src/styles.css`
+for typography/materials and `src/main.ts` for the Vuetify palette/defaults.
+Reuse those roles across all surfaces; update the contract and shared tokens
+together if a new role is necessary. Do not add local font sizes or text shades.
+
 ## Build Commands
 
 The repository pins Node 24.16.0 in `.node-version`; the package requires Node

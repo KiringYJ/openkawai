@@ -23,6 +23,38 @@ implementation browser checks below were recorded on 2026-10-23.
 See [deployment](DEPLOYMENT.md) for the manual update procedure. These are
 hosting checks; they do not repeat the complete gameplay matrix below.
 
+## Local typography and color contract (2026-10-24)
+
+These checks cover the shared roles in [`DESIGN.md`](../DESIGN.md) and the
+current local source, not the hosted release above.
+
+- Browser computed styles confirmed one font stack; 24px titles, 16px section
+  labels/field values, 14px prose/buttons/tables, and 12px metadata/help. The
+  brand remains 18px/600. Game values use 24px or the documented compact 18px
+  profile; a natural timeout result used the 32px score role and 14px unit.
+- Menu, settings, rules, credits, difficulty tabs, pause, restart confirmation,
+  timeout result, and record-entry dialogs were inspected. Record headers use
+  weight 600; empty cells remain regular/centered; selected tabs retain white
+  text, green fill, and a check icon. Tables use tabular figures. The pending
+  record was skipped without saving.
+- Normal, muted, and accent text pairs meet AA contrast. Muted text measures
+  5.65:1 on white and 5.26:1 on the page background. Colors use the shared
+  Vuetify palette; opaque text and themed dividers were checked separately.
+- All five artwork packs rendered 75 preview images and all 142 remaining
+  board images after loading. The original Fluent 3D preference was restored.
+- Selection/cancellation, a blocked pair, an outer-ring match, hint, shuffle,
+  paid pause/resume, and restart cancellation worked through visible controls.
+  The run reached timeout naturally and opened a qualifying record-entry form.
+- At 1280x720, 375x812, 667x280, 960x540, and 320x180 CSS viewports, the game
+  had no page/board overflow, all action buttons fit, and horizontal board
+  centering error was below 0.01px. A temporary storage-denial entry also kept
+  the full board within its bounds at 320x180; that entry was removed.
+- An independent source review covered the type/color integration and resolved
+  table-header weight and numeric-alignment omissions. Chance-card typography
+  was source-reviewed through the shared roles; reward draws were not replayed
+  in this styling pass. Earlier game-rule checks remain recorded below.
+- `npm test`: 78 tests passed. `npm run build` and `git diff --check` passed.
+
 ## Local mouse controls and rules dialog (2026-10-24)
 
 These checks used the current local source. The hosted build documented above

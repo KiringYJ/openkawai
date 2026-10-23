@@ -2,10 +2,12 @@
 
 ## Original game
 
-**KAWAI 連連看 2004** and its associated artwork, audio, and other content are
-the work of their original author. This repository is an independent,
-unaffiliated reimplementation. It does not grant any licence to the original
-game or its assets.
+**KAWAI 連連看 2004** was created by **陳一進**, as credited in the original
+v1.01 readme. The original readme's identity and author attribution are recorded
+in the [publication evidence](https://github.com/KiringYJ/kawai-win11-compat/blob/main/packaging/licenses/KAWAI2004-PERMISSION-EVIDENCE.md).
+
+This repository is an independent, unaffiliated reimplementation. It does not
+grant any licence to the original game or its assets.
 
 The archived author page and the original archive referenced by this project
 are documented in [`re/scope.md`](re/scope.md). Obtain and use the original game

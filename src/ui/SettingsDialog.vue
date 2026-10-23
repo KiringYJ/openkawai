@@ -17,7 +17,7 @@ const modes = [{ title: '經典模式', value: 'classic' }, { title: '禪意模�
 <template>
   <VDialog :model-value="modelValue" max-width="620" aria-labelledby="settings-title" @update:model-value="emit('update:modelValue', $event)">
     <VCard>
-      <VCardTitle id="settings-title" class="dialog-heading">遊戲設定</VCardTitle>
+      <VCardTitle id="settings-title">遊戲設定</VCardTitle>
       <VCardText>
         <VSelect
           :model-value="settings.tileTheme" :items="TILE_THEMES" item-title="label" item-value="id"
@@ -28,19 +28,19 @@ const modes = [{ title: '經典模式', value: 'classic' }, { title: '禪意模�
             <span class="tile-face"><TileArtwork :kind="animal.id" :theme="settings.tileTheme" /></span>
           </div>
         </div>
-        <p class="text-caption text-medium-emphasis mt-3 mb-5">每關從 {{ TILE_KINDS.length }} 種候選圖案隨機選取 {{ LEVEL_KIND_COUNT }} 種。切換風格不影響棋盤與進度。</p>
-        <p v-if="settings.tileTheme === 'fluentanimated'" class="text-caption text-medium-emphasis mb-5">未提供動畫的圖案使用 Fluent 3D 靜態圖。偏好減少動態效果時，全部改用靜態圖。</p>
+        <p class="type-caption text-muted mt-3 mb-5">每關從 {{ TILE_KINDS.length }} 種候選圖案隨機選取 {{ LEVEL_KIND_COUNT }} 種。切換風格不影響棋盤與進度。</p>
+        <p v-if="settings.tileTheme === 'fluentanimated'" class="type-caption text-muted ma-0 mb-5">未提供動畫的圖案使用 Fluent 3D 靜態圖。偏好減少動態效果時，全部改用靜態圖。</p>
         <VDivider class="mb-5" />
         <VSelect
           :model-value="settings.mode" :items="modes" label="新遊戲模式"
           @update:model-value="emit('update:settings', { ...settings, mode: $event as GameMode })"
         />
         <VSelect
-          v-if="settings.mode === 'classic'" :model-value="settings.difficulty" :items="difficulties" label="經典模式難度"
+          v-if="settings.mode === 'classic'" :model-value="settings.difficulty" :items="difficulties" label="經典模式難度" class="mt-4"
           @update:model-value="emit('update:settings', { ...settings, difficulty: $event as Difficulty })"
         />
-        <p v-if="settings.mode === 'zen'" class="text-body-2 mb-3">禪意模式沒有時間限制。</p>
-        <p class="text-caption text-medium-emphasis mt-3">模式與難度於下次遊戲生效。設定儲存於此瀏覽器。</p>
+        <p v-if="settings.mode === 'zen'" class="ma-0 mt-3">禪意模式沒有時間限制。</p>
+        <p class="type-caption text-muted ma-0 mt-3">模式與難度於下次遊戲生效。設定儲存於此瀏覽器。</p>
         <VAlert v-if="timedGame" type="info" variant="tonal" density="compact" class="mt-4">計時持續進行。</VAlert>
         <VAlert v-if="!storageAvailable" type="warning" variant="tonal" density="compact" class="mt-4">無法儲存，僅保留於本次頁面。</VAlert>
       </VCardText>
