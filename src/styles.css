@@ -15,7 +15,7 @@ a { color: #2f6b4f; text-underline-offset: 4px; }
 .v-application { font-family: inherit; }
 .app-shell { max-width: 1200px; padding: 0 24px; }
 .game-active .v-application__wrap { min-height: 100dvh; }
-.app-shell.app-shell--playing { display: flex; flex-direction: column; gap: 4px; width: 100%; max-width: none; height: 100dvh; padding: 0 clamp(4px, 1vw, 12px) 4px; }
+.app-shell.app-shell--playing { display: flex; flex-direction: column; gap: 4px; width: 100%; height: 100dvh; padding: 0 clamp(4px, 1vw, 12px) 4px; }
 .app-shell--playing .site-header { min-height: 36px; flex-shrink: 0; }
 .app-shell--playing .header-actions .v-btn { height: 32px; }
 .app-shell--playing .header-actions .v-btn--icon { width: 32px; }

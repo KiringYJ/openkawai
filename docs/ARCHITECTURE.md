@@ -98,7 +98,8 @@ board rendering. The SVG path is transient presentation state.
 
 The board uses Vuetify tile buttons with labels and pressed state, a roving
 tab stop, arrow navigation, and focus restoration after removal. Empty cells
-are noninteractive. The gameplay shell uses the dynamic viewport height;
+are noninteractive. The gameplay shell shares the centered 1200px maximum
+width of the menu and uses the dynamic viewport height;
 information and actions reserve their own space while the board takes
 the remaining area. A CSS size container fits the complete grid to both axes,
 preserving the 3:4 tile faces and the empty outer ring without page or board
