@@ -9,7 +9,7 @@
 - [x] Finite hint/shuffle resources, cached hints, no-move handling, paid pause.
 - [x] Chance stars, weighted card picks, rewards, and deferred transforms.
 - [x] Menu, continuation, completion/failure, name entry, and best records.
-- [x] Vue + Vuetify presentation, keyboard operation, responsive board scrolling.
+- [x] Vue + Vuetify presentation, keyboard operation, centered viewport-fitted board.
 - [x] Exact selected 36 animals in five player-selectable emoji themes.
 - [x] 180 local images with pinned sources, full licences, and hash checks.
 - [x] Persistent settings and per-difficulty top-ten records.

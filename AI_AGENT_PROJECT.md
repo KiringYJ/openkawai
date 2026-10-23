@@ -60,7 +60,10 @@ For UI changes, also verify manually in a browser at desktop width and a narrow
 viewport (around 375 px). Check all five art themes and settings persistence,
 tile selection, a successful path (including a border route), a blocked pair,
 hint, shuffle, paid pause/resume, restart, and the result/record dialogs.
-Narrow screens intentionally scroll the board, without page overflow.
+The gameplay workspace must fit the viewport without page or board scrolling.
+Keep the complete board centered and scale it to both available width and
+height, including the outer path ring. Verify narrow, short landscape, and
+zoom-equivalent CSS viewports as well as desktop sizes.
 `npm run build` is the required final gate before reporting
 completion.
 

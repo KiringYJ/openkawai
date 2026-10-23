@@ -46,11 +46,31 @@ editing hidden game state or injecting a prepared board.
   both fit the name dialog at 375 CSS pixels without horizontal overflow.
 - Exit returned directly to the menu without a confirmation dialog.
 - The skip link focused the board and arrow keys moved tile focus.
-- At 1280 CSS pixels the board had no internal overflow. At 375 CSS pixels,
-  the page had no horizontal overflow, the board scrolled horizontally without
-  vertical overflow, and the settings dialog contained all 36 preview tiles.
-- The final sidebar text used a dark foreground on its pale surface; the
-  production page reported no console errors or warnings and no broken images.
+- The gameplay layout fit 16 CSS viewport sizes from 320 × 180 to
+  2560 × 1440, including desktop, portrait, landscape, and the 539/540 and
+  760/768 width boundaries. The page dimensions matched the viewport on both
+  axes, the board had no internal overflow, all 144 tiles and the action row
+  stayed visible, and the board's horizontal center differed by less than
+  0.01 CSS pixels. The outer path ring and portrait tile proportions remained
+  intact. These CSS sizes exercise zoom-equivalent layout constraints; the
+  browser's zoom setting itself was not changed.
+- With the full-cell outer ring retained, compact page/toolbars increased tile
+  faces at 1280 × 720 from approximately 36.16 × 48.20 to 39.75 × 53 CSS pixels
+  (about 10% in each dimension). The green frame follows the fitted board.
+- At 375 CSS pixels, all five themes rendered 36 settings-preview tiles without
+  broken images. Selection, a blocked pair, a successful outer-ring match,
+  hint, shuffle, pause/resume, restart confirmation, and a natural timeout
+  result dialog worked with the fitted board. The skip link and arrow keys
+  moved focus without scrolling the page.
+- A temporary local test entry denied access to `localStorage` before loading
+  the real app. At 375 × 812, 667 × 375, and 320 × 180, the compact warning
+  preserved a nonzero board area and all 144 tiles without page scrolling.
+  The warning uses its own alert region. Routine gameplay messages and the
+  remaining-pair counter are visually omitted; tile feedback, score, and a
+  visually hidden live announcement remain.
+  The test entry was removed after verification.
+- The browser reported no console errors or warnings and no broken
+  images.
 
 ## Evidence boundary
 

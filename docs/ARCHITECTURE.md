@@ -34,8 +34,11 @@ and maps tile centers and path points into one coordinate space.
 
 Portrait tile faces fill their grid cells without row or column gaps. Their
 exposed sides form ivory planes projected diagonally down and right; adjacent
-tiles cover the interior sides. The SVG layer maps to face centers and keeps a
-constant stroke width when stretched.
+tiles cover the interior sides. The SVG layer maps to face centers and keeps
+its stroke independent of SVG scaling, narrowing it in small viewports to
+avoid clipping. The one-cell outer ring retains the same size as an interior
+cell. Its green background fits the board rather than filling the entire
+available row; compact page and toolbar spacing leaves more room for tiles.
 
 Pathfinding searches `(row, column, direction, turns)` states, permitting
 orthogonal travel through empty cells with at most two turns. A target tile
@@ -78,8 +81,16 @@ board rendering. The SVG path is transient presentation state.
 
 The board uses Vuetify tile buttons with labels and pressed state, a roving
 tab stop, arrow navigation, and focus restoration after removal. Empty cells
-are noninteractive. Smaller layouts scroll only the board; page content and
-dialogs fit the viewport. Viewport size determines layout, never input type.
+are noninteractive. The gameplay shell uses the dynamic viewport height;
+information and actions reserve their own space while the board takes
+the remaining area. A CSS size container fits the complete grid to both axes,
+preserving the 3:4 tile faces and the empty outer ring without page or board
+scrolling. Short and narrow layouts compact the surrounding controls. Focus
+restoration prevents scrolling. Viewport size determines layout, never input
+type. Routine actions use tile feedback and updated counters rather than a
+status-message strip or remaining-pair counter. A visually hidden live region
+announces action results and exact hint coordinates. Storage warnings appear
+only when needed. Content dialogs retain their own scrolling when needed.
 
 ## Content and persistence
 

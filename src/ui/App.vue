@@ -7,7 +7,7 @@ import {
 } from 'vuetify/components';
 import {
   mdiAlertCircleOutline, mdiArrowRight, mdiArrowULeftTop, mdiCardsOutline, mdiCheck,
-  mdiCogOutline, mdiHelpCircleOutline, mdiHomeOutline, mdiLightbulbOutline,
+  mdiCogOutline, mdiHelpCircleOutline, mdiHomeOutline, mdiInformationOutline, mdiLightbulbOutline,
   mdiPause, mdiPlay, mdiShuffleVariant, mdiStar, mdiStarOutline, mdiTrophyOutline,
 } from '@mdi/js';
 import { createLayout, type Difficulty } from '../content/layouts';
@@ -44,7 +44,7 @@ const recordsDifficulty = ref<Difficulty>(settings.value.difficulty);
 const leaveAction = ref<'restart' | null>(null);
 const nameEntry = ref(false);
 const enteredName = ref('');
-const status = ref('選取兩個相同圖案。');
+const announcement = ref('');
 const path = shallowRef<readonly Point[]>([]);
 const mismatch = shallowRef<readonly Point[]>([]);
 const lastReward = ref('');
@@ -62,7 +62,7 @@ const game = computed(() => {
     selected: current.selected, hint: current.activeHint, hints: current.hintResource,
     shuffles: current.shuffleResource, chance: current.chanceKind, stars: current.stars,
     cards: current.cards, picks: current.picksRemaining, bonus: current.lastBonus,
-    lossReason: current.lossReason, remaining: current.board.remainingCount,
+    lossReason: current.lossReason,
   } : null;
 });
 const menuDifficulty = computed(() => DIFFICULTIES[settings.value.difficulty]!);
@@ -133,13 +133,13 @@ function clearEffects(): void {
   path.value = [];
   mismatch.value = [];
   lastReward.value = '';
+  announcement.value = '';
 }
 
 function startGame(): void {
   clearEffects();
   session.value = new GameSession({ difficulty: settings.value.difficulty, layout: createLayout(settings.value.difficulty) });
   lastTick = performance.now();
-  status.value = '選取兩個相同圖案。';
   sync();
 }
 
@@ -151,19 +151,18 @@ function selectTile(row: number, col: number): void {
   if (result.type === 'matched') {
     path.value = result.path;
     pathTimer = window.setTimeout(() => { path.value = []; }, 340);
-    status.value = `配對成功，+${result.points} 分。`;
+    announcement.value = `配對成功，+${result.points} 分。`;
   } else if (result.type === 'mismatch') {
     mismatch.value = result.tiles;
     mismatchTimer = window.setTimeout(() => { mismatch.value = []; }, 380);
-    status.value = result.reason === 'blocked' ? '無法連線。' : '圖案不同。';
-  } else if (result.type === 'deselected') status.value = '已取消選取。';
-  else status.value = '已選取圖案。';
+    announcement.value = result.reason === 'blocked' ? '無法連線。' : '圖案不同。';
+  }
   sync();
 }
 
 function cancelSelection(): void {
   session.value?.clearSelection();
-  status.value = '已取消選取。';
+  announcement.value = '';
   sync();
 }
 
@@ -171,7 +170,9 @@ function useHint(): void {
   advanceTime();
   if (!isPlaying.value) return;
   const hint = session.value?.hint();
-  status.value = hint ? '已標示可配對圖案。' : '目前無法使用提示。';
+  announcement.value = hint
+    ? `提示：第 ${hint[0].row + 1} 列第 ${hint[0].col + 1} 欄與第 ${hint[1].row + 1} 列第 ${hint[1].col + 1} 欄可配對。`
+    : '目前無法使用提示。';
   sync();
 }
 
@@ -179,7 +180,7 @@ function shuffle(): void {
   advanceTime();
   if (!isPlaying.value) return;
   clearEffects();
-  status.value = session.value?.shuffle() ? '已洗牌。' : '目前無法洗牌。';
+  announcement.value = session.value?.shuffle() ? '已洗牌。' : '目前無法洗牌。';
   sync();
 }
 
@@ -193,7 +194,7 @@ function resume(): void {
   session.value?.resume();
   lastTick = performance.now();
   clearEffects();
-  status.value = session.value?.phase === 'playing'
+  announcement.value = session.value?.phase === 'playing'
     ? '已洗牌，消耗 1 次洗牌。' : '無可配對圖案。';
   sync();
 }
@@ -209,7 +210,6 @@ function continueLevel(): void {
   if (!session.value?.continueLevel()) return;
   clearEffects();
   lastTick = performance.now();
-  status.value = '選取兩個相同圖案。';
   sync();
 }
 
@@ -271,10 +271,11 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <VApp>
+  <VApp :class="{ 'game-active': !!game }">
     <a class="skip-link" :href="game ? '#board' : '#start-game'">跳至{{ game ? '棋盤' : '開始遊戲' }}</a>
+    <div class="d-sr-only" role="status" aria-live="polite">{{ announcement }}</div>
     <VMain tag="div">
-      <VContainer class="app-shell">
+      <VContainer class="app-shell" :class="{ 'app-shell--playing': !!game }">
         <header class="site-header">
           <a class="brand" href="#" aria-label="openkawai 首頁" @click.prevent="toMenu">
             openkawai
@@ -283,6 +284,7 @@ onUnmounted(() => {
             <VBtn v-if="game" variant="text" :icon="mdiHomeOutline" aria-label="返回主選單" @click="toMenu" />
             <VBtn v-else variant="text" :prepend-icon="mdiTrophyOutline" @click="recordsOpen = true">最佳紀錄</VBtn>
             <VBtn variant="text" :icon="mdiHelpCircleOutline" aria-label="玩法" @click="rulesOpen = true" />
+            <VBtn v-if="game" variant="text" :icon="mdiInformationOutline" aria-label="素材與授權" @click="creditsOpen = true" />
             <VBtn variant="tonal" color="primary" :prepend-icon="mdiCogOutline" @click="settingsOpen = true">設定</VBtn>
           </div>
         </header>
@@ -303,23 +305,28 @@ onUnmounted(() => {
 
         <main v-else class="play-layout">
           <section class="play-main" aria-label="遊戲區">
-            <div class="level-heading">
-              <h1 class="level-title">{{ game.layout.name }}</h1>
-              <VChip color="primary" variant="tonal">{{ DIFFICULTIES[game.difficulty]?.title }} · {{ game.levelIndex + 1 }} / 11</VChip>
-            </div>
-            <VCard border class="board-card">
+            <VCard variant="text" class="board-card">
               <div class="board-toolbar">
+                <div class="level-heading">
+                  <h1 class="level-title">{{ game.layout.name }}</h1>
+                  <VChip color="primary" variant="tonal" size="x-small">{{ DIFFICULTIES[game.difficulty]?.title }} · {{ game.levelIndex + 1 }} / 11</VChip>
+                </div>
                 <div class="clock-stat" :class="{ 'text-error': timeLeft <= 30000 }"><span class="text-caption">剩餘時間</span><strong>{{ formatTime(timeLeft) }}</strong></div>
                 <div class="board-stat"><span class="text-caption">分數</span><strong>{{ game.score.toLocaleString() }}</strong></div>
-                <div class="board-stat"><span class="text-caption">剩餘配對</span><strong>{{ game.remaining / 2 }}<small> / 72</small></strong></div>
+                <aside class="chance-panel" aria-label="機會圖案，配對得 1 星，3 星可翻牌" title="配對此圖案得 1 星；3 星可翻牌。">
+                  <div class="chance-animal" role="img" :aria-label="`機會圖案：${tileKind(game.chance).label}`"><TileArtwork :kind="game.chance" :theme="settings.tileTheme" /></div>
+                  <div>
+                    <h2 class="text-caption">機會圖案</h2>
+                    <div class="chance-stars" :aria-label="`已收集 ${game.stars} 顆星，共需 3 顆`"><VIcon v-for="star in 3" :key="star" :icon="game.stars >= star ? mdiStar : mdiStarOutline" :color="game.stars >= star ? 'secondary' : 'grey'" size="18" /></div>
+                  </div>
+                </aside>
               </div>
               <VProgressLinear :model-value="timeLeft / game.layout.timeLimitMs * 100" :color="timeLeft <= 30000 ? 'error' : 'primary'" height="5" :aria-label="`剩餘時間 ${formatTime(timeLeft)}`" />
               <div class="board-surface" :class="{ 'board-surface--covered': game.phase === 'paused' }">
                 <GameBoard :board="game.board" :revision="revision" :selected="game.selected" :hint="game.hint" :theme="settings.tileTheme" :disabled="!isPlaying" :path="path" :mismatch="mismatch" @select="selectTile" @cancel="cancelSelection" />
               </div>
-              <div class="board-status" role="status" aria-live="polite">{{ status }}</div>
+              <VAlert v-if="!storageAvailable" type="warning" variant="text" density="compact" :icon="false" class="game-storage-notice">無法儲存設定與紀錄，僅保留於本次頁面。</VAlert>
             </VCard>
-            <p class="scroll-note text-caption text-medium-emphasis mt-2">小螢幕可橫向捲動棋盤，或轉為橫向顯示。</p>
             <div class="play-actions">
               <VBtn variant="tonal" color="primary" :prepend-icon="mdiLightbulbOutline" :disabled="!isPlaying || game.hints === 0 || !!game.hint" @click="useHint">提示 <span class="resource-count">{{ game.hints }}</span><kbd>H</kbd></VBtn>
               <VBtn variant="tonal" color="primary" :prepend-icon="mdiShuffleVariant" :disabled="!isPlaying || game.shuffles === 0" @click="shuffle">洗牌 <span class="resource-count">{{ game.shuffles }}</span><kbd>S</kbd></VBtn>
@@ -327,20 +334,10 @@ onUnmounted(() => {
               <VBtn variant="text" :prepend-icon="mdiArrowULeftTop" :disabled="!isPlaying" @click="leaveAction = 'restart'">重新開始</VBtn>
             </div>
           </section>
-
-          <aside class="play-sidebar">
-            <VCard border class="pa-4 chance-panel">
-              <h2 class="text-subtitle-2">機會圖案</h2>
-              <div class="chance-animal" role="img" :aria-label="`機會圖案：${tileKind(game.chance).label}`"><TileArtwork :kind="game.chance" :theme="settings.tileTheme" /></div>
-              <div class="chance-stars" :aria-label="`已收集 ${game.stars} 顆星，共需 3 顆`"><VIcon v-for="star in 3" :key="star" :icon="game.stars >= star ? mdiStar : mdiStarOutline" :color="game.stars >= star ? 'secondary' : 'grey'" size="24" /></div>
-              <p class="text-caption text-medium-emphasis mt-3">配對此圖案得 1 星；3 星可翻牌。</p>
-              <p v-if="lastReward" class="text-body-2 text-primary mt-3" role="status">{{ lastReward }}</p>
-            </VCard>
-          </aside>
         </main>
 
-        <footer class="site-footer"><VBtn size="small" variant="text" @click="creditsOpen = true">素材與授權</VBtn></footer>
-        <VAlert v-if="!storageAvailable" type="warning" variant="tonal" density="compact" class="mb-4">無法儲存設定與紀錄，僅保留於本次頁面。</VAlert>
+        <footer v-if="!game" class="site-footer"><VBtn size="small" variant="text" @click="creditsOpen = true">素材與授權</VBtn></footer>
+        <VAlert v-if="!storageAvailable && !game" type="warning" variant="tonal" density="compact" class="mb-4">無法儲存設定與紀錄，僅保留於本次頁面。</VAlert>
       </VContainer>
     </VMain>
 

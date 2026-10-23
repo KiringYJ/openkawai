@@ -65,7 +65,9 @@ and tooling versions are recorded in `package.json` and `package-lock.json`.
 
 Keyboard: arrows move between tiles, Enter/Space selects, H hints, S shuffles,
 P pauses/resumes, R restarts, and Escape cancels selection. Right-click also
-cancels. Small viewports scroll the board horizontally to keep tiles readable.
+cancels. During play, the complete board stays centered and scales to the
+available width and height without scrolling. Game information and chance
+stars sit above it; the action buttons remain below it.
 
 ## Choose your emoji style
 
@@ -135,6 +137,9 @@ Vuetify。依據專案已確認的規則，實作 16 × 9 棋盤、36 種動物�
 在「設定」可切換 Fluent 3D、Fluent Flat、Noto Color Emoji、Twemoji、
 OpenMoji，預覽全部 36 種動物。更換圖案不會改變棋盤或進度。五套共 180 張
 圖檔隨專案附上；設定與排行榜保存在目前瀏覽器，未完成的遊戲不會保存。
+
+遊戲中棋盤置中，依視窗寬高等比例縮放，完整顯示棋盤與外圈，不需捲動。
+時間、分數與機會圖案集中在上方，操作按鈕固定在下方。
 
 ```sh
 npm ci

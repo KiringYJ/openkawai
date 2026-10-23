@@ -40,7 +40,6 @@ function focusTile(point: Point): void {
   focused.value = point;
   const button = boardElement.value?.querySelector<HTMLButtonElement>(`[data-row="${point.row}"][data-col="${point.col}"]`);
   button?.focus({ preventScroll: true });
-  button?.scrollIntoView({ block: 'nearest', inline: 'nearest' });
 }
 
 function navigate(event: KeyboardEvent): void {
@@ -69,10 +68,10 @@ watch(() => props.revision, async () => {
 </script>
 
 <template>
-  <div class="board-scroll" tabindex="-1">
+  <div class="board-viewport">
     <div
       id="board" ref="boardElement" class="game-board" role="group" aria-label="連連看棋盤" tabindex="-1"
-      :style="{ '--board-cols': board.cols + 2, '--board-rows': board.rows + 2 }"
+      :style="{ '--board-cols': board.cols + 2, '--board-rows': board.rows + 2, '--board-aspect': (board.cols + 2) * 3 / ((board.rows + 2) * 4) }"
       @contextmenu.prevent="emit('cancel')" @keydown="navigate"
     >
       <template v-for="cell in cells" :key="`${cell.row},${cell.col}`">
