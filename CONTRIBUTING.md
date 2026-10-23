@@ -21,7 +21,7 @@ npm run build
 git diff --check
 ```
 
-`npm run build` includes `tsc --noEmit`, so it covers type checking as well as
+`npm run build` includes `vue-tsc --noEmit`, so it covers TypeScript and Vue templates as well as
 the production bundle.
 
 ## Clean-room rules
@@ -41,7 +41,7 @@ clean-room boundary:
 
 ## Code conventions
 
-- TypeScript strict mode; no framework is required for the core.
+- TypeScript strict mode, Vue single-file components, and Vuetify controls.
 - Keep `src/core/` free of DOM and browser APIs.
 - Prefer pure functions and explicit data over hidden global state.
 - Use the seeded RNG (`mulberry32`) for anything that affects board state, so a

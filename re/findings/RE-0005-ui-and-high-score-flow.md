@@ -10,7 +10,8 @@ environment:
 evidence:
   - re/sessions/20261022-kawai2004-runtime.md
 implementation:
-  - src/ui/game-view.ts
+  - src/ui/App.vue
+  - src/game/high-scores.ts
 ---
 
 ## Question
@@ -89,7 +90,8 @@ are resolved in RE-0014/RE-0019.
 
 ## Implementation impact
 
-The current shell already uses an 800 × 600-ish responsive board, but the
-prototype HUD is not the original layout. The rule gaps that blocked matching
-the level table and high-score flow are closed; the remaining work is UI and
-state-model implementation.
+The Vue/Vuetify shell implements the menu, resource controls, chance cards,
+pause, result, and high-score flow with a responsive browser presentation.
+The original 800 × 600 layout remains a reference rather than a pixel-matched
+interface. Browser-local score persistence is documented in
+`docs/ARCHITECTURE.md` as a web adaptation.

@@ -8,6 +8,8 @@ export interface Point {
 export interface Tile extends Point {
   readonly id: number;
   kind: string;
+  row: number;
+  col: number;
 }
 
 type KindGrid = ReadonlyArray<ReadonlyArray<string | null>>;
@@ -298,12 +300,13 @@ export class Board {
   }
 
   /**
-   * Re-deal the remaining kinds into the currently occupied cells. Board
-   * geometry never changes, so a shuffle cannot alter the layout.
+   * Re-deal the remaining tiles into the currently occupied cells. Board
+   * geometry never changes, so a shuffle cannot alter the layout. Whole tile
+   * records move, preserving each tile's stable ID and kind.
    *
-   * Returns true when the resulting board has at least one legal move. If no
-   * arrangement is found after a bounded search, the original kinds are
-   * restored.
+   * Returns true when the resulting board has at least one legal move. If the
+   * bounded random search fails, a deterministic whole-tile swap places a
+   * matching pair in the first two occupied cells.
    */
   shuffle(): boolean {
     const tiles = this.remainingTiles();
@@ -311,13 +314,17 @@ export class Board {
       return false;
     }
 
-    const originalKinds = tiles.map((tile) => tile.kind);
-    const kinds = [...originalKinds];
+    const positions = tiles.map((tile) => ({ row: tile.row, col: tile.col }));
+    const shuffledTiles = [...tiles];
 
     for (let attempt = 0; attempt < 128; attempt += 1) {
-      shuffleInPlace(kinds, this.rng);
+      shuffleInPlace(shuffledTiles, this.rng);
       for (let index = 0; index < tiles.length; index += 1) {
-        tiles[index]!.kind = kinds[index]!;
+        const position = positions[index]!;
+        const tile = shuffledTiles[index]!;
+        this.cells[position.row + 1]![position.col + 1] = tile;
+        tile.row = position.row;
+        tile.col = position.col;
       }
       if (this.hasMoves()) {
         return true;
@@ -325,9 +332,83 @@ export class Board {
     }
 
     for (let index = 0; index < tiles.length; index += 1) {
-      tiles[index]!.kind = originalKinds[index]!;
+      const position = positions[index]!;
+      const tile = tiles[index]!;
+      this.cells[position.row + 1]![position.col + 1] = tile;
+      tile.row = position.row;
+      tile.col = position.col;
     }
-    return false;
+
+    // The first two row-major occupied cells can always connect through the
+    // empty rows above them (or with one turn when only the first lies in that
+    // row). Put a whole matching tile in the second cell as a deterministic
+    // fallback, preserving the identity-to-kind mapping.
+    const first = tiles[0]!;
+    const second = tiles[1]!;
+    if (first.kind === second.kind) {
+      return this.findPath(first, second) !== null;
+    }
+
+    const donor = tiles.slice(2).find((tile) => tile.kind === first.kind);
+    if (!donor) {
+      return false;
+    }
+    const secondPosition = { row: second.row, col: second.col };
+    const donorPosition = { row: donor.row, col: donor.col };
+    this.cells[secondPosition.row + 1]![secondPosition.col + 1] = donor;
+    this.cells[donorPosition.row + 1]![donorPosition.col + 1] = second;
+    donor.row = secondPosition.row;
+    donor.col = secondPosition.col;
+    second.row = donorPosition.row;
+    second.col = donorPosition.col;
+
+    return this.findPath(first, donor) !== null;
+  }
+
+  /** Apply the confirmed post-match packing rule for a zero-based level. */
+  rearrange(levelIndex: number): void {
+    switch (levelIndex) {
+      case 0:
+        return;
+      case 1:
+        this.packAllColumns('down');
+        return;
+      case 2:
+        this.packAllRows('left');
+        return;
+      case 3:
+        this.packColumnsOutward();
+        return;
+      case 4:
+        this.packRowsOutward();
+        return;
+      case 5:
+        this.packColumnsInward();
+        return;
+      case 6:
+        this.packRowsInward();
+        return;
+      case 7:
+        for (let col = 0; col < this.cols; col += 1) {
+          this.packColumn(col, 0, this.rows - 1, col < 8 ? 'down' : 'up');
+        }
+        return;
+      case 8:
+        for (let row = 0; row < this.rows; row += 1) {
+          this.packRow(row, 0, this.cols - 1, row < 4 ? 'left' : 'right');
+        }
+        return;
+      case 9:
+        this.packRowsOutward();
+        this.packColumnsOutward();
+        return;
+      case 10:
+        this.packRowsInward();
+        this.packColumnsInward();
+        return;
+      default:
+        throw new RangeError('Level index must be between 0 and 10.');
+    }
   }
 
   removePair(a: Point, b: Point): [Tile, Tile] | null {
@@ -344,6 +425,109 @@ export class Board {
     this.cells[second.row + 1]![second.col + 1] = null;
     this.remaining -= 2;
     return [first, second];
+  }
+
+  private packAllRows(direction: 'left' | 'right'): void {
+    for (let row = 0; row < this.rows; row += 1) {
+      this.packRow(row, 0, this.cols - 1, direction);
+    }
+  }
+
+  private packAllColumns(direction: 'up' | 'down'): void {
+    for (let col = 0; col < this.cols; col += 1) {
+      this.packColumn(col, 0, this.rows - 1, direction);
+    }
+  }
+
+  private packRowsOutward(): void {
+    const split = Math.min(8, this.cols);
+    for (let row = 0; row < this.rows; row += 1) {
+      this.packRow(row, 0, split - 1, 'left');
+      if (split < this.cols) {
+        this.packRow(row, split, this.cols - 1, 'right');
+      }
+    }
+  }
+
+  private packRowsInward(): void {
+    const split = Math.min(8, this.cols);
+    for (let row = 0; row < this.rows; row += 1) {
+      this.packRow(row, 0, split - 1, 'right');
+      if (split < this.cols) {
+        this.packRow(row, split, this.cols - 1, 'left');
+      }
+    }
+  }
+
+  private packColumnsOutward(): void {
+    const split = Math.min(4, this.rows);
+    for (let col = 0; col < this.cols; col += 1) {
+      this.packColumn(col, 0, split - 1, 'up');
+      if (split < this.rows) {
+        this.packColumn(col, split, this.rows - 1, 'down');
+      }
+    }
+  }
+
+  private packColumnsInward(): void {
+    const split = Math.min(4, this.rows);
+    for (let col = 0; col < this.cols; col += 1) {
+      this.packColumn(col, 0, split - 1, 'down');
+      if (split < this.rows) {
+        this.packColumn(col, split, this.rows - 1, 'up');
+      }
+    }
+  }
+
+  private packRow(
+    row: number,
+    startCol: number,
+    endCol: number,
+    direction: 'left' | 'right',
+  ): void {
+    const tiles: Tile[] = [];
+    for (let col = startCol; col <= endCol; col += 1) {
+      const tile = this.tileAt(row, col);
+      if (tile) {
+        tiles.push(tile);
+      }
+      this.cells[row + 1]![col + 1] = null;
+    }
+
+    const destination =
+      direction === 'left' ? startCol : endCol - tiles.length + 1;
+    for (let index = 0; index < tiles.length; index += 1) {
+      const tile = tiles[index]!;
+      const col = destination + index;
+      this.cells[row + 1]![col + 1] = tile;
+      tile.row = row;
+      tile.col = col;
+    }
+  }
+
+  private packColumn(
+    col: number,
+    startRow: number,
+    endRow: number,
+    direction: 'up' | 'down',
+  ): void {
+    const tiles: Tile[] = [];
+    for (let row = startRow; row <= endRow; row += 1) {
+      const tile = this.tileAt(row, col);
+      if (tile) {
+        tiles.push(tile);
+      }
+      this.cells[row + 1]![col + 1] = null;
+    }
+
+    const destination = direction === 'up' ? startRow : endRow - tiles.length + 1;
+    for (let index = 0; index < tiles.length; index += 1) {
+      const tile = tiles[index]!;
+      const row = destination + index;
+      this.cells[row + 1]![col + 1] = tile;
+      tile.row = row;
+      tile.col = col;
+    }
   }
 }
 

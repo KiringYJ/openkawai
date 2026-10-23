@@ -12,7 +12,7 @@ evidence:
   - re/sessions/20261023-kawai2004-pause-reshuffle.md
 implementation:
   - src/game/session.ts
-  - src/ui/game-view.ts
+  - src/ui/App.vue
 ---
 
 ## Question

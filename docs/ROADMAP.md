@@ -1,50 +1,40 @@
 # Roadmap
 
-## M0 — Bootstrap (current)
+## Implemented
 
-- [x] Vite + TypeScript, no UI framework.
-- [x] Pure board, two-turn pathfinding, seeded RNG.
-- [x] Round state, timer, combo scoring, hint, shuffle, pause.
-- [x] Responsive shell with an asset-free placeholder tile set.
-- [x] Unit tests for core rules and round transitions.
-- [x] `re/` evidence workspace and clean-room policy.
+- [x] Pure TypeScript board, two-turn paths, outer ring, and seeded RNG.
+- [x] Evidence-backed 16 × 9 board and 36 kinds ×4.
+- [x] Eleven levels with the confirmed stable packing transforms.
+- [x] Three difficulty tables, score/time formulas, and clear/final bonuses.
+- [x] Finite hint/shuffle resources, cached hints, no-move handling, paid pause.
+- [x] Chance stars, weighted card picks, rewards, and deferred transforms.
+- [x] Menu, continuation, completion/failure, name entry, and best records.
+- [x] Vue + Vuetify presentation, keyboard operation, responsive board scrolling.
+- [x] Exact selected 36 animals in five player-selectable emoji themes.
+- [x] 180 local images with pinned sources, full licences, and hash checks.
+- [x] Persistent settings and per-difficulty top-ten records.
+- [x] Unit tests for rules, persistence, and bundled art.
 
-## M1 — Evidence capture
+## Further verification and release work
 
-- [ ] Record the original build hash and a lawful local input route.
-- [ ] Inventory the executable's static resources and runtime files.
-- [ ] Confirm board dimensions, number of tile kinds, and layout variants.
-- [ ] Record exact matching rules, including border and corner cases.
-- [ ] Record timer, scoring, combo, hint, shuffle, and loss conditions.
-- [ ] Capture the menu-to-game flow and available modes.
-- [ ] Promote findings with confidence levels into `re/findings/`.
+- [ ] Longer player sessions to assess animal recognition speed and difficulty.
+- [ ] Broader browser, screen-reader, touch-device, and low-end hardware testing.
+- [ ] Static hosting deployment and release packaging.
+- [ ] Final review of all distribution notices and public-facing naming.
 
-## M2 — Fidelity pass
+## Possible extensions (not implemented)
 
-- [ ] Replace provisional constants with values linked to findings.
-- [ ] Implement confirmed board layouts and tile counts.
-- [ ] Match the original selection, mismatch, hint, and shuffle feedback.
-- [ ] Match the original timer and scoring behaviour.
-- [ ] Add camera/scale behaviour that matches the original play area.
-- [ ] Add regression fixtures for known boards and paths.
+- Saved-run restore, replay/import/export, and reproducible seed controls.
+- Service worker and installable/offline application support.
+- Validated, user-supplied custom art packs.
+- Independently licensed sound effects and additional presentation polish.
 
-## M3 — Content pipeline
-
-- [ ] Define a local, user-supplied asset pack format.
-- [ ] Add a manifest with provenance and hashes for any permitted art.
-- [ ] Provide a fallback placeholder set when no pack is installed.
-- [ ] Document how to verify a pack without redistributing it.
-
-## M4 — Release
-
-- [ ] Accessibility pass with keyboard-only and screen-reader checks.
-- [ ] Performance pass on low-end devices.
-- [ ] Static hosting and a reproducible build artifact.
-- [ ] Final legal review of names, notices, and asset handling.
+The currently bundled site is self-contained after download, but it does not
+register an offline cache. Original artwork/audio, exact original animations,
+and the original VB random sequence remain outside this implementation.
 
 ## Non-goals
 
-- Wrapping or redistributing the original executable.
-- Shipping original artwork, audio, or third-party runtime DLLs.
-- Reimplementing the Windows launcher; that belongs in
-  [`kawai-win11-compat`](https://github.com/KiringYJ/kawai-win11-compat).
+- Wrapping or redistributing the original executable or extracted assets.
+- Shipping third-party runtime DLLs or modifying the Windows launcher.
+- Depending on a backend, account system, or remote image service to play.

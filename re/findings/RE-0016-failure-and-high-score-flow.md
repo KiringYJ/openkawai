@@ -11,7 +11,8 @@ evidence:
   - re/sessions/20261022-kawai2004-runtime.md
 implementation:
   - src/game/session.ts
-  - src/ui/game-view.ts
+  - src/game/high-scores.ts
+  - src/ui/App.vue
 ---
 
 ## Question

@@ -14,7 +14,8 @@ evidence:
   - re/findings/RE-0016-failure-and-high-score-flow.md
 implementation:
   - src/game/session.ts
-  - src/ui/game-view.ts
+  - src/game/high-scores.ts
+  - src/ui/App.vue
 ---
 
 ## Question

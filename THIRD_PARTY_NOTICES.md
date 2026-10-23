@@ -63,11 +63,17 @@ The full licence is available at
 The project uses the following packages, installed from npm under their own
 licences:
 
-| Package    | Licence | Role                         |
-| ---------- | ------- | ---------------------------- |
-| Vite       | MIT     | Development server and build |
-| TypeScript | Apache-2.0 | Type checking             |
-| Vitest     | MIT     | Unit testing                 |
+| Package | Licence | Role |
+| --- | --- | --- |
+| Vue | MIT | User-interface framework |
+| Vuetify | MIT | Material Design component library |
+| Material Design Icons (`@mdi/js`) | Apache-2.0 | Interface icons |
+| Vite | MIT | Development server and build |
+| Vite Vue plugin (`@vitejs/plugin-vue`) | MIT | Vue single-file component integration |
+| TypeScript | Apache-2.0 | Type checking |
+| Vue language tools (`vue-tsc`) | MIT | Vue-aware type checking |
+| Node.js type definitions (`@types/node`) | MIT | Development type definitions |
+| Vitest | MIT | Unit testing |
 
 Exact versions are pinned in `package-lock.json`. Their licence texts are
 distributed inside `node_modules/` by the packages themselves and are not

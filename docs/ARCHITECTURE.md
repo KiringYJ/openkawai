@@ -1,98 +1,106 @@
 # Architecture
 
-## Goals
-
-1. Make the reverse-engineered rules the main source of complexity, not the
-   rendering stack.
-2. Keep board generation and matching deterministic and testable.
-3. Ship a playable browser build without original assets.
-4. Leave room for multiple layouts, tile vocabularies, and future game modes.
-
-## Layers
+## Boundaries
 
 ```text
-index.html
-  └─ src/main.ts
-       ├─ src/content/       data: layouts, placeholder tile kinds
-       ├─ src/game/session   round state machine
-       ├─ src/core/          pure board + pathfinding + RNG
-       └─ src/ui/            DOM renderer and input
+index.html -> src/main.ts (Vue + Vuetify configuration)
+                -> src/ui/App.vue (session lifetime, timer, menus, dialogs)
+                   -> GameBoard.vue (tile input, focus, SVG connection path)
+                   -> SettingsDialog.vue (theme and next-game preferences)
+                   -> TileArtwork.vue (local image and glyph fallback)
+
+src/game/session.ts -> src/core/board.ts + rng.ts
+                   -> src/content/layouts.ts + tile-kinds.ts
+src/game/high-scores.ts -> src/config/storage.ts (injected storage interface)
+src/config/settings.ts -> tile-themes.ts + storage.ts
 ```
 
-### `src/core/`
+The presentation stack was selected explicitly by the project owner; see
+[`decisions/0001-vuetify-presentation.md`](decisions/0001-vuetify-presentation.md).
+The core and session have no Vue, DOM, or browser dependencies. Vuetify owns
+controls, dialogs, navigation, progress, and feedback. Custom CSS is limited
+to composition, animal tile geometry, focus/match feedback, and SVG paths.
 
-- **`board.ts`** owns the tile grid, pair removal, hint search, shuffle, and the
-  two-turn path check. It has no DOM dependency.
-- **`rng.ts`** provides mulberry32 and a seed helper. Supplying a seed makes a
-  board reproducible for a finding or a bug report.
+## Board and coordinates
 
-The board stores a one-cell empty border around the playable area. Public
-coordinates are 0-based inside the playable area, while returned paths may use
-`-1` or `rows`/`cols` to represent travel around the outside. The UI maps those
-coordinates into the rendered outer ring.
+`Board` owns pair construction, legal paths, hints, shuffle, removal, and
+level rearrangements. The playable grid is 16 columns × 9 rows, with 36 kinds
+appearing four times each. All themes share those identities; no separate
+internal aliases are needed because the original aliases look and match alike.
 
-### `src/game/`
+Public coordinates are zero-based. Paths may use `-1`, `rows`, or `cols` to
+travel through the one-cell empty ring. The renderer reserves the same ring
+and maps tile centers and path points into one coordinate space.
 
-`GameSession` is a small state machine: `playing`, `paused`, `won`, `lost`.
-It owns selection, score, combo, timer, hints, shuffles, and restart. It emits
-plain result objects rather than touching the DOM, so the whole round can be
-tested without a browser.
+Pathfinding searches `(row, column, direction, turns)` states, permitting
+orthogonal travel through empty cells with at most two turns. A target tile
+is enterable only as the final cell. Paths are simplified into corner points.
 
-### `src/ui/`
+Rearrangements pack whole tile objects in stable row/column order and update
+their coordinates. Level 10 performs horizontal-outward then vertical-outward
+packing; level 11 performs horizontal-inward then vertical-inward packing.
+The split is columns 8/8 and rows 4/5. Shuffling permutes kinds within occupied
+positions and preserves both holes and the remaining multiset.
 
-`GameView` renders the session into the static shell, delegates tile clicks,
-draws the connection overlay, and manages the pause/result dialog. The board is
-re-rendered after each interaction; 96 tiles is small enough that this is
-simpler and less error-prone than maintaining per-tile DOM state.
+## Session
 
-### `src/content/`
+`GameSession` owns these phases:
 
-Layouts and tile kinds are data. A layout currently defines the grid size, time
-limit, and the allowed tile-kind IDs. A future non-rectangular layout can use
-the `Board.fromGrid` hole support without changing the renderer.
+```text
+playing -> paused -> paid resume shuffle -> playing
+playing -> cards -> last pick -> deferred transform + free shuffle -> playing
+playing/cards -> won -> continueLevel -> playing
+playing/cards -> completed (level 11 clear)
+playing -> lost (time expired or no moves/resources)
+```
 
-## Matching algorithm
+It applies difficulty/level formulas, resource limits, cached hints, chance
+stars, weighted picks and the reward deck. A final-pair third star opens cards
+before clear scoring. Level continuation preserves stars and score, adds a
+hint, and adds a shuffle except on the weak difficulty.
 
-`Board.findPath(a, b)` runs a breadth-first search over
-`(row, column, direction, turns)` states:
+The view passes measured elapsed milliseconds to `tick`. Time continues in
+background tabs and while settings/instructions are open; only session phases
+that freeze time stop it. The app settles elapsed time before a tile or helper
+action, preventing an action after an expired countdown from saving the round.
 
-- Start at the first tile with no direction and zero turns.
-- Move one cell at a time through empty cells.
-- A direction change costs one turn; at most two are allowed.
-- Reversing direction is disallowed.
-- The target tile is only enterable as the final cell.
-- The search may leave the board through its one-cell border.
+## Rendering and input
 
-Because the grid is small (14 × 10 including the border), the state space is
-trivial. The first successful state is simplified into a polyline so the SVG
-overlay draws only corners, not every traversed cell.
+The session is held in a `shallowRef`, preserving the pure class instance.
+Explicit revisions refresh a session snapshot only after game interactions.
+A separate timer ref updates every 100 ms, keeping ticking independent of
+board rendering. The SVG path is transient presentation state.
 
-## Determinism
+The board uses Vuetify tile buttons with labels and pressed state, a roving
+tab stop, arrow navigation, and focus restoration after removal. Empty cells
+are noninteractive. Smaller layouts scroll only the board; page content and
+dialogs fit the viewport. Viewport size determines layout, never input type.
 
-Board creation and shuffling take an `Rng`. `GameSession` exposes a `seed`
-option and `restart(seed)`. Given the same seed, layout, and interaction
-sequence, the board and shuffle results are reproducible.
+## Content and persistence
 
-## Extending the game
+`tile-kinds.ts` holds the exact 36 selected animals. `tile-themes.ts` maps each
+stable kind to a local image path beneath Vite's configured base. The complete
+art inventory and pinned upstream hashes are in `public/tiles/manifest.json`.
 
-- **New layout:** add a `LayoutDefinition` in `src/content/layouts.ts` and pass
-  it to `GameSession`.
-- **New tile vocabulary:** replace or extend `TILE_KINDS`; keep IDs stable once
-  they appear in a finding or a saved replay.
-- **New scoring rule:** change only `GameSession.select` and cover it with a
-  session test.
-- **New renderer:** implement the same small `GameView` surface against the
-  session; `src/core/` does not need to change.
-- **Asset packs:** keep them outside the repository or under an ignored local
-  directory until a lawful distribution route is documented.
+Settings and the three independent top-ten score tables use versioned
+`localStorage` keys through an injected storage interface. Loading validates
+untrusted stored data; failed reads/writes preserve play in memory. A run is
+inserted only after the user submits a name. Qualification is strictly above
+tenth place; ties are placed below existing equal scores. Level 11 is the
+completed-game sentinel. Reload restores preferences/records, not a session.
 
-## Testing
+## Verification
 
-- `tests/board.test.ts` covers board construction, straight/one-turn/two-turn
-  paths, rejection of longer paths, blocked boards, hints, and shuffle
-  invariants.
-- `tests/session.test.ts` covers selection transitions, scoring, combo reset,
-  blocked matches, timer expiry, pause, hints, shuffles, and restart.
+- `board.test.ts`: paths, border routing, counts, shuffles, transformations,
+  stable tile identities, and coordinates.
+- `session.test.ts`: formulas, phases, resources, chance cards, final-pair
+  precedence, continuation, pause, and no-move failure.
+- `persistence.test.ts`: theme/difficulty round trips, denied storage, input
+  validation, score qualification, ties, and completed records.
+- `assets.test.ts`: exact animal inventory, all five complete packs, binary
+  signatures, paths, and SHA-256 hashes.
 
-The UI is verified manually in a browser. Add a browser test harness only when
-the interaction surface becomes large enough to justify the dependency.
+`npm run build` includes Vue/template type checking. Browser checks cover
+desktop/narrow layouts, all emoji styles, selection, legal/blocked pairs,
+hint/shuffle, paid pause, restart/exit, and dialogs. The original-game evidence
+remains independently recorded under `re/`; tests do not replace that evidence.

@@ -2,18 +2,21 @@
 
 ## Architecture
 
-openkawai is a framework-free Vite + TypeScript web reimplementation of
+openkawai is a Vite + TypeScript + Vue + Vuetify web reimplementation of
 **KAWAI 連連看 2004**. The code is split so the reverse-engineered rules do not
 depend on the DOM:
 
 - `src/core/` — pure board model, two-turn pathfinding, pair removal, hints,
   shuffles, and seeded RNG. No browser APIs.
-- `src/game/` — `GameSession`, the round state machine (`playing`, `paused`,
-  `won`, `lost`) covering selection, scoring, timer, and restart.
-- `src/ui/` — `GameView`, DOM rendering, click/keyboard input, SVG path overlay,
-  and the pause/result dialog.
-- `src/content/` — data-only layout and tile-kind definitions.
-- `src/main.ts` — composition root; creates one session and one view.
+- `src/game/` — `GameSession`, the run state machine (`playing`, `paused`,
+  `cards`, `won`, `completed`, `lost`) covering rules and progression.
+- `src/ui/` — Vue/Vuetify app, board input/focus, artwork, settings, menus,
+  chance cards, and pause/result/name-entry/record dialogs.
+- `src/content/` — data-only levels, 36 animal kinds, and five visual themes.
+- `src/config/` — validated persistent settings and injected storage access.
+- `src/game/high-scores.ts` — score ranking, name validation, and persistence.
+- `public/tiles/` — 180 licensed images and a source/hash manifest.
+- `src/main.ts` — composition root; mounts Vue with the Vuetify theme and icons.
 
 The board is rendered as a CSS grid with a one-cell empty outer ring. The
 `Board` pathfinder may return coordinates `-1` or `rows`/`cols` for travel
@@ -21,8 +24,9 @@ around the outside; the view maps those into the outer ring. A match is legal
 when two identical tiles connect through empty cells with at most two turns.
 
 The approach and trade-offs are recorded in `re/decisions/0001-*` and
-`docs/ARCHITECTURE.md`. Do not add a UI framework, state library, or rendering
-engine without an explicit project decision.
+`docs/ARCHITECTURE.md`. The project owner explicitly selected Vuetify on
+2026-10-23; see `docs/decisions/0001-vuetify-presentation.md`. Do not add another
+UI framework, state library, or rendering engine without a project decision.
 
 ## Build Commands
 
@@ -33,25 +37,31 @@ The repository pins Node 24.16.0 in `.node-version`; the package requires Node
 fnm use            # when fnm is available
 npm install
 npm run dev        # http://localhost:5173
-npm run build      # tsc --noEmit, then vite build
+npm run build      # vue-tsc --noEmit, then vite build
 npm run preview    # serve dist/ at http://localhost:4173
 ```
 
 Use the existing npm lockfile. Do not switch package managers or add a
 dependency without a concrete need.
 
+The build/typecheck scripts use `vue-tsc --noEmit`, including Vue templates.
+TypeScript 6.0.3 is pinned for compatibility with vue-tsc 3.3.13; TypeScript 7
+does not export the compiler entry point required by that checker.
+
 ## Test Commands
 
 ```sh
-npm test           # Vitest, currently tests/board.test.ts and tests/session.test.ts
-npm run typecheck  # tsc --noEmit
+npm test           # Vitest: board, session, persistence, and asset integrity
+npm run typecheck  # vue-tsc --noEmit
 npm run build      # production build; includes type checking
 ```
 
 For UI changes, also verify manually in a browser at desktop width and a narrow
-viewport (around 375 px). Check tile selection, a successful path (including a
-border route), a blocked pair, hint, shuffle, pause/resume, restart, and the
-win/loss dialog. `npm run build` is the required final gate before reporting
+viewport (around 375 px). Check all five art themes and settings persistence,
+tile selection, a successful path (including a border route), a blocked pair,
+hint, shuffle, paid pause/resume, restart, and the result/record dialogs.
+Narrow screens intentionally scroll the board, without page overflow.
+`npm run build` is the required final gate before reporting
 completion.
 
 ## Important Files and Directories
@@ -60,10 +70,12 @@ completion.
 | --- | --- |
 | `src/core/board.ts` | Board invariants, pathfinding, hint, shuffle. |
 | `src/core/rng.ts` | Deterministic mulberry32 and seed helpers. |
-| `src/game/session.ts` | Round transitions, score, combo, timer, hint cost. |
-| `src/ui/game-view.ts` | All DOM interaction and rendering. |
-| `src/content/layouts.ts` | Provisional board size, time, and tile vocabulary. |
-| `src/content/tile-kinds.ts` | Original placeholder tile set (no original art). |
+| `src/game/session.ts` | Run transitions, formulas, cards, timer, resources. |
+| `src/ui/App.vue` | Session lifetime, timer, menus, and dialogs. |
+| `src/ui/GameBoard.vue` | Vuetify tiles, focus, and connection paths. |
+| `src/content/layouts.ts` | Confirmed levels, sizes, and difficulty timers. |
+| `src/content/tile-kinds.ts` | Exact selected 36 animal identities. |
+| `src/content/tile-themes.ts` | Five interchangeable local image themes. |
 | `src/styles.css` | Visual system, responsive layout, animation policy. |
 | `tests/board.test.ts` | Path and board invariants. |
 | `tests/session.test.ts` | Round and scoring transitions. |
@@ -77,14 +89,14 @@ completion.
 
 - **連連看 (lianliankan)** — matching-pair game. Select two identical tiles
   connected by a legal path to remove them.
-- **Tile kind** — the matchable identity (`sakura`, `moon`, …), not the visual
+- **Tile kind** — the matchable identity (`elephant`, `giraffe`, …), not the visual
   asset. Multiple tiles share one kind.
 - **Turn** — a change of direction in the connection polyline. Current rule:
   zero, one, or two turns.
 - **Border** — the empty one-cell ring around the playable board; paths may
   travel through it.
 - **Layout** — grid dimensions, time limit, and allowed tile kinds.
-- **Session** — one round, including score, combo, timer, and phase.
+- **Session** — an eleven-level run, including score, resources, stars, timer, and phase.
 - **Finding (`RE-NNNN`)** — an evidence-backed claim about the original game.
 - **Provisional** — an implementation value not yet confirmed by a finding.
 
@@ -121,9 +133,9 @@ The following remain local and untracked: `node_modules/`, `dist/`, `coverage/`,
 - **Clean-room:** do not commit the original executable, game archive, extracted
   artwork/audio/fonts, third-party runtime binaries, or decompiled code. See
   `re/decisions/0002-*` and `docs/ASSETS.md`.
-- **Evidence before fidelity:** board size, tile vocabulary, timer, scoring,
-  hint cost, and shuffle behaviour are provisional. Record a finding in `re/`
-  before changing a rule that claims to match the original.
+- **Evidence before fidelity:** confirmed rules are in `re/RULESET.md` and
+  audited in `re/AUDIT.md`. Record a finding in `re/` before changing a rule
+  that claims to match the original. Preserve the evidence's confidence limits.
 - **Language policy:** code, comments, documentation, commit messages, and agent
   artifacts are English. The exception is user-facing game copy and the
   Traditional Chinese README section, which serve the target game's audience and
@@ -132,11 +144,11 @@ The following remain local and untracked: `node_modules/`, `dist/`, `coverage/`,
   introduce `Math.random()` into game state; use `src/core/rng.ts`.
 - **Tests:** every rule change in `src/core/` or `src/game/` needs a unit test.
   Keep the current suite green and add cases for new edge cases.
-- **No framework:** the core must stay DOM-free. If a renderer abstraction is
-  needed, introduce it at the `src/ui/` boundary.
-- **No original assets:** placeholders are intentionally original CSS/text
-  tiles. A future local pack loader must be opt-in and validated; it must not
-  make the repository depend on original files.
+- **Framework boundary:** the core/session must stay free of DOM and Vue APIs;
+  Vue and Vuetify belong at the `src/ui/` and composition boundaries.
+- **No original assets:** bundle only the licensed emoji artwork recorded in
+  `public/tiles/manifest.json`, with notices/licences. Theme selection changes
+  presentation only. A future custom pack loader must be opt-in and validated.
 - **Scope:** the Windows compatibility launcher is a separate project
   (`kawai-win11-compat`). Do not add launcher, packaging, or binary-handling
   work here.

@@ -11,7 +11,7 @@ change; it is not a general notes page.
 | [RE-0002](RE-0002-matching-and-path-rule.md) | Matching allows ≤2 orthogonal turns and the outer border | confirmed | high | `src/core/board.ts` |
 | [RE-0003](RE-0003-score-time-and-level-flow.md) | Pair score, timer, and level-flow observations | superseded by RE-0008 | medium | `src/game/session.ts` |
 | [RE-0004](RE-0004-chance-stars-and-card-bonus.md) | Chance tile grants stars; three stars open an 18-card bonus | superseded by RE-0012 | medium | `src/game/session.ts` |
-| [RE-0005](RE-0005-ui-and-high-score-flow.md) | 800×600 HUD and top-10 high-score flow | confirmed | high | `src/ui/game-view.ts` |
+| [RE-0005](RE-0005-ui-and-high-score-flow.md) | 800×600 HUD and top-10 high-score flow | confirmed | high | `src/ui/App.vue`, `src/game/high-scores.ts` |
 | [RE-0006](RE-0006-function-map.md) | Function map: startup, vtable methods, paint, move finder, card deck | confirmed | high | — |
 | [RE-0007](RE-0007-level-start-dispatcher.md) | Level start sets 225 s, score, resources, then calls three form methods | confirmed | high | `src/game/session.ts` |
 | [RE-0008](RE-0008-score-and-time-formulas.md) | Exact difficulty/level score, per-match timer bonus, and per-level time limits | confirmed | high | `src/game/session.ts`, `src/content/layouts.ts` |
@@ -22,10 +22,10 @@ change; it is not a general notes page.
 | [RE-0013](RE-0013-hint-and-shuffle-resources.md) | HUD resources are hint (A) and shuffle (B); one use each | confirmed | high | `src/game/session.ts` |
 | [RE-0014](RE-0014-high-score-file.md) | High-score file is 660 bytes of three contiguous 10-entry tables | confirmed | high | `src/game/session.ts` |
 | [RE-0015](RE-0015-vtable-and-move-finder.md) | Vtable slot map, move finder/hint endpoints, level dispatch, auto-shuffle branch | confirmed | high | `src/core/board.ts`, `src/game/session.ts` |
-| [RE-0016](RE-0016-failure-and-high-score-flow.md) | Failure overlay, high-score name entry, immediate save, return to menu | confirmed | high | `src/game/session.ts`, `src/ui/game-view.ts` |
-| [RE-0017](RE-0017-pause-exit-menu-flow.md) | Pause requires B>0; entry freezes timer; resume spends 1 B and reshuffles; exit abandons | confirmed | high | `src/game/session.ts`, `src/ui/game-view.ts` |
+| [RE-0016](RE-0016-failure-and-high-score-flow.md) | Failure overlay, high-score name entry, immediate save, return to menu | confirmed | high | `src/game/session.ts`, `src/game/high-scores.ts`, `src/ui/App.vue` |
+| [RE-0017](RE-0017-pause-exit-menu-flow.md) | Pause requires B>0; entry freezes timer; resume spends 1 B and reshuffles; exit abandons | confirmed | high | `src/game/session.ts`, `src/ui/App.vue` |
 | [RE-0018](RE-0018-level-rearrangement-methods.md) | All eight level transforms are deterministic row/column packs; L4/L6 single-axis, L10/L11 combined; card-screen deferral | confirmed | high | `src/core/board.ts`, `src/game/session.ts` |
-| [RE-0019](RE-0019-high-score-qualification-and-name-entry.md) | High-score entry needs a score above 10th place; names are 16 bytes of A-Z/space | confirmed | high | `src/game/session.ts`, `src/ui/game-view.ts` |
+| [RE-0019](RE-0019-high-score-qualification-and-name-entry.md) | High-score entry needs a score above 10th place; names are 16 bytes of A-Z/space | confirmed | high | `src/game/session.ts`, `src/game/high-scores.ts`, `src/ui/App.vue` |
 
 Add a row when a finding is accepted. Keep `unknown` findings out of the index
 until there is enough evidence to state a question precisely.

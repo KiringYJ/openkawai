@@ -155,11 +155,11 @@ describe('Board.findHint', () => {
 describe('Board.shuffle', () => {
   it('keeps positions and the kind multiset while looking for a move', () => {
     const board = Board.create(4, 4, ['a', 'b', 'c', 'd'], mulberry32(7));
-    const before = board.remainingTiles().map((tile) => ({
-      id: tile.id,
+    const beforePositions = board.remainingTiles().map((tile) => ({
       row: tile.row,
       col: tile.col,
     }));
+    const beforeIds = board.remainingTiles().map((tile) => tile.id).sort((a, b) => a - b);
     const beforeCounts = countKinds(board);
 
     const result = board.shuffle();
@@ -167,14 +167,165 @@ describe('Board.shuffle', () => {
     expect(result).toBe(true);
     expect(
       board.remainingTiles().map((tile) => ({
-        id: tile.id,
         row: tile.row,
         col: tile.col,
       })),
-    ).toEqual(before);
+    ).toEqual(beforePositions);
+    expect(
+      board.remainingTiles().map((tile) => tile.id).sort((a, b) => a - b),
+    ).toEqual(beforeIds);
     expect(countKinds(board)).toEqual(beforeCounts);
   });
+
+  it('falls back deterministically when bounded random attempts find no move', () => {
+    const board = Board.fromGrid(
+      [
+        ['a', 'b'],
+        ['b', 'a'],
+      ],
+      () => 0.99999,
+    );
+    const beforePositions = board.remainingTiles().map(({ row, col }) => ({
+      row,
+      col,
+    }));
+    const beforeCounts = countKinds(board);
+    const beforeKindsById = Object.fromEntries(
+      board.remainingTiles().map(({ id, kind }) => [id, kind]),
+    );
+
+    expect(board.hasMoves()).toBe(false);
+    expect(board.shuffle()).toBe(true);
+
+    expect(board.findHint()).toEqual([
+      { row: 0, col: 0 },
+      { row: 0, col: 1 },
+    ]);
+    expect(board.remainingTiles().map((tile) => tile.kind)).toEqual([
+      'a',
+      'a',
+      'b',
+      'b',
+    ]);
+    expect(board.remainingTiles().map((tile) => tile.id)).toEqual([1, 4, 3, 2]);
+    expect(countKinds(board)).toEqual(beforeCounts);
+    expect(
+      Object.fromEntries(board.remainingTiles().map(({ id, kind }) => [id, kind])),
+    ).toEqual(beforeKindsById);
+    expect(board.remainingTiles().map(({ row, col }) => ({ row, col }))).toEqual(
+      beforePositions,
+    );
+    for (const tile of board.remainingTiles()) {
+      expect(board.tileAt(tile.row, tile.col)?.id).toBe(tile.id);
+    }
+  });
 });
+
+describe('Board.rearrange', () => {
+  it.each(Array.from({ length: 11 }, (_, levelIndex) => levelIndex))(
+    'applies the stable packing rules for level index %i',
+    (levelIndex) => {
+      const grid = markerGrid();
+      const board = makeBoard(grid);
+      const expected = rearrangeReference(idGrid(board), levelIndex);
+
+      board.rearrange(levelIndex);
+
+      expect(idGrid(board)).toEqual(expected);
+      for (const tile of board.remainingTiles()) {
+        expect(board.tileAt(tile.row, tile.col)?.id).toBe(tile.id);
+      }
+    },
+  );
+
+  it('rejects an unknown level index', () => {
+    expect(() => makeBoard([['a', 'a']]).rearrange(11)).toThrow(/0 and 10/);
+  });
+});
+
+function markerGrid(): ReadonlyArray<ReadonlyArray<string | null>> {
+  const grid = Array.from({ length: 9 }, () =>
+    Array.from<string | null>({ length: 16 }).fill(null),
+  );
+  for (const [row, col] of [
+    [0, 1], [0, 6], [0, 9], [0, 14],
+    [2, 3], [2, 12], [5, 2], [5, 7],
+    [5, 10], [5, 15], [8, 0], [8, 13],
+  ]) {
+    grid[row]![col] = 'x';
+  }
+  return grid;
+}
+
+function idGrid(board: Board): (number | null)[][] {
+  return Array.from({ length: board.rows }, (_, row) =>
+    Array.from({ length: board.cols }, (_, col) => board.tileAt(row, col)?.id ?? null),
+  );
+}
+
+function rearrangeReference(
+  source: ReadonlyArray<ReadonlyArray<number | null>>,
+  levelIndex: number,
+): (number | null)[][] {
+  const grid = source.map((row) => [...row]);
+  const packRows = (leftDirection: 'left' | 'right', rightDirection = leftDirection) => {
+    for (let row = 0; row < 9; row += 1) {
+      packRow(grid, row, 0, rightDirection === leftDirection ? 15 : 7, leftDirection);
+      if (rightDirection !== leftDirection) packRow(grid, row, 8, 15, rightDirection);
+    }
+  };
+  const packColumns = (topDirection: 'up' | 'down', bottomDirection = topDirection) => {
+    for (let col = 0; col < 16; col += 1) {
+      packColumn(grid, col, 0, bottomDirection === topDirection ? 8 : 3, topDirection);
+      if (bottomDirection !== topDirection) packColumn(grid, col, 4, 8, bottomDirection);
+    }
+  };
+
+  switch (levelIndex) {
+    case 0: break;
+    case 1: packColumns('down'); break;
+    case 2: packRows('left'); break;
+    case 3: packColumns('up', 'down'); break;
+    case 4: packRows('left', 'right'); break;
+    case 5: packColumns('down', 'up'); break;
+    case 6: packRows('right', 'left'); break;
+    case 7:
+      for (let col = 0; col < 16; col += 1) packColumn(grid, col, 0, 8, col < 8 ? 'down' : 'up');
+      break;
+    case 8:
+      for (let row = 0; row < 9; row += 1) packRow(grid, row, 0, 15, row < 4 ? 'left' : 'right');
+      break;
+    case 9: packRows('left', 'right'); packColumns('up', 'down'); break;
+    case 10: packRows('right', 'left'); packColumns('down', 'up'); break;
+  }
+  return grid;
+}
+
+function packRow(
+  grid: (number | null)[][],
+  row: number,
+  start: number,
+  end: number,
+  direction: 'left' | 'right',
+): void {
+  const values = grid[row]!.slice(start, end + 1).filter((value): value is number => value !== null);
+  grid[row]!.fill(null, start, end + 1);
+  const offset = direction === 'left' ? start : end - values.length + 1;
+  values.forEach((value, index) => { grid[row]![offset + index] = value; });
+}
+
+function packColumn(
+  grid: (number | null)[][],
+  col: number,
+  start: number,
+  end: number,
+  direction: 'up' | 'down',
+): void {
+  const values = grid.slice(start, end + 1).map((row) => row[col]).filter((value): value is number => value !== null);
+  for (let row = start; row <= end; row += 1) grid[row]![col] = null;
+  const offset = direction === 'up' ? start : end - values.length + 1;
+  values.forEach((value, index) => { grid[offset + index]![col] = value; });
+}
 
 function countKinds(board: Board): Record<string, number> {
   return board.remainingTiles().reduce<Record<string, number>>((counts, tile) => {

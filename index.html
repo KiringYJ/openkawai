@@ -3,114 +3,13 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="theme-color" content="#1f2a24" />
+    <meta name="theme-color" content="#F7F7F2" />
     <meta name="color-scheme" content="light" />
-    <meta
-      name="description"
-      content="openkawai — KAWAI 連連看 2004 的網頁重寫原型。"
-    />
-    <title>openkawai · KAWAI 連連看 2004</title>
+    <meta name="description" content="openkawai 連連看：36 種動物、五種圖案風格、11 道經典關卡。在瀏覽器裡，找回配對的樂趣。" />
+    <title>openkawai · 動物連連看</title>
   </head>
   <body>
-    <a class="skip-link" href="#board">跳至棋盤</a>
-
-    <main class="shell">
-      <header class="masthead">
-        <div class="brand">
-          <p class="eyebrow">openkawai <span>/</span> web prototype</p>
-          <h1>
-            KAWAI 連連看
-            <span class="brand__year">2004</span>
-          </h1>
-          <p class="tagline">把童年配對遊戲，重新種在瀏覽器裡。</p>
-        </div>
-
-        <dl class="hud" aria-label="遊戲狀態">
-          <div class="hud__item hud__item--time">
-            <dt>時間</dt>
-            <dd id="time">05:00</dd>
-          </div>
-          <div class="hud__item">
-            <dt>分數</dt>
-            <dd id="score">0</dd>
-          </div>
-          <div class="hud__item">
-            <dt>剩餘</dt>
-            <dd id="remaining">96</dd>
-          </div>
-          <div class="hud__item hud__item--combo">
-            <dt>連擊</dt>
-            <dd id="combo">×0</dd>
-          </div>
-        </dl>
-      </header>
-
-      <div class="timer-track" aria-hidden="true">
-        <div id="timer-fill" class="timer-fill"></div>
-      </div>
-
-      <section class="stage" aria-label="遊戲區">
-        <div class="stage__bar">
-          <p id="status" class="status" role="status" aria-live="polite">
-            選取兩個相同圖案；連線最多轉兩個彎。
-          </p>
-          <div class="actions">
-            <button type="button" class="action" id="hint">
-              提示 <kbd>H</kbd>
-            </button>
-            <button type="button" class="action" id="shuffle">
-              洗牌 <kbd>S</kbd>
-            </button>
-            <button type="button" class="action" id="pause">
-              暫停 <kbd>P</kbd>
-            </button>
-            <button type="button" class="action action--quiet" id="restart">
-              重新開始 <kbd>R</kbd>
-            </button>
-          </div>
-        </div>
-
-        <div class="board-frame">
-          <div
-            id="board"
-            class="board"
-            role="group"
-            aria-label="連連看棋盤"
-            tabindex="-1"
-          ></div>
-          <svg id="path-layer" class="path-layer" aria-hidden="true"></svg>
-        </div>
-
-        <p id="board-note" class="board-note">
-          棋盤 12 × 8 · 原型規則：直線或最多兩次轉彎 · 外框可通行
-        </p>
-      </section>
-
-      <footer class="footer">
-        <p>
-          原始遊戲與美術權利屬原作者所有。本專案不含原作二進位或素材。
-        </p>
-        <p class="footer__meta">openkawai · M0 bootstrap · MIT</p>
-      </footer>
-    </main>
-
-    <dialog id="modal" class="modal" aria-labelledby="modal-title">
-      <div class="modal__panel">
-        <p id="modal-kicker" class="eyebrow">openkawai</p>
-        <h2 id="modal-title">遊戲結束</h2>
-        <p id="modal-copy" class="modal__copy"></p>
-        <dl id="modal-stats" class="modal__stats"></dl>
-        <div class="modal__actions">
-          <button type="button" id="modal-primary" class="button button--primary">
-            再玩一次
-          </button>
-          <button type="button" id="modal-secondary" class="button" hidden>
-            重新開始
-          </button>
-        </div>
-      </div>
-    </dialog>
-
+    <div id="app"></div>
     <script type="module" src="/src/main.ts"></script>
   </body>
 </html>

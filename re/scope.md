@@ -116,8 +116,10 @@ static/live status of each claim is tracked in [`AUDIT.md`](AUDIT.md).
 - The menu has three difficulty settings labelled 弱/強/超強 with
   1000/10000/100000 values.
 
-`src/` still contains the provisional prototype, but the gameplay rules
-recorded here are being corrected where needed. The level-specific vtable
+`src/` implements the recorded gameplay contract with pure TypeScript rules
+and a Vue/Vuetify interface. Licensed emoji themes and browser-local records
+are documented web adaptations; see [architecture](../docs/ARCHITECTURE.md)
+and [asset provenance](../docs/ASSETS.md). The level-specific vtable
 methods are **board rearrangements**, not visual updates; all eight transforms
 and the ten dispatch cases are decoded in RE-0018. Exact RNG sequences and
 original visual/audio assets remain outside the clean-room ruleset.
@@ -141,4 +143,5 @@ original visual/audio assets remain outside the clean-room ruleset.
 | Q-013 | What is each level's post-match board rearrangement?                  | confirmed: eight pack operations; L4/L6 single-axis, L10/L11 combine both; full dispatch in RE-0018 |
 | Q-014 | What does pause do in v1.01?                                          | confirmed: requires B>0; entry freezes timer; resume shuffles and spends 1 B; B=0 pause ignored |
 
-Add a finding in `findings/` before changing a provisional constant in `src/`.
+Add or update a finding in `findings/` before changing a rule that claims to
+match the original game.

@@ -2,32 +2,54 @@ export interface TileKind {
   readonly id: string;
   readonly glyph: string;
   readonly label: string;
-  readonly hue: number;
 }
 
 /**
- * Placeholder tile set drawn with CSS and text. These are deliberately simple
- * and original: no artwork from the 2004 game is stored in this repository.
- *
- * Replace this module (or add a local skin pack) once `re/assets/` records the
- * original tile vocabulary and a lawful asset route.
+ * The shared match identities used by every bundled art theme. Labels and
+ * glyphs are user-facing fallbacks; matching always uses the stable ID.
  */
-export const TILE_KINDS: ReadonlyArray<TileKind> = [
-  { id: 'sakura', glyph: '桜', label: '櫻', hue: 342 },
-  { id: 'moon', glyph: '月', label: '月', hue: 45 },
-  { id: 'star', glyph: '星', label: '星', hue: 273 },
-  { id: 'rain', glyph: '雨', label: '雨', hue: 210 },
-  { id: 'snow', glyph: '雪', label: '雪', hue: 188 },
-  { id: 'wind', glyph: '風', label: '風', hue: 158 },
-  { id: 'mountain', glyph: '山', label: '山', hue: 100 },
-  { id: 'river', glyph: '川', label: '川', hue: 224 },
-  { id: 'flower', glyph: '花', label: '花', hue: 12 },
-  { id: 'bird', glyph: '鳥', label: '鳥', hue: 300 },
-  { id: 'fish', glyph: '魚', label: '魚', hue: 198 },
-  { id: 'stone', glyph: '石', label: '石', hue: 28 },
-];
+export const TILE_KINDS = [
+  { id: 'elephant', glyph: '🐘', label: '大象' },
+  { id: 'giraffe', glyph: '🦒', label: '長頸鹿' },
+  { id: 'rabbit', glyph: '🐇', label: '兔子' },
+  { id: 'pig', glyph: '🐖', label: '豬' },
+  { id: 'two_hump_camel', glyph: '🐫', label: '雙峰駱駝' },
+  { id: 'kangaroo', glyph: '🦘', label: '袋鼠' },
+  { id: 'hedgehog', glyph: '🦔', label: '刺蝟' },
+  { id: 'skunk', glyph: '🦨', label: '臭鼬' },
+  { id: 'bat', glyph: '🦇', label: '蝙蝠' },
+  { id: 'penguin', glyph: '🐧', label: '企鵝' },
+  { id: 'owl', glyph: '🦉', label: '貓頭鷹' },
+  { id: 'duck', glyph: '🦆', label: '鴨子' },
+  { id: 'flamingo', glyph: '🦩', label: '紅鶴' },
+  { id: 'peacock', glyph: '🦚', label: '孔雀' },
+  { id: 'parrot', glyph: '🦜', label: '鸚鵡' },
+  { id: 'turtle', glyph: '🐢', label: '烏龜' },
+  { id: 'snake', glyph: '🐍', label: '蛇' },
+  { id: 'sauropod', glyph: '🦕', label: '蜥腳類恐龍' },
+  { id: 'dragon', glyph: '🐉', label: '龍' },
+  { id: 'spouting_whale', glyph: '🐳', label: '噴水鯨魚' },
+  { id: 'fish', glyph: '🐟', label: '魚' },
+  { id: 'tropical_fish', glyph: '🐠', label: '熱帶魚' },
+  { id: 'blowfish', glyph: '🐡', label: '河豚' },
+  { id: 'octopus', glyph: '🐙', label: '章魚' },
+  { id: 'squid', glyph: '🦑', label: '魷魚' },
+  { id: 'crab', glyph: '🦀', label: '螃蟹' },
+  { id: 'lobster', glyph: '🦞', label: '龍蝦' },
+  { id: 'jellyfish', glyph: '🪼', label: '水母' },
+  { id: 'coral', glyph: '🪸', label: '珊瑚' },
+  { id: 'oyster', glyph: '🦪', label: '牡蠣' },
+  { id: 'butterfly', glyph: '🦋', label: '蝴蝶' },
+  { id: 'honeybee', glyph: '🐝', label: '蜜蜂' },
+  { id: 'lady_beetle', glyph: '🐞', label: '瓢蟲' },
+  { id: 'beetle', glyph: '🪲', label: '甲蟲' },
+  { id: 'caterpillar', glyph: '🐛', label: '毛毛蟲' },
+  { id: 'snail', glyph: '🐌', label: '蝸牛' },
+] as const satisfies ReadonlyArray<TileKind>;
 
-const TILE_KIND_BY_ID = new Map(TILE_KINDS.map((kind) => [kind.id, kind]));
+const TILE_KIND_BY_ID = new Map<string, TileKind>(
+  TILE_KINDS.map((kind) => [kind.id, kind]),
+);
 
 export function tileKind(id: string): TileKind {
   const kind = TILE_KIND_BY_ID.get(id);
