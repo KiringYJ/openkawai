@@ -19,12 +19,21 @@ paths, immutable revisions, and per-file SHA-256 hashes are recorded in
 
 ### Microsoft Fluent Emoji
 
-Fluent 3D and Fluent Flat artwork is from
+Fluent 3D artwork is from
 [Microsoft Fluent Emoji](https://github.com/microsoft/fluentui-emoji),
 copyright Microsoft Corporation and licensed under the MIT License. The
 bundled files are pinned to commit
 `1ffb34c752ecf5d402f04cfb4b392c77f57c54bc`. The full licence is available at
 [`public/licenses/fluent-emoji-MIT.txt`](public/licenses/fluent-emoji-MIT.txt).
+
+Fluent Animated artwork is from
+[Microsoft Fluent Emoji Animated](https://github.com/microsoft/fluentui-emoji-animated),
+copyright Microsoft Corporation and licensed under the MIT License. The
+73 animated PNG files are pinned to commit
+`daa0365c09795789ed2bc6e8b228c97736cb6669`. Coral and oyster use the static
+Fluent 3D files and revision above because upstream provides no animations
+for them. The full animated artwork licence is available at
+[`public/licenses/fluent-emoji-animated-MIT.txt`](public/licenses/fluent-emoji-animated-MIT.txt).
 
 ### Google Noto Emoji
 
@@ -32,7 +41,7 @@ Noto Color Emoji artwork is from
 [Google Noto Emoji](https://github.com/googlefonts/noto-emoji), copyright
 Google, Inc., and licensed under the Apache License 2.0. The bundled animal
 images are pinned to commit `e20cbc2bbec1926686be9f9bee7d1d2cfa1fea0e`.
-Noto's separate flag-image exceptions do not apply to these 36 animal images.
+Noto's separate flag-image exceptions do not apply to these animal images.
 The applicable image licence is available at
 [`public/licenses/noto-emoji-Apache-2.0.txt`](public/licenses/noto-emoji-Apache-2.0.txt),
 with the upstream copyright notice at

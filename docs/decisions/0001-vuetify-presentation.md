@@ -4,6 +4,8 @@
 - Status: accepted (explicit project-owner request)
 - Supersedes: only the framework-free presentation choice in
   `re/decisions/0001-clean-room-web-reimplementation.md`
+- The fixed animal inventory below is superseded by
+  [`0002-expanded-animal-pool.md`](0002-expanded-animal-pool.md).
 
 ## Decision
 

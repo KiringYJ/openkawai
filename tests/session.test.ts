@@ -1,5 +1,10 @@
 import { describe, expect, it, vi } from 'vitest';
-import { createLayout, LEVELS, type LayoutDefinition } from '../src/content/layouts';
+import {
+  createLayout,
+  LEVEL_KIND_COUNT,
+  LEVELS,
+  type LayoutDefinition,
+} from '../src/content/layouts';
 import { TILE_KINDS } from '../src/content/tile-kinds';
 import { Board } from '../src/core/board';
 import { mulberry32 } from '../src/core/rng';
@@ -12,7 +17,7 @@ const testLayout: LayoutDefinition = {
   rows: 1,
   cols: 2,
   timeLimitMs: 10_000,
-  kindIds: [TILE_KINDS[0]!.id],
+  kindIds: TILE_KINDS.slice(0, LEVEL_KIND_COUNT).map((kind) => kind.id),
 };
 
 function board(grid: ReadonlyArray<ReadonlyArray<string | null>>): Board {
@@ -55,13 +60,91 @@ describe('confirmed layouts', () => {
 
   it('creates four copies of every kind on the 144-cell board', () => {
     const layout = createLayout(1, 0);
-    expect(layout.kindIds).toHaveLength(36);
-    const generated = Board.create(layout.rows, layout.cols, layout.kindIds, mulberry32(8));
-    const counts = generated.remainingTiles().reduce<Record<string, number>>((result, tile) => {
-      result[tile.kind] = (result[tile.kind] ?? 0) + 1;
-      return result;
-    }, {});
+    expect(layout.kindIds.length).toBeGreaterThanOrEqual(LEVEL_KIND_COUNT);
+    const session = new GameSession({ layout, seed: 8 });
+    const counts = tileKindCounts(session.board);
+    expect(session.layout.kindIds).toHaveLength(LEVEL_KIND_COUNT);
     expect(new Set(Object.values(counts))).toEqual(new Set([4]));
+  });
+});
+
+describe('GameSession level kind sampling', () => {
+  const candidateKindIds = Array.from({ length: 48 }, (_, index) => `kind-${index}`);
+  const expandedLayout: LayoutDefinition = {
+    ...createLayout(1, 0),
+    kindIds: candidateKindIds,
+  };
+
+  it('selects 36 distinct kinds without mutating the candidate pool and deals four copies each', () => {
+    const originalPool = [...candidateKindIds];
+    const session = new GameSession({ layout: expandedLayout, seed: 19 });
+
+    expect(session.layout.kindIds).toHaveLength(LEVEL_KIND_COUNT);
+    expect(new Set(session.layout.kindIds).size).toBe(LEVEL_KIND_COUNT);
+    expect(session.layout.kindIds.every((kind) => candidateKindIds.includes(kind))).toBe(true);
+    expect(candidateKindIds).toEqual(originalPool);
+
+    const counts = tileKindCounts(session.board);
+    expect(Object.keys(counts)).toHaveLength(LEVEL_KIND_COUNT);
+    expect(new Set(Object.values(counts))).toEqual(new Set([4]));
+  });
+
+  it('replays a seed exactly and varies the selected kinds across seeds', () => {
+    const first = new GameSession({ layout: expandedLayout, seed: 73 });
+    const replay = new GameSession({ layout: expandedLayout, seed: 73 });
+    const different = new GameSession({ layout: expandedLayout, seed: 74 });
+
+    expect(replay.layout.kindIds).toEqual(first.layout.kindIds);
+    expect(boardKinds(replay.board)).toEqual(boardKinds(first.board));
+    expect([...different.layout.kindIds].sort()).not.toEqual([...first.layout.kindIds].sort());
+  });
+
+  it('resamples from the full candidate pool on restart and level continuation', () => {
+    const prepared = board([['fixture', 'fixture']]);
+    const session = new GameSession({
+      layout: { ...expandedLayout, rows: 1, cols: 2 },
+      board: prepared,
+      seed: 11,
+    });
+    const initialSelection = [...session.layout.kindIds];
+
+    match(session, 0, 0, 0, 1);
+    expect(session.continueLevel()).toBe(true);
+    const nextLevelSelection = [...session.layout.kindIds];
+    expect(nextLevelSelection).toHaveLength(LEVEL_KIND_COUNT);
+    expect([...nextLevelSelection].sort()).not.toEqual([...initialSelection].sort());
+    expect(nextLevelSelection.every((kind) => candidateKindIds.includes(kind))).toBe(true);
+
+    session.restart(29);
+    const restartedSelection = [...session.layout.kindIds];
+    expect(restartedSelection).toHaveLength(LEVEL_KIND_COUNT);
+    expect(restartedSelection).not.toEqual(nextLevelSelection);
+    session.restart(29);
+    expect(session.layout.kindIds).toEqual(restartedSelection);
+  });
+
+  it('draws chance kinds only from the current level selection', () => {
+    const session = new GameSession({ layout: expandedLayout, seed: 101 });
+    const selected = new Set(session.layout.kindIds);
+
+    expect(selected.has(session.chanceKind)).toBe(true);
+    for (let count = 0; count < 5; count += 1) {
+      expect(session.shuffle()).toBe(true);
+      expect(selected.has(session.chanceKind)).toBe(true);
+    }
+  });
+
+  it('keeps every kind in a small custom layout', () => {
+    const kindIds = ['small-a', 'small-b'];
+    const session = new GameSession({
+      layout: { ...testLayout, rows: 2, cols: 2, kindIds },
+      seed: 4,
+    });
+
+    expect(session.layout.kindIds).toEqual(kindIds);
+    expect(new Set(session.board.remainingTiles().map((tile) => tile.kind))).toEqual(
+      new Set(kindIds),
+    );
   });
 });
 
@@ -232,9 +315,9 @@ describe('GameSession resources and move cache', () => {
 });
 
 describe('GameSession chance cards and continuation', () => {
-  it('uses the full tile-kind pool for chance rerolls', () => {
+  it('uses the current layout kind pool for chance rerolls', () => {
     const session = sessionWith([['not-in-pool', 'not-in-pool']]);
-    expect(TILE_KINDS.map((kind) => kind.id)).toContain(session.chanceKind);
+    expect(session.layout.kindIds).toContain(session.chanceKind);
     expect(session.chanceKind).not.toBe('not-in-pool');
   });
 
@@ -387,8 +470,19 @@ function match(
   return session.select(secondRow, secondCol);
 }
 
+function tileKindCounts(board: Board): Record<string, number> {
+  return board.remainingTiles().reduce<Record<string, number>>((result, tile) => {
+    result[tile.kind] = (result[tile.kind] ?? 0) + 1;
+    return result;
+  }, {});
+}
+
+function boardKinds(board: Board): string[] {
+  return board.remainingTiles().map((tile) => tile.kind);
+}
+
 function seedForRepeatedKind(kind: string, count: number): number {
-  const pool = TILE_KINDS.map((tileKind) => tileKind.id);
+  const pool = testLayout.kindIds;
   for (let seed = 0; seed < 2_000_000; seed += 1) {
     const rng = mulberry32(seed);
     if (Array.from({ length: count }, () => pool[Math.floor(rng() * pool.length)]).every((value) => value === kind)) {
@@ -399,7 +493,7 @@ function seedForRepeatedKind(kind: string, count: number): number {
 }
 
 function seedForPattern(firstKind: string, secondMatches: boolean): number {
-  const pool = TILE_KINDS.map((tileKind) => tileKind.id);
+  const pool = testLayout.kindIds;
   for (let seed = 0; seed < 100_000; seed += 1) {
     const rng = mulberry32(seed);
     const first = pool[Math.floor(rng() * pool.length)];

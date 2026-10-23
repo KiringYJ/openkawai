@@ -26,6 +26,11 @@ the static/live claim matrix in [`AUDIT.md`](AUDIT.md).
   all 144 cells.
 - Shuffle preserves the remaining multiset and rearranges positions.
 
+The web version deliberately samples 36 kinds per level from a larger curated
+animal pool. This adaptation preserves 144 tiles and four copies per selected
+kind; it is distinct from the original fixed inventory above. See
+[`the animal-pool decision`](../docs/decisions/0002-expanded-animal-pool.md).
+
 ## Matching and path
 
 - Select two present tiles with equal `match_id`. Because the alias IDs in each

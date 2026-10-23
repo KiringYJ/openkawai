@@ -18,6 +18,15 @@ describe('settings persistence', () => {
     expect(loadSettings(storage)).toEqual({ tileTheme: 'openmoji', difficulty: 2 });
   });
 
+  it('remembers Fluent Animated and migrates the retired Fluent Flat setting', () => {
+    const storage = memoryStorage();
+    expect(saveSettings(storage, { tileTheme: 'fluentanimated', difficulty: 0 })).toBe(true);
+    expect(loadSettings(storage)).toEqual({ tileTheme: 'fluentanimated', difficulty: 0 });
+
+    storage.setItem(SETTINGS_KEY, JSON.stringify({ tileTheme: 'fluentflat', difficulty: 2 }));
+    expect(loadSettings(storage)).toEqual({ tileTheme: 'fluentanimated', difficulty: 2 });
+  });
+
   it('falls back independently for unknown or malformed values', () => {
     const storage = memoryStorage();
     storage.setItem(SETTINGS_KEY, '{broken');

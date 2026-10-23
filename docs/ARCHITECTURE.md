@@ -24,8 +24,9 @@ to composition, animal tile geometry, focus/match feedback, and SVG paths.
 ## Board and coordinates
 
 `Board` owns pair construction, legal paths, hints, shuffle, removal, and
-level rearrangements. The playable grid is 16 columns × 9 rows, with 36 kinds
-appearing four times each. All themes share those identities; no separate
+level rearrangements. The playable grid is 16 columns × 9 rows. The session
+samples 36 distinct kinds from the curated candidate pool for each level and
+deals four copies of each. All themes share those identities; no separate
 internal aliases are needed because the original aliases look and match alike.
 
 Public coordinates are zero-based. Paths may use `-1`, `rows`, or `cols` to
@@ -67,6 +68,13 @@ stars, weighted picks and the reward deck. A final-pair third star opens cards
 before clear scoring. Level continuation preserves stars and score, adds a
 hint, and adds a shuffle except on the weak difficulty.
 
+The constructor snapshots the full candidate pool. Level creation and restart
+sample a copy with the session RNG without changing that pool. The current
+layout exposes only the selected kinds. Chance rerolls use this level's full
+selection, including selected kinds already removed, rather than every
+candidate or only the remaining tiles. Small custom layouts retain all their
+kinds when fewer than 36 are supplied.
+
 The view passes measured elapsed milliseconds to `tick`. Time continues in
 background tabs and while settings/instructions are open; only session phases
 that freeze time stop it. The app settles elapsed time before a tile or helper
@@ -94,7 +102,10 @@ only when needed. Content dialogs retain their own scrolling when needed.
 
 ## Content and persistence
 
-`tile-kinds.ts` holds the exact 36 selected animals. `tile-themes.ts` maps each
+`tile-catalog.json` is the shared candidate and upstream-path inventory used by
+`tile-kinds.ts` and the dependency-free asset downloader. The selection criteria
+and exclusions are recorded in [`ANIMAL_SELECTION.md`](ANIMAL_SELECTION.md).
+`tile-themes.ts` maps each
 stable kind to a local image path beneath Vite's configured base. The complete
 art inventory and pinned upstream hashes are in `public/tiles/manifest.json`.
 
@@ -111,7 +122,7 @@ preferences/records, not a session.
 
 - `board.test.ts`: paths, border routing, counts, shuffles, transformations,
   stable tile identities, and coordinates.
-- `session.test.ts`: formulas, phases, resources, chance cards, final-pair
+- `session.test.ts`: seeded per-level selection, formulas, phases, resources, chance cards, final-pair
   precedence, continuation, pause, and no-move failure.
 - `persistence.test.ts`: theme/difficulty round trips, denied storage, input
   validation, score qualification, ties, and completed records.

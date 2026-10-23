@@ -1,29 +1,16 @@
 import { createHash } from 'node:crypto';
-import { readFileSync } from 'node:fs';
+import { readFileSync, readdirSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { describe, expect, it } from 'vitest';
+import catalog from '../src/content/tile-catalog.json';
 import { TILE_KINDS, tileKind } from '../src/content/tile-kinds';
+import { LEVEL_KIND_COUNT } from '../src/content/layouts';
 import {
   DEFAULT_TILE_THEME,
   TILE_THEMES,
   tileImageUrl,
   type TileThemeId,
 } from '../src/content/tile-themes';
-
-const expectedIdentities = [
-  ['elephant', '🐘', '大象'], ['giraffe', '🦒', '長頸鹿'], ['rabbit', '🐇', '兔子'],
-  ['pig', '🐖', '豬'], ['two_hump_camel', '🐫', '雙峰駱駝'], ['kangaroo', '🦘', '袋鼠'],
-  ['hedgehog', '🦔', '刺蝟'], ['skunk', '🦨', '臭鼬'], ['bat', '🦇', '蝙蝠'],
-  ['penguin', '🐧', '企鵝'], ['owl', '🦉', '貓頭鷹'], ['duck', '🦆', '鴨子'],
-  ['flamingo', '🦩', '紅鶴'], ['peacock', '🦚', '孔雀'], ['parrot', '🦜', '鸚鵡'],
-  ['turtle', '🐢', '烏龜'], ['snake', '🐍', '蛇'], ['sauropod', '🦕', '蜥腳類恐龍'],
-  ['dragon', '🐉', '龍'], ['spouting_whale', '🐳', '噴水鯨魚'], ['fish', '🐟', '魚'],
-  ['tropical_fish', '🐠', '熱帶魚'], ['blowfish', '🐡', '河豚'], ['octopus', '🐙', '章魚'],
-  ['squid', '🦑', '魷魚'], ['crab', '🦀', '螃蟹'], ['lobster', '🦞', '龍蝦'],
-  ['jellyfish', '🪼', '水母'], ['coral', '🪸', '珊瑚'], ['oyster', '🦪', '牡蠣'],
-  ['butterfly', '🦋', '蝴蝶'], ['honeybee', '🐝', '蜜蜂'], ['lady_beetle', '🐞', '瓢蟲'],
-  ['beetle', '🪲', '甲蟲'], ['caterpillar', '🐛', '毛毛蟲'], ['snail', '🐌', '蝸牛'],
-] as const;
 
 interface AssetManifest {
   readonly tileCount: number;
@@ -33,6 +20,7 @@ interface AssetManifest {
     readonly theme: TileThemeId;
     readonly kindId: string;
     readonly path: string;
+    readonly staticFallback?: boolean;
     readonly bytes: number;
     readonly sha256: string;
   }>;
@@ -44,22 +32,90 @@ const manifest = JSON.parse(
 ) as AssetManifest;
 
 describe('bundled tile assets', () => {
-  it('uses the exact 36 unique identities from the approved selection', () => {
-    expect(TILE_KINDS.map(({ id, glyph, label }) => [id, glyph, label])).toEqual(
-      expectedIdentities,
-    );
-    expect(new Set(TILE_KINDS.map(({ id }) => id))).toHaveLength(36);
+  it('provides a larger, unique candidate pool with matching Unicode metadata', () => {
+    expect(TILE_KINDS.length).toBeGreaterThan(LEVEL_KIND_COUNT);
+    expect(new Set(TILE_KINDS.map(({ id }) => id)).size).toBe(TILE_KINDS.length);
+    expect(new Set(catalog.map(({ codepoint }) => codepoint)).size).toBe(catalog.length);
     expect(TILE_KINDS.every((kind) => tileKind(kind.id) === kind)).toBe(true);
+    for (const kind of catalog) {
+      const codepoint = [...kind.glyph].map((part) => part.codePointAt(0)!.toString(16))
+        .filter((part) => part !== 'fe0f').join('-');
+      expect(kind.codepoint, kind.id).toBe(codepoint);
+    }
+  });
+
+  it('excludes agreed pests and the near-identical camel variant while retaining allowed insects', () => {
+    const ids = TILE_KINDS.map(({ id }) => id);
+    for (const id of ['cockroach', 'mosquito', 'fly', 'ant', 'camel']) {
+      expect(ids).not.toContain(id);
+    }
+    for (const id of ['two_hump_camel', 'butterfly', 'honeybee', 'lady_beetle', 'beetle', 'caterpillar', 'snail']) {
+      expect(ids).toContain(id);
+    }
+  });
+
+  it('keeps one representative per confusable group and omits audited cropped artwork', () => {
+    const ids = new Set(TILE_KINDS.map(({ id }) => id));
+    for (const group of [
+      ['mouse', 'rat'], ['cow', 'ox', 'water_buffalo', 'bison'], ['ewe', 'ram'],
+      ['cat', 'black_cat'], ['dog', 'service_dog', 'guide_dog', 'poodle'],
+      ['bird', 'black_bird'], ['spouting_whale', 'whale'],
+    ]) {
+      expect(group.filter((id) => ids.has(id)), group.join(', ')).toHaveLength(1);
+    }
+    for (const id of [
+      'chicken', 'boar', 'hatching_chick', 'baby_chick', 'front_facing_baby_chick',
+      'deer', 'gorilla', 'rhinoceros', 'zebra', 'hedgehog', 'raccoon', 'moose',
+    ]) {
+      expect(ids.has(id), id).toBe(false);
+    }
   });
 
   it('defines five complete themes with Fluent 3D as the default', () => {
     expect(TILE_THEMES.map(({ id }) => id)).toEqual([
-      'fluent3d', 'fluentflat', 'noto', 'twemoji', 'openmoji',
+      'fluent3d', 'fluentanimated', 'noto', 'twemoji', 'openmoji',
     ]);
     expect(DEFAULT_TILE_THEME).toBe('fluent3d');
-    expect(manifest).toMatchObject({ tileCount: 36, themeCount: 5, fileCount: 180 });
+    expect(manifest).toMatchObject({
+      tileCount: TILE_KINDS.length,
+      themeCount: TILE_THEMES.length,
+      fileCount: TILE_KINDS.length * TILE_THEMES.length,
+    });
+    expect(readdirSync(`${publicDirectory}tiles`).filter((name) => name !== 'manifest.json').sort())
+      .toEqual(TILE_THEMES.map(({ id }) => id).sort());
     for (const theme of TILE_THEMES) {
-      expect(manifest.files.filter((file) => file.theme === theme.id)).toHaveLength(36);
+      expect(manifest.files.filter((file) => file.theme === theme.id)).toHaveLength(TILE_KINDS.length);
+      expect(readdirSync(`${publicDirectory}tiles/${theme.id}`).sort()).toEqual(
+        TILE_KINDS.map(({ id }) => `${id}.${theme.extension}`).sort(),
+      );
+    }
+  });
+
+  it('bundles real animated PNGs and the documented static fallbacks', () => {
+    const animatedFiles = manifest.files.filter((file) => file.theme === 'fluentanimated');
+    expect(animatedFiles.filter((file) => file.staticFallback).map((file) => file.kindId))
+      .toEqual(catalog.filter((kind) => !kind.fluentAnimatedPath).map((kind) => kind.id));
+
+    for (const file of animatedFiles) {
+      const bytes = readFileSync(`${publicDirectory}${file.path}`);
+      let frameCount = 0;
+      for (let offset = 8; offset + 12 <= bytes.length;) {
+        const length = bytes.readUInt32BE(offset);
+        if (bytes.toString('ascii', offset + 4, offset + 8) === 'acTL') {
+          frameCount = bytes.readUInt32BE(offset + 8);
+          break;
+        }
+        offset += length + 12;
+      }
+
+      if (file.staticFallback) {
+        expect(frameCount, file.kindId).toBe(0);
+        expect(file.sha256).toBe(manifest.files.find(
+          (source) => source.theme === 'fluent3d' && source.kindId === file.kindId,
+        )?.sha256);
+      } else {
+        expect(frameCount, file.kindId).toBeGreaterThan(1);
+      }
     }
   });
 

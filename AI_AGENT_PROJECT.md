@@ -12,10 +12,10 @@ depend on the DOM:
   `cards`, `won`, `completed`, `lost`) covering rules and progression.
 - `src/ui/` — Vue/Vuetify app, board input/focus, artwork, settings, menus,
   chance cards, and pause/result/name-entry/record dialogs.
-- `src/content/` — data-only levels, 36 animal kinds, and five visual themes.
+- `src/content/` — level data, a curated animal candidate catalog, and five visual themes.
 - `src/config/` — validated persistent settings and injected storage access.
 - `src/game/high-scores.ts` — score ranking, name validation, and persistence.
-- `public/tiles/` — 180 licensed images and a source/hash manifest.
+- `public/tiles/` — 375 licensed images and a source/hash manifest.
 - `src/main.ts` — composition root; mounts Vue with the Vuetify theme and icons.
 
 The board is rendered as a CSS grid with a one-cell empty outer ring. The
@@ -77,7 +77,8 @@ completion.
 | `src/ui/App.vue` | Session lifetime, timer, menus, and dialogs. |
 | `src/ui/GameBoard.vue` | Vuetify tiles, focus, and connection paths. |
 | `src/content/layouts.ts` | Confirmed levels, sizes, and difficulty timers. |
-| `src/content/tile-kinds.ts` | Exact selected 36 animal identities. |
+| `src/content/tile-catalog.json` | Curated candidates and pinned upstream path mappings. |
+| `src/content/tile-kinds.ts` | Shared animal identity lookup. |
 | `src/content/tile-themes.ts` | Five interchangeable local image themes. |
 | `src/styles.css` | Visual system, responsive layout, animation policy. |
 | `tests/board.test.ts` | Path and board invariants. |

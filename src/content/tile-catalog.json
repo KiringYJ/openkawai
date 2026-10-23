@@ -1,0 +1,677 @@
+[
+  {
+    "id": "elephant",
+    "glyph": "🐘",
+    "label": "大象",
+    "codepoint": "1f418",
+    "fluentName": "Elephant",
+    "fluentSlug": "elephant",
+    "fluentAnimatedPath": "assets/Elephant/animated/elephant_animated.png"
+  },
+  {
+    "id": "giraffe",
+    "glyph": "🦒",
+    "label": "長頸鹿",
+    "codepoint": "1f992",
+    "fluentName": "Giraffe",
+    "fluentSlug": "giraffe",
+    "fluentAnimatedPath": "assets/Giraffe/animated/giraffe_animated.png"
+  },
+  {
+    "id": "rabbit",
+    "glyph": "🐇",
+    "label": "兔子",
+    "codepoint": "1f407",
+    "fluentName": "Rabbit",
+    "fluentSlug": "rabbit",
+    "fluentAnimatedPath": "assets/Rabbit/animated/rabbit_animated.png"
+  },
+  {
+    "id": "pig",
+    "glyph": "🐖",
+    "label": "豬",
+    "codepoint": "1f416",
+    "fluentName": "Pig",
+    "fluentSlug": "pig",
+    "fluentAnimatedPath": "assets/Pig/animated/pig_animated.png"
+  },
+  {
+    "id": "two_hump_camel",
+    "glyph": "🐫",
+    "label": "雙峰駱駝",
+    "codepoint": "1f42b",
+    "fluentName": "Two-hump camel",
+    "fluentSlug": "two-hump_camel",
+    "fluentAnimatedPath": "assets/Two-hump camel/animated/two-hump_camel_animated.png"
+  },
+  {
+    "id": "kangaroo",
+    "glyph": "🦘",
+    "label": "袋鼠",
+    "codepoint": "1f998",
+    "fluentName": "Kangaroo",
+    "fluentSlug": "kangaroo",
+    "fluentAnimatedPath": "assets/Kangaroo/animated/kangaroo_animated.png"
+  },
+  {
+    "id": "skunk",
+    "glyph": "🦨",
+    "label": "臭鼬",
+    "codepoint": "1f9a8",
+    "fluentName": "Skunk",
+    "fluentSlug": "skunk",
+    "fluentAnimatedPath": "assets/Skunk/animated/skunk_animated.png"
+  },
+  {
+    "id": "bat",
+    "glyph": "🦇",
+    "label": "蝙蝠",
+    "codepoint": "1f987",
+    "fluentName": "Bat",
+    "fluentSlug": "bat",
+    "fluentAnimatedPath": "assets/Bat/animated/bat_animated.png"
+  },
+  {
+    "id": "penguin",
+    "glyph": "🐧",
+    "label": "企鵝",
+    "codepoint": "1f427",
+    "fluentName": "Penguin",
+    "fluentSlug": "penguin",
+    "fluentAnimatedPath": "assets/Penguin/animated/penguin_animated.png"
+  },
+  {
+    "id": "owl",
+    "glyph": "🦉",
+    "label": "貓頭鷹",
+    "codepoint": "1f989",
+    "fluentName": "Owl",
+    "fluentSlug": "owl",
+    "fluentAnimatedPath": "assets/Owl/animated/owl_animated.png"
+  },
+  {
+    "id": "duck",
+    "glyph": "🦆",
+    "label": "鴨子",
+    "codepoint": "1f986",
+    "fluentName": "Duck",
+    "fluentSlug": "duck",
+    "fluentAnimatedPath": "assets/Duck/animated/duck_animated.png"
+  },
+  {
+    "id": "flamingo",
+    "glyph": "🦩",
+    "label": "紅鶴",
+    "codepoint": "1f9a9",
+    "fluentName": "Flamingo",
+    "fluentSlug": "flamingo",
+    "fluentAnimatedPath": "assets/Flamingo/animated/flamingo_animated.png"
+  },
+  {
+    "id": "peacock",
+    "glyph": "🦚",
+    "label": "孔雀",
+    "codepoint": "1f99a",
+    "fluentName": "Peacock",
+    "fluentSlug": "peacock",
+    "fluentAnimatedPath": "assets/Peacock/animated/peacock_animated.png"
+  },
+  {
+    "id": "parrot",
+    "glyph": "🦜",
+    "label": "鸚鵡",
+    "codepoint": "1f99c",
+    "fluentName": "Parrot",
+    "fluentSlug": "parrot",
+    "fluentAnimatedPath": "assets/Parrot/animated/parrot_animated.png"
+  },
+  {
+    "id": "turtle",
+    "glyph": "🐢",
+    "label": "烏龜",
+    "codepoint": "1f422",
+    "fluentName": "Turtle",
+    "fluentSlug": "turtle",
+    "fluentAnimatedPath": "assets/Turtle/animated/turtle_animated.png"
+  },
+  {
+    "id": "snake",
+    "glyph": "🐍",
+    "label": "蛇",
+    "codepoint": "1f40d",
+    "fluentName": "Snake",
+    "fluentSlug": "snake",
+    "fluentAnimatedPath": "assets/Snake/animated/snake_animated.png"
+  },
+  {
+    "id": "sauropod",
+    "glyph": "🦕",
+    "label": "蜥腳類恐龍",
+    "codepoint": "1f995",
+    "fluentName": "Sauropod",
+    "fluentSlug": "sauropod",
+    "fluentAnimatedPath": "assets/Sauropod/animated/sauropod_animated.png"
+  },
+  {
+    "id": "dragon",
+    "glyph": "🐉",
+    "label": "龍",
+    "codepoint": "1f409",
+    "fluentName": "Dragon",
+    "fluentSlug": "dragon",
+    "fluentAnimatedPath": "assets/Dragon/animated/dragon_animated.png"
+  },
+  {
+    "id": "spouting_whale",
+    "glyph": "🐳",
+    "label": "噴水鯨魚",
+    "codepoint": "1f433",
+    "fluentName": "Spouting whale",
+    "fluentSlug": "spouting_whale",
+    "fluentAnimatedPath": "assets/Spouting whale/animated/spouting_whale_animated.png"
+  },
+  {
+    "id": "fish",
+    "glyph": "🐟",
+    "label": "魚",
+    "codepoint": "1f41f",
+    "fluentName": "Fish",
+    "fluentSlug": "fish",
+    "fluentAnimatedPath": "assets/Fish/animated/fish_animated.png"
+  },
+  {
+    "id": "tropical_fish",
+    "glyph": "🐠",
+    "label": "熱帶魚",
+    "codepoint": "1f420",
+    "fluentName": "Tropical fish",
+    "fluentSlug": "tropical_fish",
+    "fluentAnimatedPath": "assets/Tropical fish/animated/tropical_fish_animated.png"
+  },
+  {
+    "id": "blowfish",
+    "glyph": "🐡",
+    "label": "河豚",
+    "codepoint": "1f421",
+    "fluentName": "Blowfish",
+    "fluentSlug": "blowfish",
+    "fluentAnimatedPath": "assets/Blowfish/animated/blowfish_animated.png"
+  },
+  {
+    "id": "octopus",
+    "glyph": "🐙",
+    "label": "章魚",
+    "codepoint": "1f419",
+    "fluentName": "Octopus",
+    "fluentSlug": "octopus",
+    "fluentAnimatedPath": "assets/Octopus/animated/octopus_animated.png"
+  },
+  {
+    "id": "squid",
+    "glyph": "🦑",
+    "label": "魷魚",
+    "codepoint": "1f991",
+    "fluentName": "Squid",
+    "fluentSlug": "squid",
+    "fluentAnimatedPath": "assets/Squid/animated/squid_animated.png"
+  },
+  {
+    "id": "crab",
+    "glyph": "🦀",
+    "label": "螃蟹",
+    "codepoint": "1f980",
+    "fluentName": "Crab",
+    "fluentSlug": "crab",
+    "fluentAnimatedPath": "assets/Crab/animated/crab_animated.png"
+  },
+  {
+    "id": "lobster",
+    "glyph": "🦞",
+    "label": "龍蝦",
+    "codepoint": "1f99e",
+    "fluentName": "Lobster",
+    "fluentSlug": "lobster",
+    "fluentAnimatedPath": "assets/Lobster/animated/lobster_animated.png"
+  },
+  {
+    "id": "jellyfish",
+    "glyph": "🪼",
+    "label": "水母",
+    "codepoint": "1fabc",
+    "fluentName": "Jellyfish",
+    "fluentSlug": "jellyfish",
+    "fluentAnimatedPath": "assets/Jellyfish/animated/jellyfish_animated.png"
+  },
+  {
+    "id": "coral",
+    "glyph": "🪸",
+    "label": "珊瑚",
+    "codepoint": "1fab8",
+    "fluentName": "Coral",
+    "fluentSlug": "coral",
+    "fluentAnimatedPath": null
+  },
+  {
+    "id": "oyster",
+    "glyph": "🦪",
+    "label": "牡蠣",
+    "codepoint": "1f9aa",
+    "fluentName": "Oyster",
+    "fluentSlug": "oyster",
+    "fluentAnimatedPath": null
+  },
+  {
+    "id": "butterfly",
+    "glyph": "🦋",
+    "label": "蝴蝶",
+    "codepoint": "1f98b",
+    "fluentName": "Butterfly",
+    "fluentSlug": "butterfly",
+    "fluentAnimatedPath": "assets/Butterfly/animated/butterfly_animated.png"
+  },
+  {
+    "id": "honeybee",
+    "glyph": "🐝",
+    "label": "蜜蜂",
+    "codepoint": "1f41d",
+    "fluentName": "Honeybee",
+    "fluentSlug": "honeybee",
+    "fluentAnimatedPath": "assets/Honeybee/animated/honeybee_animated.png"
+  },
+  {
+    "id": "lady_beetle",
+    "glyph": "🐞",
+    "label": "瓢蟲",
+    "codepoint": "1f41e",
+    "fluentName": "Lady beetle",
+    "fluentSlug": "lady_beetle",
+    "fluentAnimatedPath": "assets/Lady beetle/animated/lady_beetle_animated.png"
+  },
+  {
+    "id": "beetle",
+    "glyph": "🪲",
+    "label": "甲蟲",
+    "codepoint": "1fab2",
+    "fluentName": "Beetle",
+    "fluentSlug": "beetle",
+    "fluentAnimatedPath": "assets/Beetle/animated/beetle_animated.png"
+  },
+  {
+    "id": "caterpillar",
+    "glyph": "🐛",
+    "label": "毛毛蟲",
+    "codepoint": "1f41b",
+    "fluentName": "Bug",
+    "fluentSlug": "bug",
+    "fluentAnimatedPath": "assets/Bug/animated/bug_animated.png"
+  },
+  {
+    "id": "snail",
+    "glyph": "🐌",
+    "label": "蝸牛",
+    "codepoint": "1f40c",
+    "fluentName": "Snail",
+    "fluentSlug": "snail",
+    "fluentAnimatedPath": "assets/Snail/animated/snail_animated.png"
+  },
+  {
+    "id": "mouse",
+    "glyph": "🐁",
+    "label": "小鼠",
+    "codepoint": "1f401",
+    "fluentName": "Mouse",
+    "fluentSlug": "mouse",
+    "fluentAnimatedPath": "assets/Mouse/animated/mouse_animated.png"
+  },
+  {
+    "id": "cow",
+    "glyph": "🐄",
+    "label": "乳牛",
+    "codepoint": "1f404",
+    "fluentName": "Cow",
+    "fluentSlug": "cow",
+    "fluentAnimatedPath": "assets/Cow/animated/cow_animated.png"
+  },
+  {
+    "id": "tiger",
+    "glyph": "🐅",
+    "label": "老虎",
+    "codepoint": "1f405",
+    "fluentName": "Tiger",
+    "fluentSlug": "tiger",
+    "fluentAnimatedPath": "assets/Tiger/animated/tiger_animated.png"
+  },
+  {
+    "id": "leopard",
+    "glyph": "🐆",
+    "label": "花豹",
+    "codepoint": "1f406",
+    "fluentName": "Leopard",
+    "fluentSlug": "leopard",
+    "fluentAnimatedPath": "assets/Leopard/animated/leopard_animated.png"
+  },
+  {
+    "id": "cat",
+    "glyph": "🐈",
+    "label": "貓",
+    "codepoint": "1f408",
+    "fluentName": "Cat",
+    "fluentSlug": "cat",
+    "fluentAnimatedPath": "assets/Cat/animated/cat_animated.png"
+  },
+  {
+    "id": "crocodile",
+    "glyph": "🐊",
+    "label": "鱷魚",
+    "codepoint": "1f40a",
+    "fluentName": "Crocodile",
+    "fluentSlug": "crocodile",
+    "fluentAnimatedPath": "assets/Crocodile/animated/crocodile_animated.png"
+  },
+  {
+    "id": "horse",
+    "glyph": "🐎",
+    "label": "馬",
+    "codepoint": "1f40e",
+    "fluentName": "Horse",
+    "fluentSlug": "horse",
+    "fluentAnimatedPath": "assets/Horse/animated/horse_animated.png"
+  },
+  {
+    "id": "goat",
+    "glyph": "🐐",
+    "label": "山羊",
+    "codepoint": "1f410",
+    "fluentName": "Goat",
+    "fluentSlug": "goat",
+    "fluentAnimatedPath": "assets/Goat/animated/goat_animated.png"
+  },
+  {
+    "id": "ewe",
+    "glyph": "🐑",
+    "label": "綿羊",
+    "codepoint": "1f411",
+    "fluentName": "Ewe",
+    "fluentSlug": "ewe",
+    "fluentAnimatedPath": "assets/Ewe/animated/ewe_animated.png"
+  },
+  {
+    "id": "monkey",
+    "glyph": "🐒",
+    "label": "猴子",
+    "codepoint": "1f412",
+    "fluentName": "Monkey",
+    "fluentSlug": "monkey",
+    "fluentAnimatedPath": "assets/Monkey/animated/monkey_animated.png"
+  },
+  {
+    "id": "rooster",
+    "glyph": "🐓",
+    "label": "公雞",
+    "codepoint": "1f413",
+    "fluentName": "Rooster",
+    "fluentSlug": "rooster",
+    "fluentAnimatedPath": "assets/Rooster/animated/rooster_animated.png"
+  },
+  {
+    "id": "dog",
+    "glyph": "🐕",
+    "label": "狗",
+    "codepoint": "1f415",
+    "fluentName": "Dog",
+    "fluentSlug": "dog",
+    "fluentAnimatedPath": "assets/Dog/animated/dog_animated.png"
+  },
+  {
+    "id": "bird",
+    "glyph": "🐦",
+    "label": "鳥",
+    "codepoint": "1f426",
+    "fluentName": "Bird",
+    "fluentSlug": "bird",
+    "fluentAnimatedPath": "assets/Bird/animated/bird_animated.png"
+  },
+  {
+    "id": "phoenix",
+    "glyph": "🐦‍🔥",
+    "label": "鳳凰",
+    "codepoint": "1f426-200d-1f525",
+    "fluentName": "Phoenix bird",
+    "fluentSlug": "phoenix_bird",
+    "fluentAnimatedPath": "assets/Phoenix/animated/phoenix_animated.png"
+  },
+  {
+    "id": "dolphin",
+    "glyph": "🐬",
+    "label": "海豚",
+    "codepoint": "1f42c",
+    "fluentName": "Dolphin",
+    "fluentSlug": "dolphin",
+    "fluentAnimatedPath": "assets/Dolphin/animated/dolphin_animated.png"
+  },
+  {
+    "id": "chipmunk",
+    "glyph": "🐿️",
+    "label": "花栗鼠",
+    "codepoint": "1f43f",
+    "fluentName": "Chipmunk",
+    "fluentSlug": "chipmunk",
+    "fluentAnimatedPath": "assets/Chipmunk/animated/chipmunk_animated.png"
+  },
+  {
+    "id": "dove",
+    "glyph": "🕊️",
+    "label": "鴿子",
+    "codepoint": "1f54a",
+    "fluentName": "Dove",
+    "fluentSlug": "dove",
+    "fluentAnimatedPath": "assets/Dove/animated/dove_animated.png"
+  },
+  {
+    "id": "spider",
+    "glyph": "🕷️",
+    "label": "蜘蛛",
+    "codepoint": "1f577",
+    "fluentName": "Spider",
+    "fluentSlug": "spider",
+    "fluentAnimatedPath": "assets/Spider/animated/spider_animated.png"
+  },
+  {
+    "id": "scorpion",
+    "glyph": "🦂",
+    "label": "蠍子",
+    "codepoint": "1f982",
+    "fluentName": "Scorpion",
+    "fluentSlug": "scorpion",
+    "fluentAnimatedPath": "assets/Scorpion/animated/scorpion_animated.png"
+  },
+  {
+    "id": "turkey",
+    "glyph": "🦃",
+    "label": "火雞",
+    "codepoint": "1f983",
+    "fluentName": "Turkey",
+    "fluentSlug": "turkey",
+    "fluentAnimatedPath": "assets/Turkey/animated/turkey_animated.png"
+  },
+  {
+    "id": "eagle",
+    "glyph": "🦅",
+    "label": "老鷹",
+    "codepoint": "1f985",
+    "fluentName": "Eagle",
+    "fluentSlug": "eagle",
+    "fluentAnimatedPath": "assets/Eagle/animated/eagle_animated.png"
+  },
+  {
+    "id": "shark",
+    "glyph": "🦈",
+    "label": "鯊魚",
+    "codepoint": "1f988",
+    "fluentName": "Shark",
+    "fluentSlug": "shark",
+    "fluentAnimatedPath": "assets/Shark/animated/shark_animated.png"
+  },
+  {
+    "id": "lizard",
+    "glyph": "🦎",
+    "label": "蜥蜴",
+    "codepoint": "1f98e",
+    "fluentName": "Lizard",
+    "fluentSlug": "lizard",
+    "fluentAnimatedPath": "assets/Lizard/animated/lizard_animated.png"
+  },
+  {
+    "id": "shrimp",
+    "glyph": "🦐",
+    "label": "蝦",
+    "codepoint": "1f990",
+    "fluentName": "Shrimp",
+    "fluentSlug": "shrimp",
+    "fluentAnimatedPath": "assets/Shrimp/animated/shrimp_animated.png"
+  },
+  {
+    "id": "t_rex",
+    "glyph": "🦖",
+    "label": "暴龍",
+    "codepoint": "1f996",
+    "fluentName": "T-rex",
+    "fluentSlug": "t-rex",
+    "fluentAnimatedPath": "assets/T-rex/animated/t-rex_animated.png"
+  },
+  {
+    "id": "cricket",
+    "glyph": "🦗",
+    "label": "蟋蟀",
+    "codepoint": "1f997",
+    "fluentName": "Cricket",
+    "fluentSlug": "cricket",
+    "fluentAnimatedPath": "assets/Cricket/animated/cricket_animated.png"
+  },
+  {
+    "id": "llama",
+    "glyph": "🦙",
+    "label": "駱馬",
+    "codepoint": "1f999",
+    "fluentName": "Llama",
+    "fluentSlug": "llama",
+    "fluentAnimatedPath": "assets/Llama/animated/llama_animated.png"
+  },
+  {
+    "id": "hippopotamus",
+    "glyph": "🦛",
+    "label": "河馬",
+    "codepoint": "1f99b",
+    "fluentName": "Hippopotamus",
+    "fluentSlug": "hippopotamus",
+    "fluentAnimatedPath": "assets/Hippopotamus/animated/hippopotamus_animated.png"
+  },
+  {
+    "id": "badger",
+    "glyph": "🦡",
+    "label": "獾",
+    "codepoint": "1f9a1",
+    "fluentName": "Badger",
+    "fluentSlug": "badger",
+    "fluentAnimatedPath": "assets/Badger/animated/badger_animated.png"
+  },
+  {
+    "id": "swan",
+    "glyph": "🦢",
+    "label": "天鵝",
+    "codepoint": "1f9a2",
+    "fluentName": "Swan",
+    "fluentSlug": "swan",
+    "fluentAnimatedPath": "assets/Swan/animated/swan_animated.png"
+  },
+  {
+    "id": "mammoth",
+    "glyph": "🦣",
+    "label": "長毛象",
+    "codepoint": "1f9a3",
+    "fluentName": "Mammoth",
+    "fluentSlug": "mammoth",
+    "fluentAnimatedPath": "assets/Mammoth/animated/mammoth_animated.png"
+  },
+  {
+    "id": "dodo",
+    "glyph": "🦤",
+    "label": "渡渡鳥",
+    "codepoint": "1f9a4",
+    "fluentName": "Dodo",
+    "fluentSlug": "dodo",
+    "fluentAnimatedPath": "assets/Dodo/animated/dodo_animated.png"
+  },
+  {
+    "id": "sloth",
+    "glyph": "🦥",
+    "label": "樹懶",
+    "codepoint": "1f9a5",
+    "fluentName": "Sloth",
+    "fluentSlug": "sloth",
+    "fluentAnimatedPath": "assets/Sloth/animated/sloth_animated.png"
+  },
+  {
+    "id": "otter",
+    "glyph": "🦦",
+    "label": "水獺",
+    "codepoint": "1f9a6",
+    "fluentName": "Otter",
+    "fluentSlug": "otter",
+    "fluentAnimatedPath": "assets/Otter/animated/otter_animated.png"
+  },
+  {
+    "id": "orangutan",
+    "glyph": "🦧",
+    "label": "紅毛猩猩",
+    "codepoint": "1f9a7",
+    "fluentName": "Orangutan",
+    "fluentSlug": "orangutan",
+    "fluentAnimatedPath": "assets/Orangutan/animated/orangutan_animated.png"
+  },
+  {
+    "id": "beaver",
+    "glyph": "🦫",
+    "label": "河狸",
+    "codepoint": "1f9ab",
+    "fluentName": "Beaver",
+    "fluentSlug": "beaver",
+    "fluentAnimatedPath": "assets/Beaver/animated/beaver_animated.png"
+  },
+  {
+    "id": "seal",
+    "glyph": "🦭",
+    "label": "海豹",
+    "codepoint": "1f9ad",
+    "fluentName": "Seal",
+    "fluentSlug": "seal",
+    "fluentAnimatedPath": "assets/Seal/animated/seal_animated.png"
+  },
+  {
+    "id": "worm",
+    "glyph": "🪱",
+    "label": "蚯蚓",
+    "codepoint": "1fab1",
+    "fluentName": "Worm",
+    "fluentSlug": "worm",
+    "fluentAnimatedPath": "assets/Worm/animated/worm_animated.png"
+  },
+  {
+    "id": "goose",
+    "glyph": "🪿",
+    "label": "鵝",
+    "codepoint": "1fabf",
+    "fluentName": "Goose",
+    "fluentSlug": "goose",
+    "fluentAnimatedPath": "assets/Goose/animated/goose_animated.png"
+  },
+  {
+    "id": "donkey",
+    "glyph": "🫏",
+    "label": "驢",
+    "codepoint": "1facf",
+    "fluentName": "Donkey",
+    "fluentSlug": "donkey",
+    "fluentAnimatedPath": "assets/Donkey/animated/donkey_animated.png"
+  }
+]

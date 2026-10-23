@@ -10,8 +10,9 @@
 - [x] Chance stars, weighted card picks, rewards, and deferred transforms.
 - [x] Menu, continuation, completion/failure, name entry, and best records.
 - [x] Vue + Vuetify presentation, keyboard operation, centered viewport-fitted board.
-- [x] Exact selected 36 animals in five player-selectable emoji themes.
-- [x] 180 local images with pinned sources, full licences, and hash checks.
+- [x] Curated 75-animal pool in five themes from four independent libraries.
+- [x] Seeded selection of 36 distinct kinds per level, with four copies each.
+- [x] 375 local images with pinned sources, full licences, and hash checks.
 - [x] Persistent settings and per-difficulty top-ten records.
 - [x] Unit tests for rules, persistence, and bundled art.
 

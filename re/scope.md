@@ -118,7 +118,10 @@ static/live status of each claim is tracked in [`AUDIT.md`](AUDIT.md).
 
 `src/` implements the recorded gameplay contract with pure TypeScript rules
 and a Vue/Vuetify interface. Licensed emoji themes and browser-local records
-are documented web adaptations; see [architecture](../docs/ARCHITECTURE.md)
+are documented web adaptations. Per-level selection from an expanded animal
+pool is also an explicit adaptation; see the
+[animal-pool decision](../docs/decisions/0002-expanded-animal-pool.md),
+[architecture](../docs/ARCHITECTURE.md)
 and [asset provenance](../docs/ASSETS.md). The level-specific vtable
 methods are **board rearrangements**, not visual updates; all eight transforms
 and the ten dispatch cases are decoded in RE-0018. Exact RNG sequences and

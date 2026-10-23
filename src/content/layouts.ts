@@ -2,6 +2,8 @@ import { TILE_KINDS } from './tile-kinds';
 
 export type Difficulty = 0 | 1 | 2;
 
+export const LEVEL_KIND_COUNT = 36;
+
 export interface LevelMetadata {
   readonly index: number;
   readonly number: number;
@@ -60,7 +62,7 @@ export function createLayout(
   return {
     id: `kawai-${difficulty}-${levelIndex}`,
     name: `第${String(level.number).padStart(2, '0')}關 ${level.name}`,
-    description: '16 × 9 棋盤，36 種圖案各四張。',
+    description: `16 × 9 棋盤，${LEVEL_KIND_COUNT} 種圖案各四張。`,
     rows: 9,
     cols: 16,
     timeLimitMs:

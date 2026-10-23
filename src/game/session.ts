@@ -1,6 +1,6 @@
-import { TILE_KINDS } from '../content/tile-kinds';
 import {
   createLayout,
+  LEVEL_KIND_COUNT,
   LEVELS,
   type Difficulty,
   type LayoutDefinition,
@@ -98,6 +98,7 @@ export class GameSession {
 
   private readonly initialLayout: LayoutDefinition;
   private readonly initialLevelIndex: number;
+  private readonly candidateKindIds: ReadonlyArray<string>;
   private rng: Rng;
   private gameBoard: Board;
   private currentLayout: LayoutDefinition;
@@ -126,10 +127,14 @@ export class GameSession {
     if (this.currentLevelIndex < 0 || this.currentLevelIndex >= LEVELS.length) {
       throw new RangeError(`Level index must be between 0 and ${LEVELS.length - 1}.`);
     }
-    this.initialLevelIndex = this.currentLevelIndex;
-    this.initialLayout = options.layout;
-    this.currentLayout = options.layout;
     this.rng = mulberry32(options.seed ?? randomSeed());
+    this.initialLevelIndex = this.currentLevelIndex;
+    this.candidateKindIds = [...new Set(options.layout.kindIds)];
+    this.initialLayout = {
+      ...options.layout,
+      kindIds: this.candidateKindIds,
+    };
+    this.currentLayout = this.selectLevelKinds(this.initialLayout);
     this.gameBoard =
       options.board ??
       Board.create(
@@ -377,7 +382,10 @@ export class GameSession {
     }
 
     this.currentLevelIndex += 1;
-    this.currentLayout = createLayout(this.difficulty, this.currentLevelIndex);
+    this.currentLayout = this.selectLevelKinds({
+      ...createLayout(this.difficulty, this.currentLevelIndex),
+      kindIds: this.candidateKindIds,
+    });
     this.hintCount += 1;
     if (this.difficulty !== 0) {
       this.shuffleCount += 1;
@@ -432,7 +440,7 @@ export class GameSession {
   restart(seed?: number): void {
     this.rng = mulberry32(seed ?? randomSeed());
     this.currentLevelIndex = this.initialLevelIndex;
-    this.currentLayout = this.initialLayout;
+    this.currentLayout = this.selectLevelKinds(this.initialLayout);
     this.gameBoard = Board.create(
       this.currentLayout.rows,
       this.currentLayout.cols,
@@ -545,12 +553,22 @@ export class GameSession {
   }
 
   private rerollChanceKind(): void {
-    const pool = TILE_KINDS.map((kind) => kind.id);
+    const pool = this.currentLayout.kindIds;
     if (pool.length === 0) {
       this.currentChanceKind = '';
       return;
     }
     this.currentChanceKind = pool[Math.floor(this.rng() * pool.length)]!;
+  }
+
+  private selectLevelKinds(layout: LayoutDefinition): LayoutDefinition {
+    if (layout.kindIds.length <= LEVEL_KIND_COUNT) {
+      return { ...layout, kindIds: [...layout.kindIds] };
+    }
+
+    const kindIds = [...layout.kindIds];
+    shuffleInPlace(kindIds, this.rng);
+    return { ...layout, kindIds: kindIds.slice(0, LEVEL_KIND_COUNT) };
   }
 
   private lose(reason: Exclude<LossReason, null>): void {

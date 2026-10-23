@@ -3,10 +3,12 @@
 A browser reimplementation of **KAWAI 連連看 2004**, with a Vue + Vuetify
 interface and an independently implemented, deterministic TypeScript game core.
 
-The confirmed gameplay in [`re/RULESET.md`](re/RULESET.md) is now implemented:
-36 animal kinds, a 16 × 9 board, 11 levels, three difficulties, finite
+The game implements the rules in [`re/RULESET.md`](re/RULESET.md) with a
+deliberate animal-pool adaptation: each level randomly selects 36 kinds from
+75 candidates. It retains a 16 × 9 board, 11 levels, three difficulties, finite
 resources, chance cards, and browser-local best records. The artwork is from
-five open emoji collections, independent of the original game's assets.
+four independent open emoji libraries, with five selectable themes, independent
+of the original game's assets.
 
 [繁體中文](#繁體中文) · [Architecture](docs/ARCHITECTURE.md) ·
 [Roadmap](docs/ROADMAP.md) · [Asset credits](docs/ASSETS.md) ·
@@ -28,7 +30,7 @@ npm run build
 npm run preview
 ```
 
-The build is a static site in `dist/`, including all 180 tile images, credits,
+The build is a static site in `dist/`, including all 375 tile images, credits,
 and artwork licences. There is no backend or external image dependency at
 runtime. Serve it over HTTP; opening `index.html` directly is not supported.
 
@@ -49,7 +51,8 @@ and tooling versions are recorded in `package.json` and `package-lock.json`.
 
 - Match identical animals along an empty orthogonal path with at most two
   turns. The empty ring around the board is traversable.
-- Each board starts with four copies of each of the 36 kinds: 144 tiles,
+- Each level randomly selects 36 distinct animal kinds from 75 candidates.
+  Each board starts with four copies of each selected kind: 144 tiles,
   or 72 pairs. Each level has its own rearrangement rule.
 - Choose 弱, 強, or 超強. Matching adds points and time; clearing a level
   adds the confirmed time bonus and carries score/resources to the next level.
@@ -71,11 +74,18 @@ stars sit above it; the action buttons remain below it.
 
 ## Choose your emoji style
 
-Open **設定** to switch between **Fluent 3D**, **Fluent Flat**,
-**Noto Color Emoji**, **Twemoji**, and **OpenMoji**. All five use the exact
-same 36 animal identities. Switching styles preserves positions, selection,
-score, and progress. Settings include a preview of all 36 animals and a
+Open **設定** to switch between **Fluent 3D**, **Fluent Animated**,
+**Noto Color Emoji**, **Twemoji**, and **OpenMoji**. All five support the same
+75 candidates, selected for full-body artwork in all four libraries, with
+obvious pests and confusing variants excluded. Switching styles preserves
+the level's 36 selected kinds, positions, selection, score, and progress.
+Settings include a preview of all 75 candidates and a
 default difficulty for the next new game.
+
+Fluent Animated includes 73 animated animals; coral and oyster use Fluent 3D
+static artwork because upstream has no animations for them. When the system
+prefers reduced motion, all Fluent Animated tiles use static Fluent 3D artwork.
+Previously saved Fluent Flat selections switch to Fluent Animated.
 
 Settings and best records use this browser's `localStorage`. They persist
 across reloads; an unfinished run does not. If storage is unavailable, the
@@ -91,7 +101,8 @@ observations. Rule tests establish this implementation's behavior, rather
 than claiming that every possible original-game state was compared live.
 
 Web adaptations are deliberate: seeded uniform shuffles replace the original
-VB random sequence, artwork comes from open emoji projects, score tables use
+VB random sequence, each level samples 36 kinds from a curated animal pool
+([selection policy](docs/ANIMAL_SELECTION.md)), artwork comes from open emoji projects, score tables use
 browser storage instead of a Windows `.hst` file, score registration can be
 skipped, and lowercase name input is normalized to uppercase. Original audio,
 original artwork, and exact animation timings are outside scope. A service
@@ -105,7 +116,7 @@ src/game/       Session state machine and high-score rules.
 src/content/    Levels, animal identities, and emoji themes.
 src/config/     Validated settings and resilient browser storage.
 src/ui/         Vue + Vuetify app, board, artwork, and settings.
-public/tiles/   180 locally bundled images and a provenance/hash manifest.
+public/tiles/   375 locally bundled images and a provenance/hash manifest.
 public/licenses/  Full artwork licences and notices.
 tests/          Rule, storage, and asset-integrity tests.
 re/             Evidence and clean-room investigation records.
@@ -131,12 +142,17 @@ music, fonts, or runtime DLLs included.
 ## 繁體中文
 
 **openkawai** 是《KAWAI 連連看 2004》的瀏覽器重寫版，介面使用 Vue 與
-Vuetify。依據專案已確認的規則，實作 16 × 9 棋盤、36 種動物各四張、
+Vuetify。每關從 75 種候選動物隨機選取 36 種，各四張，實作 16 × 9 棋盤、
 11 關消牌變形、三種難度、計時與計分、有限提示／洗牌、機會翻牌及最佳紀錄。
 
-在「設定」可切換 Fluent 3D、Fluent Flat、Noto Color Emoji、Twemoji、
-OpenMoji，預覽全部 36 種動物。更換圖案不會改變棋盤或進度。五套共 180 張
+在「設定」可切換 Fluent 3D、Fluent Animated、Noto Color Emoji、Twemoji、
+OpenMoji，預覽全部 75 種候選動物。候選須在四個圖庫都有全身像，排除害蟲
+與過度相似的變體。更換風格不會改變當關動物或進度。五套共 375 張
 圖檔隨專案附上；設定與排行榜保存在目前瀏覽器，未完成的遊戲不會保存。
+
+Fluent Animated 有 73 種動態圖案；珊瑚與牡蠣因官方未提供動畫，使用
+Fluent 3D 靜態圖。系統偏好減少動態效果時，全部使用靜態圖。原先儲存的
+Fluent Flat 設定會自動轉為 Fluent Animated。
 
 遊戲中棋盤置中，依視窗寬高等比例縮放，完整顯示棋盤與外圈，不需捲動。
 時間、分數與機會圖案集中在上方，操作按鈕固定在下方。

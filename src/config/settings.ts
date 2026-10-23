@@ -14,9 +14,10 @@ export function loadSettings(storage: StorageAccess | null): Settings {
   const value = readStoredValue(storage, SETTINGS_KEY);
   if (!value || typeof value !== 'object') return { ...DEFAULT_SETTINGS };
   const data = value as Record<string, unknown>;
+  const tileTheme = data.tileTheme === 'fluentflat' ? 'fluentanimated' : data.tileTheme;
   return {
-    tileTheme: TILE_THEMES.some((theme) => theme.id === data.tileTheme)
-      ? data.tileTheme as TileThemeId : DEFAULT_TILE_THEME,
+    tileTheme: TILE_THEMES.some((theme) => theme.id === tileTheme)
+      ? tileTheme as TileThemeId : DEFAULT_TILE_THEME,
     difficulty: data.difficulty === 0 || data.difficulty === 1 || data.difficulty === 2
       ? data.difficulty : DEFAULT_SETTINGS.difficulty,
   };

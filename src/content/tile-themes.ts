@@ -11,13 +11,13 @@ export const TILE_THEMES = [
     sourceUrl: 'https://github.com/microsoft/fluentui-emoji',
   },
   {
-    id: 'fluentflat',
-    label: 'Fluent Flat',
-    extension: 'svg',
+    id: 'fluentanimated',
+    label: 'Fluent Animated',
+    extension: 'png',
     license: 'MIT',
-    licenseFile: 'fluent-emoji-MIT.txt',
+    licenseFile: 'fluent-emoji-animated-MIT.txt',
     attribution: 'Microsoft Corporation',
-    sourceUrl: 'https://github.com/microsoft/fluentui-emoji',
+    sourceUrl: 'https://github.com/microsoft/fluentui-emoji-animated',
   },
   {
     id: 'noto',

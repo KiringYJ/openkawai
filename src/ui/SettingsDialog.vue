@@ -2,7 +2,7 @@
 import { VAlert, VBtn, VCard, VCardActions, VCardText, VCardTitle, VDialog, VDivider, VSelect } from 'vuetify/components';
 import { TILE_KINDS } from '../content/tile-kinds';
 import { TILE_THEMES, type TileThemeId } from '../content/tile-themes';
-import type { Difficulty } from '../content/layouts';
+import { LEVEL_KIND_COUNT, type Difficulty } from '../content/layouts';
 import type { Settings } from '../config/settings';
 import TileArtwork from './TileArtwork.vue';
 
@@ -22,12 +22,13 @@ const difficulties = [{ title: '弱', value: 0 }, { title: '強', value: 1 }, { 
           :model-value="settings.tileTheme" :items="TILE_THEMES" item-title="label" item-value="id"
           label="圖案風格" @update:model-value="emit('update:settings', { ...settings, tileTheme: $event as TileThemeId })"
         />
-        <div class="theme-preview mt-4" aria-label="36 種圖案預覽">
+        <div class="theme-preview mt-4" :aria-label="`${TILE_KINDS.length} 種候選圖案預覽`">
           <div v-for="animal in TILE_KINDS" :key="animal.id" class="theme-preview__tile" :title="animal.label" :aria-label="animal.label" role="img">
             <span class="tile-face"><TileArtwork :kind="animal.id" :theme="settings.tileTheme" /></span>
           </div>
         </div>
-        <p class="text-caption text-medium-emphasis mt-3 mb-5">切換圖案不影響棋盤與進度。</p>
+        <p class="text-caption text-medium-emphasis mt-3 mb-5">每關從 {{ TILE_KINDS.length }} 種候選圖案隨機選取 {{ LEVEL_KIND_COUNT }} 種。切換風格不影響棋盤與進度。</p>
+        <p v-if="settings.tileTheme === 'fluentanimated'" class="text-caption text-medium-emphasis mb-5">未提供動畫的圖案使用 Fluent 3D 靜態圖。偏好減少動態效果時，全部改用靜態圖。</p>
         <VDivider class="mb-5" />
         <VSelect
           :model-value="settings.difficulty" :items="difficulties" label="新遊戲難度"

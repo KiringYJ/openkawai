@@ -4,14 +4,47 @@ Verified on 2026-10-23 with the repository's Node 24.16.0 runtime.
 
 ## Automated checks
 
-- `npm test`: 61 tests passed across four files (50 board/session rules,
-  three asset-integrity checks, eight persistence checks).
+- `npm test`: 70 tests passed across four files, including per-level species
+  sampling, seed replay, chance-kind scope, curation, and asset integrity.
 - `npm run build`: passed, including `vue-tsc` checking of TypeScript and Vue
   templates and the Vite production bundle.
 - `git diff --check`: passed.
-- All 180 local animal images match their recorded SHA-256 digests.
+- All 375 local animal images match their recorded SHA-256 digests.
 
-## Browser checks
+## Expanded-pool browser checks
+
+These checks used the production preview with the 75-candidate catalog,
+without editing hidden game state or injecting a prepared board.
+
+- All five themes loaded all 75 preview images at desktop and 375 CSS pixels,
+  without glyph fallbacks or horizontal overflow. The incomplete final preview
+  row retained its exposed tile edge. Reload preserved the selected theme.
+- The first level dealt 144 tiles: 36 distinct kinds with four copies each.
+  The visible chance animal belonged to the selected set.
+- Switching through all five themes preserved every tile's kind and position,
+  the selected tile, and the score. Every theme loaded all 144 board images.
+  Keyboard selection and right-click cancellation worked.
+- A full level-one run cleared all 72 pairs and displayed the result dialog.
+  Level two dealt a fresh 144-tile board with 36 kinds, four copies each, and
+  a chance animal in that set. Five species observed at the end of level one
+  were absent from the next deal, confirming a changed selection.
+- Hint highlighted a legal pair, and matching it removed two tiles. Manual
+  shuffle preserved the remaining multiset. Paid resume consumed one shuffle.
+- Restart returned to a fresh 144-tile board with a different 36-kind set.
+- Gameplay fit 1360 × 900, 375 × 812, 844 × 390, and 683 × 384 CSS viewports
+  without page scrolling or clipping the outer ring.
+- The browser reported no application console errors or warnings.
+
+The four-library visual eligibility audit is recorded in
+[`ANIMAL_SELECTION.md`](ANIMAL_SELECTION.md). Reduced-motion source selection
+was reviewed in the component; this browser pass did not emulate that media
+preference. Recognition-speed and low-end-device performance testing remain
+separate roadmap work.
+
+## Earlier fixed-pool browser checks
+
+The following checks predate the expanded candidate pool. Current checks are
+recorded separately above; these earlier runs are not new-pool evidence.
 
 Checks used the actual interface, including the production build, without
 editing hidden game state or injecting a prepared board.
