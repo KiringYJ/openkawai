@@ -124,8 +124,18 @@ art inventory and pinned upstream hashes are in `public/tiles/manifest.json`.
 Settings and the three independent top-ten score tables use versioned
 `localStorage` keys through an injected storage interface. Loading validates
 untrusted stored data; failed reads/writes preserve play in memory. A run is
-inserted only after the user submits a name. Skipping or dismissing name entry
-returns to the menu without changing either score table or storage.
+inserted only after the user submits a name. Blank names remain allowed. Other
+names may contain up to 16 user-perceived characters (grapheme clusters) and
+support safe Unicode, including Chinese, mixed case, emoji, and punctuation.
+Case is preserved; unsafe invisible/control formatting is stripped before
+plain-text display. Older padded Latin records remain compatible.
+The shared parser applies NFC normalization and trims outer whitespace. It
+bounds raw names to 1024 UTF-16 code units before segmentation and rejects names
+over 16 graphemes rather than truncating them. Field composition stays raw;
+preview, validation, loading, and saving use the domain parser. Table names use
+bidirectional isolation and text interpolation, including literal markup.
+Skipping or dismissing name entry returns to the menu without changing either
+score table or storage.
 Qualification is strictly above tenth place; ties are placed below existing
 equal scores. Level 11 is the completed-game sentinel. Reload restores
 preferences/records, not a session.

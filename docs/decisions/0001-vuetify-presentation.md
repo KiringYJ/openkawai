@@ -38,3 +38,11 @@ board to retain readable tile sizes. Settings and instructions do not pause
 the running timer; the game's paid pause retains the confirmed resource rule.
 These presentation choices leave the recorded clean-room and asset boundaries
 in force.
+
+The uppercase-name choice above was superseded for web player names on
+2026-10-24; the original sentence remains as historical decision text. Current
+web names preserve case; blank names remain allowed. Other names may contain up
+to 16 user-perceived characters (grapheme clusters) and support safe Unicode,
+including Chinese, mixed case, emoji, and punctuation. Unsafe invisible/control
+formatting is stripped before plain-text display. Older padded Latin records
+remain compatible.

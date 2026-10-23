@@ -79,8 +79,12 @@ and tooling versions are recorded in `package.json` and `package-lock.json`.
   18-card reward screen; stars carry across levels until the cards are used.
 - Completed or failed Classic runs can enter a separate top-ten table per difficulty.
   Registration is optional: skip or dismiss the name dialog to return to the
-  menu without saving. Names accept A–Z and spaces, up to 16 characters;
-  blank names are allowed. Zen runs do not enter the Classic records.
+  menu without saving. Blank names remain allowed. Other names may contain up
+  to 16 user-perceived characters (grapheme clusters) and support safe Unicode,
+  including Chinese, mixed case, emoji, and punctuation. Case is preserved;
+  unsafe invisible/control formatting is stripped before plain-text display.
+  Older padded Latin records remain compatible. Zen runs do not enter the
+  Classic records.
 
 During play, select tiles with left-click. Right-click cancels the active
 selection. Use the on-screen buttons for hints, shuffles, pause/resume, and
@@ -121,10 +125,11 @@ Web adaptations are deliberate: seeded uniform shuffles replace the original
 VB random sequence, each level samples 36 kinds from a curated animal pool
 ([selection policy](docs/ANIMAL_SELECTION.md)), artwork comes from open emoji projects, score tables use
 browser storage instead of a Windows `.hst` file, score registration can be
-skipped, lowercase name input is normalized to uppercase, and Zen provides
-an untimed alternative to the original Classic rules. Original audio,
-original artwork, and exact animation timings are outside scope. A service
-worker, saved-run restore, and custom asset-pack upload are not implemented.
+skipped, web names preserve case and strip unsafe invisible/control formatting,
+and Zen provides an untimed alternative to the original Classic rules.
+Original audio, original artwork, and exact animation timings are outside
+scope. A service worker, saved-run restore, and custom asset-pack upload are
+not implemented.
 
 ## Repository
 
@@ -169,6 +174,10 @@ Vuetify。每關從 75 種候選動物隨機選取 36 種，各四張，實作 1
 禪意模式保留 11 關、提示／洗牌次數、暫停費用與無解時的結束規則，沒有時間加分，
 時間牌改為提示或洗牌獎勵，成績不列入經典模式最佳紀錄。主選單與設定可選擇
 模式；模式和經典模式難度會保存，遊戲中的變更於下次新遊戲生效。
+
+玩家名稱最多 16 個字，支援各種文字、數字、符號與表情符號，保留輸入的大小寫；
+組合表情符號算一個字，也可留白。名稱以純文字顯示，會移除控制或方向干擾字元，
+舊紀錄仍可讀取。
 
 在「設定」可切換 Fluent 3D、Fluent Animated、Noto Color Emoji、Twemoji、
 OpenMoji，預覽全部 75 種候選動物。候選須在四個圖庫都有全身像，排除害蟲

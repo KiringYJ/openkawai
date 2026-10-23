@@ -47,8 +47,9 @@ a:not(.brand, .v-btn):hover, a:not(.brand, .v-btn):focus-visible { text-decorati
 .type-caption, .v-chip, .v-input__details, .v-messages, .v-counter { font-size: var(--font-size-caption); font-weight: var(--font-weight-regular); line-height: var(--line-height-label); letter-spacing: 0; }
 .v-btn { font-family: inherit; font-size: var(--font-size-body); font-weight: var(--font-weight-semibold); line-height: var(--line-height-label); text-transform: none; letter-spacing: 0; }
 .font-weight-bold { font-weight: var(--font-weight-bold); }
-.v-table th { font-weight: var(--font-weight-semibold); }
+.v-table th { font-weight: var(--font-weight-semibold); white-space: nowrap; }
 .v-table { font-variant-numeric: tabular-nums; }
+.player-name { overflow-wrap: anywhere; white-space: normal; }
 .v-divider { border-color: rgb(var(--v-border-color)); }
 .v-input, .v-field, .v-label { font-size: var(--font-size-section); font-weight: var(--font-weight-regular); letter-spacing: 0; }
 .v-label.v-field-label--floating { font-size: var(--font-size-caption); }

@@ -23,6 +23,34 @@ implementation browser checks below were recorded on 2026-10-23.
 See [deployment](DEPLOYMENT.md) for the manual update procedure. These are
 hosting checks; they do not repeat the complete gameplay matrix below.
 
+## Local Unicode player names (2026-10-24)
+
+These checks used the current local source and an isolated storage namespace;
+the normal browser records/preferences were not used for test writes.
+
+- `npm test`: 91 tests passed across four files. `npm run build` (including
+  template type checking) and `git diff --check` passed. Regression coverage
+  includes Unicode/case round-trips, canonical combining characters, joined
+  and flag emoji, 16/17 graphemes, excessive raw input, controls/invisible
+  formatting, direct saves, legacy padded names, and malformed stored rows.
+- A natural Classic run earned nine points and timed out. The actual record
+  form accepted `KiringYJ`, Chinese with mixed-case Latin and punctuation,
+  composed emoji, and literal markup. The decomposed input remained raw while
+  its preview used NFC. Counters reported 3 for `é👩🏽‍💻🇹🇼`, 16 for sixteen
+  family emoji, and 17 for seventeen. The last case disabled save and pressing
+  Enter left the form open.
+- Saving `小明KiringYJ🐱` and reloading preserved its exact case and characters.
+  Literal `<b>小明</b>` created no HTML elements in player cells. Arabic/Latin
+  names had bidirectional isolation; controls and an invisible-only fixture
+  became safe text/anonymous names. Legacy padded names displayed without
+  padding.
+- Desktop and 375px layouts kept long CJK/emoji names within the table and
+  headers on one line. The narrow form and saved leaderboard had no horizontal
+  overflow. The browser logged no application errors or warnings.
+- Physical IME candidate interaction was not exercised by DOM automation;
+  the input model stays raw, and only derived preview/domain values are
+  normalized. The temporary fixture and its namespaced data were removed.
+
 ## Local typography and color contract (2026-10-24)
 
 These checks cover the shared roles in [`DESIGN.md`](../DESIGN.md) and the

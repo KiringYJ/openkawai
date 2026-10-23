@@ -18,7 +18,8 @@ import { browserStorage } from '../config/storage';
 import type { Point } from '../core/board';
 import { GameSession, type CardReward } from '../game/session';
 import {
-  highScoreRank, insertHighScore, loadHighScores, playerName, qualifiesForHighScore, recordHighScore, saveHighScores,
+  PLAYER_NAME_LIMIT, PLAYER_NAME_MAX_CODE_UNITS, highScoreRank, insertHighScore, loadHighScores,
+  parsePlayerName, qualifiesForHighScore, recordHighScore, saveHighScores,
 } from '../game/high-scores';
 import GameBoard from './GameBoard.vue';
 import SettingsDialog from './SettingsDialog.vue';
@@ -44,6 +45,7 @@ const recordsDifficulty = ref<Difficulty>(settings.value.difficulty);
 const leaveAction = ref<'restart' | null>(null);
 const nameEntry = ref(false);
 const enteredName = ref('');
+const parsedName = computed(() => parsePlayerName(enteredName.value));
 const announcement = ref('');
 const path = shallowRef<readonly Point[]>([]);
 const mismatch = shallowRef<readonly Point[]>([]);
@@ -75,7 +77,7 @@ const provisionalRecords = computed(() => {
   const table = highScores.value[current.difficulty];
   const rank = highScoreRank(table, current.score);
   const preview = insertHighScore(table, {
-    name: enteredName.value, score: current.score,
+    name: parsedName.value.valid ? parsedName.value.name : '', score: current.score,
     level: current.phase === 'completed' ? 11 : current.levelIndex,
   });
   return Array.from({ length: 10 }, (_, index) => ({
@@ -233,9 +235,9 @@ function finishRun(): void {
 
 function saveRecord(): void {
   const current = game.value;
-  if (!current || current.mode !== 'classic') return;
+  if (!current || current.mode !== 'classic' || !parsedName.value.valid) return;
   highScores.value = recordHighScore(highScores.value, current.difficulty, {
-    name: enteredName.value, score: current.score, level: current.phase === 'completed' ? 11 : current.levelIndex,
+    name: parsedName.value.name, score: current.score, level: current.phase === 'completed' ? 11 : current.levelIndex,
   });
   if (!saveHighScores(storage, highScores.value)) storageAvailable.value = false;
   recordsDifficulty.value = current.difficulty;
@@ -369,19 +371,27 @@ onUnmounted(() => {
             <tbody>
               <tr v-for="row in provisionalRecords" :key="row.rank" :class="{ 'text-primary font-weight-bold': row.pending }" :aria-current="row.pending ? 'true' : undefined">
                 <td>{{ row.rank }}</td>
-                <td>{{ row.pending ? enteredName || '（本次）' : row.entry ? row.entry.name.trim() || '（未署名）' : '—' }}</td>
+                <td><bdi class="player-name">{{ row.entry ? row.entry.name || (row.pending ? '（本次）' : '（未署名）') : '—' }}</bdi></td>
                 <td class="text-right">{{ row.entry?.score.toLocaleString() ?? '—' }}</td>
               </tr>
             </tbody>
           </VTable>
           <form id="record-form" @submit.prevent="saveRecord">
-            <VTextField :model-value="enteredName" label="玩家名稱" maxlength="16" counter="16" autofocus variant="outlined" hint="A–Z 與空格，最多 16 字元，可留白。" persistent-hint @update:model-value="enteredName = playerName($event ?? '')" />
+            <VTextField
+              v-model="enteredName" label="玩家名稱" :maxlength="PLAYER_NAME_MAX_CODE_UNITS"
+              :counter="PLAYER_NAME_LIMIT" :counter-value="parsedName.length" autofocus variant="outlined"
+              autocomplete="nickname" autocapitalize="off" :spellcheck="false"
+              :hint="`支援中文、英文、數字、符號與 emoji，保留大小寫；最多 ${PLAYER_NAME_LIMIT} 個字，可留白。`"
+              :error-messages="parsedName.valid ? [] : '名稱過長，請縮短後再儲存。'" persistent-hint
+            >
+              <template #counter="{ value }">{{ value }} / {{ PLAYER_NAME_LIMIT }}</template>
+            </VTextField>
           </form>
         </VCardText>
         <VCardActions class="pa-5 pt-0">
           <VBtn variant="text" @click="toMenu">略過</VBtn>
           <VSpacer />
-          <VBtn type="submit" form="record-form" color="primary" variant="flat" :prepend-icon="mdiCheck">儲存紀錄</VBtn>
+          <VBtn type="submit" form="record-form" color="primary" variant="flat" :prepend-icon="mdiCheck" :disabled="!parsedName.valid">儲存紀錄</VBtn>
         </VCardActions>
       </VCard>
     </VDialog>
@@ -398,7 +408,7 @@ onUnmounted(() => {
             <tbody>
               <tr v-for="row in recordRows" :key="row.rank">
                 <td class="text-center px-2">{{ String(row.rank).padStart(2, '0') }}</td>
-                <td class="text-center px-2">{{ row.entry ? row.entry.name.trim() || '（未署名）' : '—' }}</td>
+                <td class="text-center px-2"><bdi class="player-name">{{ row.entry ? row.entry.name || '（未署名）' : '—' }}</bdi></td>
                 <td class="text-center px-2"><span v-if="row.entry" class="font-weight-bold">{{ row.entry.score.toLocaleString() }}</span><span v-else>—</span></td>
                 <td class="text-center px-2">{{ row.entry ? row.entry.level === 11 ? '全部過關' : row.entry.level + 1 : '—' }}</td>
               </tr>

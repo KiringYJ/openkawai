@@ -181,6 +181,16 @@ Use concise Traditional Chinese interface copy: `經典模式`, `禪意模式`,
 in their original spelling. Avoid promotional copy and unnecessary repeated
 brand names. Documentation and code remain English.
 
+Player names are a deliberate web adaptation: preserve case and allow Unicode
+letters, numbers, punctuation, and emoji, up to 16 grapheme clusters. Blank
+names remain allowed. Do not rewrite the input model during IME composition.
+Use the shared name parser for validation, counters, previews, and persistence;
+reject over-limit names instead of truncating a character. Normalize at the
+domain boundary, strip unsafe invisible/control formatting, and retain valid
+joining/emoji sequences. Display names through Vue text interpolation inside
+`bdi`, allow wrapping, and keep table headers on one line. Legacy padded Latin
+records remain readable under the existing storage key.
+
 ## Implementation constraints
 
 Vue 3, TypeScript, and Vuetify 4 are established; add no dependencies for this
