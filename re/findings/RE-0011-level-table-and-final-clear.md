@@ -32,10 +32,11 @@ the untracked `re/.local/evidence/levels/` directory.
 - Every level starts with **144 present tiles** on the full 16 × 9 playfield.
 - The level-1 difficulty-1 maximum timer is 225000 ms; each level subtracts
   15000 ms: 225, 210, 195, …, 75000 ms at level 11.
-- Both resource counters start at 5/5 on level 1 and increase by one per level:
-  5/5, 6/6, …, 15/15 at level 11.
+- At difficulty 1, both resource counters start at 5/5 on level 1 and increase
+  by one per level: 5/5, 6/6, …, 15/15 at level 11.
 - Continuing a clear adds no score and starts the next level with its own
-  timer and incremented resources (RE-0010).
+  timer and incremented resources. At difficulty 0 the starting pair is 8/8;
+  continuation still raises hint A but leaves shuffle B unchanged (RE-0010).
 - A clear with 1000 ms remaining before the final pair produced cumulative
   scores:
 
@@ -88,16 +89,22 @@ The live final score was exactly **24320**, and `0x41f164` became **3**
 High for the level count, initial full-board size, timer table, resource table,
 and final score arithmetic at difficulty 1.
 
-The board contents (kind distribution, specials, chance kind, and any
-level-specific arrangement) still need a separate comparison across the 11
-captured boards. Difficulty 0 and 2 should also be swept to confirm the timer
+The 11 captured boards all have 36 visible kinds ×4 and the same eight alias
+IDs (RE-0001). The chance kind and level-specific arrangement are covered by
+RE-0012/RE-0018. Difficulty 0 and 2 should also be swept to confirm the timer
 and final resource formulas.
 
 ## Open questions
 
-- Are the level layouts fixed or randomly shuffled each run?
+- Are the level layouts fixed or randomly shuffled each run? The multiset and
+  full 144-cell fill are fixed; the initial deal is a random permutation
+  (RE-0001), not a fixed pattern.
 - Does difficulty change only the timer/scores/resources, or also the board?
-- What are the 11 level names and backgrounds?
+  The starting multiset is invariant at difficulty 0/1/2 (RE-0001/RE-0011); the
+  difficulty changes timer, score, starting resources, and card picks.
+- What are the 11 level names and backgrounds? The names are captured in the
+  table above; backgrounds are original art and remain outside the clean-room
+  ruleset.
 
 ## Implementation impact
 

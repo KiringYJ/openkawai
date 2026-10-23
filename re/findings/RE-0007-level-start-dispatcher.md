@@ -86,20 +86,32 @@ level_start:
 For level 1, `level_seconds = 225`, `difficulty = 1` (`強`), resources 5/5.
 The menu handlers write difficulty 0/1/2 for 弱/強/超強; see RE-0008.
 
+The same dispatcher is reached on a continue (the input handler calls
+`vtable+0x758` after incrementing the level and resources). Because
+`level_index != 0`, it skips the score/resource block and only applies the next
+timer and the three setup methods. The resource increment itself is in the
+continue block; see RE-0010.
+
 ## Confidence and limits
 
 High for the dispatcher, the three observed method calls, the `225000 ms`
 initial timer, and the live 5/5 resource values at difficulty 1.
 
-The 8-resource branch is read from assembly but has not been reproduced by
-changing the menu difficulty. The exact resource names (search vs reshuffle)
-remain to be confirmed.
+The 8-resource branch was later reproduced live: difficulty 0 starts with
+8/8, while difficulty 1 and 2 start with 5/5 (session log). RE-0013 identifies
+the resources: A (`0x41f1ac`) is hint, B (`0x41f1ae`) is shuffle.
 
 ## Open questions
 
-- Which HUD resource is `0x41f1ac` and which is `0x41f1ae`?
+- Which HUD resource is `0x41f1ac` and which is `0x41f1ae`? Resolved in
+  RE-0013: A = hint, B = shuffle.
 - Which of the eleven vtable methods are called on level 2/3/… transitions?
-- Where is the level-clear bonus computed (not in this dispatcher)?
+  Level start always calls the common setup methods `0x4087b0`, `0x408c00`, and
+  `0x408b20`; the level-specific `0x409040`–`0x40afa0` methods are post-match
+  rearrangements, not transition hooks (RE-0015/RE-0018).
+- Where is the level-clear bonus computed (not in this dispatcher)? Resolved in
+  RE-0009: the clear routine drains the timer into score and adds the base
+  bonus; the final level adds the resource bonus.
 
 ## Implementation impact
 

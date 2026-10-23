@@ -8,6 +8,7 @@ environment:
   os: Windows 11 x64
   locale: zh-TW
 evidence:
+  - re/sessions/20261023-kawai2004-live-audit.md
   - re/sessions/20261022-kawai2004-runtime.md
 implementation:
   - src/game/session.ts
@@ -116,15 +117,21 @@ The score is therefore not `4 × level`; the previous implementation's
 High for the formulas and the difficulty enum; the level-1 and level-2
 difficulty-1 score values were observed live, and the formulas reproduce them.
 
-Not yet observed live: difficulty 0 and difficulty 2 match gains, the timer
-bonus at those difficulties, and initial timers at those difficulties. The
-assembly is unambiguous, but a controlled run should still confirm them.
+Observed live at all three difficulties: the level-1 maximum timers
+(320000/225000/160000 ms), the starting resources (8/8 at 弱, 5/5 at 強 and
+超強), and the first-pair score gains (+1/+4/+9). Below-cap live tests also
+measured the match bonus: 弱 300000 → 305375 (+5375 net), 超強 150000 → 152390
+(+2390 net), consistent with 6000/3000 ms minus elapsed time. The per-level
+timer subtraction at difficulty 0 and 2 is still from the level-start assembly
+except for the level-1→2 continuation, where 弱 gave 300000 ms and 超強
+150000 ms.
 
 ## Open questions
 
 - The level count is resolved in RE-0011: 11 levels, index 0–10.
-- Does difficulty 0/2 use the same linear timer formulas? The assembly says
-  yes; the full sweep was run at difficulty 1 only.
+- Does difficulty 0/2 use the same linear timer formulas? The level-start
+  assembly says yes, and the level-1 maxima were observed live at 320000 and
+  160000 ms; the full 11-level sweep was run at difficulty 1 only.
 - What happens if the level index exceeds 10? The final-level branch handles
   index 10 with state 3, so no normal continuation should occur.
 

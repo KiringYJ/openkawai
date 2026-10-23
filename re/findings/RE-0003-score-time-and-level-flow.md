@@ -96,6 +96,8 @@ observation of the natural transition.
 ## Open questions
 
 - Does a natural timer expiry use a different overlay or penalty than a clear?
+  No: timeout enters the shared `挑戰失敗` failure overlay (state 1) and keeps
+  the score; a clear uses the separate `恭喜過關` overlay (RE-0016).
 
 ## Implementation impact
 

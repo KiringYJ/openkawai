@@ -8,6 +8,7 @@ environment:
   os: Windows 11 x64
   locale: zh-TW
 evidence:
+  - re/sessions/20261023-kawai2004-live-audit.md
   - re/sessions/20261022-kawai2004-runtime.md
 implementation:
   - src/core/board.ts
@@ -33,9 +34,11 @@ through row 0, the padded outer border.
 2. A pair with a two-turn route through the padded outer border,
    `(1,7)-(1,10)`, was accepted; score +4, remaining 136 → 134. The accepted
    route was `(1,7) → (0,7) → (0,8) → (0,9) → (0,10) → (1,10)`.
-3. Same-visual normal pairs are legal; different visual IDs are not.
-4. Two special tiles with different visual IDs but the same `match_id` are
-   legal (RE-0001).
+3. Same-visual normal pairs are legal; different normal visual IDs are not.
+4. Two alias tiles with different visual IDs (35 and 36) but the same
+   `match_id` (34) are legal. Both IDs are visually identical aliases of the
+   same green sprite, so the player sees an ordinary identical-tile match
+   (RE-0001).
 5. A generic two-turn BFS found a path for a later level-2 pair that the game
    did not remove. That pair was recorded as an unexplained contradiction.
 6. A controlled path oracle later placed two matching tiles on an otherwise
@@ -53,6 +56,8 @@ through row 0, the padded outer border.
 7. The level-2 contradiction has not been reproduced under controlled
    conditions. The most likely causes are input timing, a stale board read
    during a transition, or the same hidden-screen state seen in the oracle.
+   The post-match level transform (RE-0018) moves tiles after every non-final
+   match, so a board read taken before the redraw can describe a stale layout.
    No level-specific path restriction has been demonstrated.
 8. The path dispatcher `0x40b610` orders the two endpoints and dispatches:
    - same row → `0x40b6e0`
@@ -62,7 +67,13 @@ through row 0, the padded outer border.
    The sub-checkers implement the straight/one-turn/two-turn and outer-border
    cases and write animation corner points to `0x41F148`–`0x41F14E`.
    The control oracle's accepted shapes are consistent with this dispatcher.
-9. The built-in `遊戲說明` screen states the same rule directly:
+9. A later controlled live test used a sparse board and clicked known pairs:
+   straight, one-turn, and a top-row border route with blockers were accepted
+   (score +4 each); a pair fully enclosed by a 3×3 blocker ring was rejected
+   with the remaining count unchanged. A real right-button mouse event after
+   selecting the first tile canceled the selection, so the next left click
+   selected rather than matched (remaining stayed 4).
+10. The built-in `遊戲說明` screen states the same rule directly:
    - `連線路徑不得超過二個轉折`
    - `不能穿過其他牌`
    - `MOUSE 左鍵 - 選取，右鍵 - 取消`
@@ -87,7 +98,7 @@ mismatch is treated as an operational/state artifact until reproduced.
 
 ## Confidence and limits
 
-High for the accepted border route, the two-turn limit, special-tile matching,
+High for the accepted border route, the two-turn limit, alias-tile matching,
 and the controlled interior/border path shapes. Medium for the exact definition
 of a "turn" at cells adjacent to the border.
 

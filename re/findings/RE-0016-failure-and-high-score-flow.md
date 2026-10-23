@@ -70,16 +70,22 @@ is not reset by the failure path.
 High for the state value, overlay text, name screen, immediate write, and
 return to the menu at difficulty 1.
 
-Whether the same path runs when no-move failure occurs without timer expiry,
-the exact qualification threshold, and the source of the default `100` are not
-yet isolated.
+The timeout path is directly observed. The no-move branch sets the same failure
+state and overlay (RE-0015); the internal reason flag differs but the screen is
+shared. The qualification threshold and name-entry behavior are resolved in
+RE-0019; the earlier `100` is the pending run score, not a file row (RE-0014).
 
 ## Open questions
 
 - Is there a separate no-move failure state or only this shared overlay?
-- What is the minimum score needed to enter the high-score screen?
-- Is the default `100` a built-in row or a placeholder?
-- What happens if the player presses Escape or enters an empty name?
+  The static branch uses the same state 2 / failure overlay; only the internal
+  reason flag differs.
+- What is the minimum score needed to enter the high-score screen? Resolved in
+  RE-0019: strictly greater than the current 10th-place score.
+- Is the default `100` a built-in row or a placeholder? Resolved in RE-0014:
+  it is the pending current-run score, not a stored row.
+- What happens if the player presses Escape or enters an empty name? Resolved in
+  RE-0019: Escape is ignored; Enter on an empty field saves 16 spaces.
 
 ## Implementation impact
 

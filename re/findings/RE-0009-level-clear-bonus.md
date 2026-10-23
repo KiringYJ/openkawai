@@ -8,6 +8,7 @@ environment:
   os: Windows 11 x64
   locale: zh-TW
 evidence:
+  - re/sessions/20261023-kawai2004-live-audit.md
   - re/sessions/20261022-kawai2004-runtime.md
 implementation:
   - src/game/session.ts
@@ -108,16 +109,21 @@ state = 3
 ```
 
 This branch was reproduced live at the end of the RE-0011 level sweep:
-level 11, difficulty 1, resources 15/15, final score 24320, state 3.
+level 11, difficulty 1, resources 15/15, final score 24320, state 3. A
+difficulty-2 level-11 probe with resources 15/15, timer 1000 ms produced
+**26547** and state 3, matching the predicted pair + clear + resource bonus.
+A difficulty-0 level-11 probe with resources 18/8 and timer 1000 ms produced
+**8493**, resources 0, and state 3 in the 2026-10-23 live audit.
 
 ## Confidence and limits
 
-High for the non-final clear formula at difficulty 1: two controlled level-1
-timer values and one controlled level-2 timer value produce exact predicted
-totals, and the structure matches the timer-drain assembly.
+High for the clear formula at all three difficulties: controlled level-1
+clears with timer 1000 ms produced 弱 = 63, 強 = 120, 超強 = 177; the 強
+10000 ms case produced 156; the 強 level-2 case produced 1988. All match the
+`G` formula exactly.
 
-The difficulty 0/2 clear multipliers have not been tested live, but they use
-the same `G` factor as the confirmed match formula.
+The final-level resource bonus was reproduced live at all three difficulties;
+the difficulty-0 and difficulty-2 results are recorded in the live audit.
 
 The probe forces the board to a final pair. It does not change the clear
 routine. The 548 → 1448 jump is this clear count-up completing; card rewards
@@ -125,8 +131,10 @@ routine. The 548 → 1448 jump is this clear count-up completing; card rewards
 
 ## Open questions
 
-- The final-level resource bonus is confirmed in RE-0011.
-- Do difficulty 0/2 produce the exact predicted clear totals live?
+- Is the final-level resource bonus confirmed live at all three difficulties?
+  Yes: difficulty 1 in RE-0011, and difficulties 0/2 in the live audit.
+- Do difficulty 0/2 produce the exact predicted clear totals live? Yes:
+  63 and 177 at level 1 with 1000 ms; see above.
 
 ## Implementation impact
 

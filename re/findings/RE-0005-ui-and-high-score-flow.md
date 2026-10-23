@@ -47,8 +47,8 @@ screen.
 6. A level clear instead showed `恭喜過關` with `繼續挑戰下一關` and a
    “click in this window” prompt; the next level started after the click.
 7. The game writes a high-score file under the Windows directory; the string
-   `\kawai2004.hst` is present in the binary. The exact record format is not
-   decoded yet.
+   `\kawai2004.hst` is present in the binary. The record format is decoded in
+   RE-0014 and the qualification/name rules in RE-0019.
 
 ## Interpretation
 
@@ -69,20 +69,27 @@ The score is zero-padded to six digits. The level name comes from a fixed
 ## Confidence and limits
 
 High for the visible layout, score/level display, overflow, and high-score
-columns. The `kawai2004.hst` format and the exact high-score ordering rule are
-not yet decoded.
+columns. The file format, difficulty tables, tie ordering, and name-entry rules
+are resolved in RE-0014/RE-0019.
 
 ## Open questions
 
-- What is the exact high-score file record layout and directory resolution?
-- Are there separate high-score tables per difficulty?
-- Does the menu difficulty (`戰鬥力設定` 1000/10000/100000) alter time, score,
-  or the chance table?
-- What are the exact search and reshuffle icons, costs, and limits?
-- How does pause cost a reshuffle in v1.01 exactly?
+- Exact high-score file layout and directory: resolved in RE-0014 (660 bytes,
+  three contiguous 10-entry tables, virtualized Windows path).
+- Separate high-score tables per difficulty: resolved in RE-0014 (three tables).
+- Difficulty effects: changes the timer, score multiplier, starting resources,
+  and card-pick table; the board composition and chance kind are otherwise the
+  same (RE-0008, RE-0011, RE-0012).
+- Search/reshuffle icons and costs: resolved in RE-0013 (A hint, B shuffle, one
+  per use; start 5, or 8 at 弱; hint +1 per continue, shuffle +1 except at 弱;
+  card rewards add more).
+- Pause cost: RE-0017 (with the v1.01 README) shows pause requires B > 0;
+  entry freezes the timer, and the resume click shuffles and spends one B.
+  At B = 0 the pause click is ignored. The chance kind is not re-rolled.
 
 ## Implementation impact
 
 The current shell already uses an 800 × 600-ish responsive board, but the
-prototype HUD is not the original layout. Match the level table and high-score
-flow only after the remaining resource and difficulty questions are resolved.
+prototype HUD is not the original layout. The rule gaps that blocked matching
+the level table and high-score flow are closed; the remaining work is UI and
+state-model implementation.

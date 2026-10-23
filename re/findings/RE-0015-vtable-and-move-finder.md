@@ -1,6 +1,6 @@
 ---
 id: RE-0015
-title: The form vtable maps 19 method slots; the move finder and level-specific dispatch are now identified
+title: The form vtable maps the match, hint, shuffle, and level-start method slots
 status: confirmed
 confidence: high
 target: KAWAI 連連看 2004 v1.01
@@ -8,6 +8,7 @@ environment:
   os: Windows 11 x64
   locale: zh-TW
 evidence:
+  - re/sessions/20261023-kawai2004-live-audit.md
   - re/sessions/20261022-kawai2004-runtime.md
 implementation:
   - src/core/board.ts
@@ -45,7 +46,16 @@ slot 0x744 -> thunk 0x40275a -> 0x40baa0
 slot 0x748 -> thunk 0x402767 -> 0x40be60
 slot 0x74c -> thunk 0x402774 -> 0x40c830
 slot 0x750 -> thunk 0x402781 -> 0x40d230
+slot 0x754 -> thunk 0x40278e -> 0x40d430   (match handler)
+slot 0x758 -> thunk 0x40279b -> 0x40dad0   (level start/continue)
+slot 0x75c -> thunk 0x4027a8 -> 0x40de30
 ```
+
+The extra three slots were decoded from the consecutive thunks after `0x750`
+using objdump. In particular, the continuation block's `CALL [ECX+0x758]` at
+`0x41a389` reaches `0x40dad0`, the level-start dispatcher, which explains why
+the same timer/setup code runs on a continue while the score/resource block is
+skipped for `level_index != 0`.
 
 ## Move finder and hint
 
@@ -85,16 +95,18 @@ uses the 10-entry jump table at `0x40da9c`:
 | --- | --- | --- |
 | 2 | 1 | `0x409040` |
 | 3 | 2 | `0x4092b0` |
-| 4 | 3 | `0x409980` + `0x409510` |
+| 4 | 3 | `0x409510` |
 | 5 | 4 | `0x409980` |
-| 6 | 5 | `0x40a490` + `0x40a020` |
+| 6 | 5 | `0x40a020` |
 | 7 | 6 | `0x40a490` |
 | 8 | 7 | `0x40afa0` |
 | 9 | 8 | `0x40ab40` |
 | 10 | 9 | `0x409980` + `0x409510` |
 | 11 | 10 | `0x40a490` + `0x40a020` |
 
-Level 1 (index 0) takes the default path and calls none of these. The methods
+The L4 and L6 entries point into the middle of the L10/L11 case blocks, so L4
+runs only `0x409510` and L6 only `0x40a020`. Level 1 (index 0) takes the default
+path and calls none of these. The methods
 are **post-match board rearrangement methods**, not visual/background updates.
 The original README explicitly states that the 11 levels have different
 `消牌重整方式`; the earlier “visual only” conclusion is rejected.
@@ -107,10 +119,11 @@ Static decompilation of the board-writing loops gives:
   to the right end (blocks fall left).
 
 The remaining level methods (`0x409980`, `0x409510`, `0x40a490`, `0x40a020`,
-`0x40afa0`, `0x40ab40`) are not yet reduced to final rules. Some contain
-conditional/randomized control flow, so single-pair observations must not be
-promoted to `confirmed`. Their vtable dispatch is known; their transformations
-remain open.
+`0x40afa0`, `0x40ab40`) are decoded in
+[RE-0018](RE-0018-level-rearrangement-methods.md). They are deterministic
+row/column pack operations; the earlier "randomized control flow" hypothesis is
+rejected. The conclusion comes from direct control flow, not from single-pair
+observations.
 
 ## Auto-shuffle
 
@@ -118,20 +131,19 @@ At `0x40d990` the post-match path calls the move finder:
 
 ```text
 if move exists:
-    no shuffle
+    call 0x408b20   (vtable 0x710, chance setup)
 else if resourceB > 0:
+    call 0x408c00   (vtable 0x714, shuffle)
     resourceB -= 1
-    call 0x408c00   (vtable 0x714)
-    call 0x408b20   (vtable 0x710)
+    call 0x408b20   (vtable 0x710, chance setup)
 else:
     state = 2
     0x41F188 = 3
 ```
 
-This is the static auto-shuffle/no-move contract. A live no-move probe was
-inconclusive because the artificial board was not accepted as a normal
-post-match state; the exact UI transition when B is exhausted still needs a
-clean reproduction.
+A natural 72-match level-1 run hit the auto-shuffle branch twice: B 99→98 at
+match 17 and 98→97 at match 31. The B=0 failure branch was reproduced with a
+controlled board (state 2, `0x41F188=3`).
 
 ## Confidence and limits
 
@@ -139,8 +151,10 @@ High for the vtable map, the legal-move finder, the hint endpoint order and
 highlight paint check, the level-specific dispatch, and the static
 auto-shuffle branch.
 
-Confirmed for level methods: L2 packs columns downward, L3 packs rows left.
-The other nine methods are open; any prior “visual only” statement is rejected.
+All level methods are now confirmed: L2 packs columns downward, L3 packs rows
+left, L4/L6 are single-axis vertical splits, L5/L7 are single-axis horizontal
+packs, L8/L9 are shears, and L10/L11 combine both axes; see RE-0018. Any prior
+"visual only" statement is rejected.
 
 The hint uses the move finder's most recent result rather than recomputing on
 click; this was confirmed by matching the highlighted pair and observing the
@@ -150,14 +164,13 @@ endpoint fields advance to the next legal pair.
 
 - What UI/game-over state follows auto-shuffle exhaustion? The static branch
   sets state 2 and `0x41F188=3` when resource B is empty.
-- What are the exact L4–L11 board transformations, including whether any use
-  randomized control flow?
-- Does the level method run once after every match, and how does it interact
-  with the no-move check?
+- The L4–L11 transformations and their timing are resolved in RE-0018: they are
+  deterministic and run once per non-final match, immediately or (when the card
+  screen opens) after the last pick, before the move finder/free shuffle.
 
 ## Implementation impact
 
 Use a legal-move finder for both hint and no-move detection. Implement the
 level-specific rearrangement methods as board transformations; do not treat
-them as visual effects. So far only L2 (down) and L3 (left) are ready to
-implement.
+them as visual effects. All eight transforms and the dispatch order are ready
+to implement in RE-0018.

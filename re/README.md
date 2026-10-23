@@ -28,6 +28,7 @@ session and supersede the finding.
 | Path          | Contents                                                        |
 | ------------- | --------------------------------------------------------------- |
 | `RULESET.md`  | Consolidated implementation-oriented gameplay contract.         |
+| `AUDIT.md`    | Claim matrix with static and live evidence status.              |
 | `scope.md`    | Target identity, legal boundary, known facts, open questions.   |
 | `inventory/`  | File inventory and hashes for a lawfully obtained local copy.   |
 | `sessions/`   | Reproducible investigation logs.                                |

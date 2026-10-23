@@ -8,6 +8,7 @@ environment:
   os: Windows 11 x64
   locale: zh-TW
 evidence:
+  - re/sessions/20261023-kawai2004-live-audit.md
   - re/sessions/20261022-kawai2004-runtime.md
 implementation:
   - src/game/session.ts
@@ -82,14 +83,16 @@ each 22 bytes:
 ```text
 record: name[16] + score u32 + level u16
 count: 10 ranks * 3 difficulty tables = 30 records = 660 bytes
-table 0: entries  0-9   (weak / 弱, inferred)
-table 1: entries 10-19  (strong / 強, confirmed by the controlled write)
-table 2: entries 20-29  (ultra / 超強, inferred)
+table 0: entries  0-9   (weak / 弱, confirmed by a live 8493 save)
+table 1: entries 10-19  (strong / 強, confirmed by controlled writes)
+table 2: entries 20-29  (ultra / 超強, confirmed by a live score-1 save)
 ```
 
 Entries are sorted by descending score within a table; a new score is inserted
-at its rank and later entries shift down. The stored level is the zero-based
-level index (`0` for level 1), matching `0x41F166`.
+at its rank and later entries shift down. The stored level is normally the
+zero-based level index (`0` for level 1), matching `0x41F166`. A level-11
+completion increments `0x41F166` to 11 and stores 11; the best-records screen
+renders that row as `ALL PASS`.
 
 The file is rewritten immediately after the name is entered and Enter is
 pressed, while the high-score screen is still active.
@@ -97,11 +100,12 @@ pressed, while the high-score screen is still active.
 ## Confidence and limits
 
 High for the 22-byte entry, the 660-byte size, the contiguous 10×3 table
-layout, the difficulty-1 table offset, the descending insertion, and the
-immediate save after Enter: all were directly observed.
+layout, all three difficulty table offsets, the descending insertion, the
+level-11 `ALL PASS` sentinel, and the immediate save after Enter: all were
+directly observed.
 
-The weak/ultra table offsets are inferred from the contiguous layout and the
-difficulty enum.
+The weak table was confirmed by a live 8493 save at difficulty 0; the ultra
+table by a live score-1 save at difficulty 2.
 
 The earlier `100` was not a default row: it was the **current failed run's
 score** shown provisionally at the top of the name-entry screen. The
@@ -111,9 +115,13 @@ the provisional run score and wrote 7777/24/4.
 
 ## Open questions
 
-- What exact keyboard mapping produced `UGVX` from synthetic VK events?
-- Does the game read all three tables or only the current difficulty table?
-- Are ties sorted by insertion order or by another key?
+- What exact keyboard mapping produced `UGVX` from synthetic VK events? This is
+  an input-injection artifact; the game only accepts `A`–`Z`, space, backspace,
+  and Enter (RE-0019).
+- Does the game read all three tables or only the current difficulty table? The
+  file contains all three; the `最佳記錄` screen displays the active difficulty.
+- Are ties sorted by insertion order or by another key? Resolved in RE-0019:
+  the insertion is stable and a new equal score goes below the existing entry.
 
 ## Implementation impact
 

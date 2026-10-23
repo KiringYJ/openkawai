@@ -36,7 +36,7 @@ have no ordinary direct callers in Ghidra.
 | `0x00408370` | resource loader | Loads `CUSTOM` 101/102/103 into surfaces; strings `tempx.bmp`, resource IDs 0x65–0x67 |
 | `0x004085d0` | surface helper | Creates a DirectDraw surface with width/height and a 0x40 flag |
 | `0x004087b0` | form vtable `0x70c`, level/board setup | Initializes `DAT_0041f118`; loops 18×11, playable 16×9; Frida caller `0x40dd7d` |
-| `0x00408b20` | form vtable `0x710`, chance/board setup | Writes the chance kind at `0x408b9c`; called at level start and after a shuffle |
+| `0x00408b20` | form vtable `0x710`, chance/board setup | Writes the chance kind at `0x408b9c`; called at level start, after every non-final match, after a shuffle, and after the card screen |
 | `0x00408c00` | form vtable `0x714`, shuffle | Called by the manual/auto-shuffle paths |
 | `0x00409040`–`0x0040afa0` | form vtable `0x718`–`0x734`, level-specific dispatch | Ten methods selected by the post-match jump table at `0x40da9c`; level 1 uses none |
 | `0x0040b400` | move finder | Scans for a legal pair, stores hint endpoints, returns `-1`/`0` |
@@ -76,8 +76,9 @@ The vtable slot map and dispatch table are now explicit; see RE-0015.
 
 High for the vtable slots, move finder, card initializer, and level dispatch
 map: they were read from the live form vtable and decoded thunk targets. The
-level-specific method semantics are only partly decoded; L2 is a downward
-column compaction and L3 a leftward row compaction, while L4–L11 remain open.
+level-specific method semantics are decoded in RE-0018: all eight methods are
+deterministic row/column pack operations and L1–L11 use the documented dispatch
+order.
 
 Ghidra's `0x40afa0` decompilation timed out; its function body is not fully
 decompiled. VB event handlers are invoked through runtime metadata rather than
@@ -87,7 +88,8 @@ direct calls, so `callers` lists are empty for several paint/mouse functions.
 
 1. Parse the VB event table to map `Form_KeyDown`, `Form_Load`,
    `Form_MouseDown`, `Form_MouseMove`, and `Form_Paint` to addresses.
-2. Decode the level-specific board transformations `0x409040`–`0x40afa0`
-   statically; L2/L3 are known, L4–L11 remain open.
-3. Finish the high-score save/load routine and its default `100` row.
+2. The level-specific board transformations `0x409040`–`0x40afa0` are decoded
+   in RE-0018; no follow-up remains for the transform rules.
+3. The high-score layout, qualification, and name entry are resolved in
+   RE-0014/RE-0019; the earlier `100` was the pending run score, not a file row.
 4. Reproduce auto-shuffle exhaustion with a clean no-move board.

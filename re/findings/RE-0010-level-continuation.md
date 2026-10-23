@@ -1,6 +1,6 @@
 ---
 id: RE-0010
-title: Continuing past the clear overlay advances the level, resets the timer, and adds one to each resource without changing score
+title: Continuing past the clear overlay advances the level, resets the timer, and adds one hint (and one shuffle except at 弱) without changing score
 status: confirmed
 confidence: high
 target: KAWAI 連連看 2004 v1.01
@@ -8,7 +8,9 @@ environment:
   os: Windows 11 x64
   locale: zh-TW
 evidence:
+  - re/sessions/20261023-kawai2004-live-audit.md
   - re/sessions/20261022-kawai2004-runtime.md
+  - re/sessions/20261023-kawai2004-continuation-resources.md
 implementation:
   - src/game/session.ts
 ---
@@ -44,6 +46,16 @@ increased by one. A second controlled continuation from a level-2 clear gave
 level index 2, maximum timer 195000 ms, and resources 7/7, again with the score
 unchanged (1988).
 
+Static decoding of the continuation block at `0x41a344` adds one nuance: it
+always increments resource A, but increments resource B only when
+`difficulty > 0`. At difficulty 0 (弱), B stays at its current value across a
+continuation; A still rises. The live +1/+1 observations above were at
+difficulty 1.
+
+Live difficulty sweep: 弱 level 1 → 2 gave A 8→9, B 8→8, max timer 300000,
+score 63; 超強 level 1 → 2 gave A/B 5→6/6, max timer 150000, score 177.
+Level index advanced to 1 in both cases.
+
 ## Interpretation
 
 The continuation path is:
@@ -54,7 +66,8 @@ advance_level:
   remaining = 144
   timer = level_time_limit(level_index, difficulty)
   resourceA += 1
-  resourceB += 1
+  if difficulty > 0:
+      resourceB += 1
   state = playing
   score unchanged
 ```
@@ -66,22 +79,26 @@ animation was still running, and the final overlay showed 1448. Card rewards
 
 ## Confidence and limits
 
-High for the observed level-1 → level-2 continuation at difficulty 1, including
-the no-score-change behavior and the +1/+1 resources.
+High for the level-1 → level-2 continuation at all three difficulties:
+difficulty 1 gave 5/5 → 6/6, 弱 gave 8/8 → 9/8, 超強 gave 5/5 → 6/6, all with
+the score carried and the next timer limit applied. The `JLE` at `0x41a36e`
+and the live 弱 case agree on the B-skip.
 
-The resource increment condition at difficulty 0 has not been checked live.
-A sweep confirmed the path on levels 1 through 10; level 11 ends in state 3
-without a continue (RE-0011).
+A sweep confirmed the path through levels 1–10 at difficulty 1; level 11 ends
+in state 3 without a continue (RE-0011).
 
 ## Open questions
 
-- Does difficulty 0 give the same +1/+1 resource increment?
+- Does difficulty 0 give the same +1/+1 resource increment? No: live A 8→9,
+  B 8→8; 強 and 超強 both increment A and B.
 - Does the card screen ever appear during a continuation rather than during
-  active play?
+  active play? No; it is triggered by the third chance star during play
+  (RE-0012), and continuation starts a fresh level.
 
 ## Implementation impact
 
 Model continuation separately from clear-time scoring. Increment the level
-index, apply the per-level timer, and increment both resources; keep the score.
-Do not add a fixed score on continue. Stop at level index 10 with a completed
-state instead of offering another continuation.
+index, apply the per-level timer, increment resource A, and increment resource B
+only when `difficulty > 0`; keep the score. Do not add a fixed score on
+continue. Stop at level index 10 with a completed state instead of offering
+another continuation.
