@@ -358,8 +358,31 @@ onUnmounted(() => {
       <VCard class="pa-2"><VCardText class="text-center pt-8"><VIcon :icon="game?.phase === 'lost' ? mdiAlertCircleOutline : mdiTrophyOutline" size="46" color="primary" /><h2 id="result-title" class="mt-4 mb-3">{{ resultTitle }}</h2><p v-if="resultCopy" class="text-body-2 text-medium-emphasis">{{ resultCopy }}</p><div class="result-score my-5">{{ game?.score.toLocaleString() }} <span>分</span></div><VChip v-if="game?.phase !== 'lost'" color="primary" variant="tonal">過關獎勵 +{{ game?.bonus.toLocaleString() }}</VChip></VCardText><VCardActions class="pa-5"><VBtn block color="primary" variant="flat" :append-icon="mdiArrowRight" @click="game?.phase === 'won' ? continueLevel() : finishRun()">{{ game?.phase === 'won' ? '下一關' : '確定' }}</VBtn></VCardActions></VCard>
     </VDialog>
 
-    <VDialog v-model="nameEntry" persistent max-width="450" aria-labelledby="name-title">
-      <VCard><VCardTitle id="name-title" class="dialog-heading">登錄最佳紀錄</VCardTitle><VCardText><p class="mb-4">本次 {{ game?.score.toLocaleString() }} 分。</p><VTable density="compact" class="mb-5"><thead><tr><th>排名</th><th>玩家</th><th class="text-right">分數</th></tr></thead><tbody><tr v-for="row in provisionalRecords" :key="row.rank" :class="{ 'text-primary font-weight-bold': row.pending }" :aria-current="row.pending ? 'true' : undefined"><td>{{ row.rank }}</td><td>{{ row.pending ? enteredName || '（本次）' : row.entry ? row.entry.name.trim() || '（未署名）' : '—' }}</td><td class="text-right">{{ row.entry?.score.toLocaleString() ?? '—' }}</td></tr></tbody></VTable><form id="record-form" @submit.prevent="saveRecord"><VTextField :model-value="enteredName" label="玩家名稱" maxlength="16" counter="16" autofocus variant="outlined" hint="A–Z 與空格，最多 16 字元，可留白。" persistent-hint @update:model-value="enteredName = playerName($event ?? '')" @keydown.esc.prevent /></form></VCardText><VCardActions class="pa-5 pt-0"><VBtn type="submit" form="record-form" block color="primary" variant="flat" :prepend-icon="mdiCheck">儲存紀錄</VBtn></VCardActions></VCard>
+    <VDialog :model-value="nameEntry" max-width="450" aria-labelledby="name-title" @update:model-value="!$event && toMenu()">
+      <VCard>
+        <VCardTitle id="name-title" class="dialog-heading">登錄最佳紀錄</VCardTitle>
+        <VCardText>
+          <p class="mb-4">本次 {{ game?.score.toLocaleString() }} 分。</p>
+          <VTable density="compact" class="mb-5">
+            <thead><tr><th>排名</th><th>玩家</th><th class="text-right">分數</th></tr></thead>
+            <tbody>
+              <tr v-for="row in provisionalRecords" :key="row.rank" :class="{ 'text-primary font-weight-bold': row.pending }" :aria-current="row.pending ? 'true' : undefined">
+                <td>{{ row.rank }}</td>
+                <td>{{ row.pending ? enteredName || '（本次）' : row.entry ? row.entry.name.trim() || '（未署名）' : '—' }}</td>
+                <td class="text-right">{{ row.entry?.score.toLocaleString() ?? '—' }}</td>
+              </tr>
+            </tbody>
+          </VTable>
+          <form id="record-form" @submit.prevent="saveRecord">
+            <VTextField :model-value="enteredName" label="玩家名稱" maxlength="16" counter="16" autofocus variant="outlined" hint="A–Z 與空格，最多 16 字元，可留白。" persistent-hint @update:model-value="enteredName = playerName($event ?? '')" />
+          </form>
+        </VCardText>
+        <VCardActions class="pa-5 pt-0">
+          <VBtn variant="text" @click="toMenu">略過</VBtn>
+          <VSpacer />
+          <VBtn type="submit" form="record-form" color="primary" variant="flat" :prepend-icon="mdiCheck">儲存紀錄</VBtn>
+        </VCardActions>
+      </VCard>
     </VDialog>
 
     <VDialog v-model="recordsOpen" max-width="620" aria-labelledby="records-title">

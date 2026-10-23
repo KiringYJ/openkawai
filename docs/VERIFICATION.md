@@ -38,9 +38,12 @@ editing hidden game state or injecting a prepared board.
   level, and the board. Exhausted shuffle resources disabled shuffle/pause.
 - A natural run with exhausted shuffle resources reached the no-move failure
   dialog. The name screen displayed ten ranks with a pending, unsaved row.
-  Names normalized to the accepted vocabulary; Escape kept the name dialog
-  open. Saving returned to the menu; the saved score survived a reload and
-  appeared only in its difficulty table.
+  Names normalized to the accepted vocabulary. Saving returned to the menu;
+  the saved score survived a reload and appeared only in its difficulty table.
+- Qualifying timeout runs confirmed that skipping or pressing Escape after
+  typing a name returns to the menu without adding a record, including after
+  reload. Explicit saving still persisted the score. The skip and save actions
+  both fit the name dialog at 375 CSS pixels without horizontal overflow.
 - Exit returned directly to the menu without a confirmation dialog.
 - The skip link focused the board and arrow keys moved tile focus.
 - At 1280 CSS pixels the board had no internal overflow. At 375 CSS pixels,

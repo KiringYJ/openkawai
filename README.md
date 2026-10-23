@@ -59,7 +59,9 @@ and tooling versions are recorded in `package.json` and `package-lock.json`.
 - Match the current chance animal to earn a star. Three stars open an
   18-card reward screen; stars carry across levels until the cards are used.
 - Completed or failed runs can enter a separate top-ten table per difficulty.
-  Names accept A–Z and spaces, up to 16 characters; blank names are allowed.
+  Registration is optional: skip or dismiss the name dialog to return to the
+  menu without saving. Names accept A–Z and spaces, up to 16 characters;
+  blank names are allowed.
 
 Keyboard: arrows move between tiles, Enter/Space selects, H hints, S shuffles,
 P pauses/resumes, R restarts, and Escape cancels selection. Right-click also
@@ -88,10 +90,10 @@ than claiming that every possible original-game state was compared live.
 
 Web adaptations are deliberate: seeded uniform shuffles replace the original
 VB random sequence, artwork comes from open emoji projects, score tables use
-browser storage instead of a Windows `.hst` file, and lowercase name input is
-normalized to uppercase. Original audio, original artwork, and exact animation
-timings are outside scope. A service worker, saved-run restore, and custom
-asset-pack upload are not implemented.
+browser storage instead of a Windows `.hst` file, score registration can be
+skipped, and lowercase name input is normalized to uppercase. Original audio,
+original artwork, and exact animation timings are outside scope. A service
+worker, saved-run restore, and custom asset-pack upload are not implemented.
 
 ## Repository
 
