@@ -41,9 +41,12 @@ The build is a static site in `dist/`, including all 375 tile images, credits,
 and artwork licences. There is no backend or external image dependency at
 runtime. Serve it over HTTP; opening `index.html` directly is not supported.
 
-The hosted game is published under `/openkawai/` in
-[`KiringYJ.github.io`](https://github.com/KiringYJ/KiringYJ.github.io).
-See [deployment](docs/DEPLOYMENT.md) for the build and publication procedure.
+The hosted game is published at
+[`kiringyj.github.io/openkawai/`](https://kiringyj.github.io/openkawai/) using
+this repository's GitHub Pages site.
+Pushes to `main` automatically publish a new version after tests and the
+production build pass. See [deployment](docs/DEPLOYMENT.md) for the workflow
+and recovery procedure.
 
 | Command | Purpose |
 | --- | --- |

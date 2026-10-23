@@ -15,7 +15,7 @@
 - [x] 375 local images with pinned sources, full licences, and hash checks.
 - [x] Persistent settings and per-difficulty top-ten records.
 - [x] Unit tests for rules, persistence, and bundled art.
-- [x] [GitHub Pages deployment](DEPLOYMENT.md) at `/openkawai/`.
+- [x] [Automatic GitHub Pages deployment](DEPLOYMENT.md) at `/openkawai/` after tested `main` pushes.
 
 ## Further verification and release work
 
