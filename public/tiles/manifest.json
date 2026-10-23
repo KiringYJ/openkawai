@@ -1,0 +1,1668 @@
+{
+  "schemaVersion": 1,
+  "generatedBy": "scripts/download-tile-assets.mjs",
+  "tileCount": 36,
+  "themeCount": 5,
+  "fileCount": 180,
+  "themes": [
+    {
+      "id": "fluent3d",
+      "repository": "microsoft/fluentui-emoji",
+      "revision": "1ffb34c752ecf5d402f04cfb4b392c77f57c54bc",
+      "extension": "png",
+      "license": "MIT"
+    },
+    {
+      "id": "fluentflat",
+      "repository": "microsoft/fluentui-emoji",
+      "revision": "1ffb34c752ecf5d402f04cfb4b392c77f57c54bc",
+      "extension": "svg",
+      "license": "MIT"
+    },
+    {
+      "id": "noto",
+      "repository": "googlefonts/noto-emoji",
+      "revision": "e20cbc2bbec1926686be9f9bee7d1d2cfa1fea0e",
+      "extension": "png",
+      "license": "Apache-2.0"
+    },
+    {
+      "id": "twemoji",
+      "repository": "jdecked/twemoji",
+      "revision": "b6b55fef1e8636b540a6d016a4729ca8cdf2e60b",
+      "release": "v17.0.3",
+      "extension": "svg",
+      "license": "CC-BY-4.0"
+    },
+    {
+      "id": "openmoji",
+      "repository": "hfg-gmuend/openmoji",
+      "revision": "f9fc506a3f913be9897ab0181d611d4c910a4104",
+      "release": "17.0.0",
+      "extension": "svg",
+      "license": "CC-BY-SA-4.0"
+    }
+  ],
+  "files": [
+    {
+      "theme": "fluent3d",
+      "kindId": "elephant",
+      "path": "tiles/fluent3d/elephant.png",
+      "sourcePath": "assets/Elephant/3D/elephant_3d.png",
+      "sourceUrl": "https://raw.githubusercontent.com/microsoft/fluentui-emoji/1ffb34c752ecf5d402f04cfb4b392c77f57c54bc/assets/Elephant/3D/elephant_3d.png",
+      "bytes": 35170,
+      "sha256": "d3046f53f45dc20b818484dec97f53634d5c71b277015fc96aebcdc0d49a8f91"
+    },
+    {
+      "theme": "fluent3d",
+      "kindId": "giraffe",
+      "path": "tiles/fluent3d/giraffe.png",
+      "sourcePath": "assets/Giraffe/3D/giraffe_3d.png",
+      "sourceUrl": "https://raw.githubusercontent.com/microsoft/fluentui-emoji/1ffb34c752ecf5d402f04cfb4b392c77f57c54bc/assets/Giraffe/3D/giraffe_3d.png",
+      "bytes": 30236,
+      "sha256": "bfe23a59e8b7f25b691403763f972f3da030edf199cb0665b21e01d1d1f6079c"
+    },
+    {
+      "theme": "fluent3d",
+      "kindId": "rabbit",
+      "path": "tiles/fluent3d/rabbit.png",
+      "sourcePath": "assets/Rabbit/3D/rabbit_3d.png",
+      "sourceUrl": "https://raw.githubusercontent.com/microsoft/fluentui-emoji/1ffb34c752ecf5d402f04cfb4b392c77f57c54bc/assets/Rabbit/3D/rabbit_3d.png",
+      "bytes": 30732,
+      "sha256": "7562dc09000d602286688df3adf20a082250b7d944348cc5c76639fc5a9c9ca4"
+    },
+    {
+      "theme": "fluent3d",
+      "kindId": "pig",
+      "path": "tiles/fluent3d/pig.png",
+      "sourcePath": "assets/Pig/3D/pig_3d.png",
+      "sourceUrl": "https://raw.githubusercontent.com/microsoft/fluentui-emoji/1ffb34c752ecf5d402f04cfb4b392c77f57c54bc/assets/Pig/3D/pig_3d.png",
+      "bytes": 24009,
+      "sha256": "a99ba267149dd19533d06385704da9961b8b1079bb45ae580d7f405f41c958b6"
+    },
+    {
+      "theme": "fluent3d",
+      "kindId": "two_hump_camel",
+      "path": "tiles/fluent3d/two_hump_camel.png",
+      "sourcePath": "assets/Two-hump camel/3D/two-hump_camel_3d.png",
+      "sourceUrl": "https://raw.githubusercontent.com/microsoft/fluentui-emoji/1ffb34c752ecf5d402f04cfb4b392c77f57c54bc/assets/Two-hump%20camel/3D/two-hump_camel_3d.png",
+      "bytes": 34068,
+      "sha256": "1dfecdd2a4709a0b6adecddaeefc84123f86d3a3eb2dde62dd3cd042eb7bf45a"
+    },
+    {
+      "theme": "fluent3d",
+      "kindId": "kangaroo",
+      "path": "tiles/fluent3d/kangaroo.png",
+      "sourcePath": "assets/Kangaroo/3D/kangaroo_3d.png",
+      "sourceUrl": "https://raw.githubusercontent.com/microsoft/fluentui-emoji/1ffb34c752ecf5d402f04cfb4b392c77f57c54bc/assets/Kangaroo/3D/kangaroo_3d.png",
+      "bytes": 30016,
+      "sha256": "48ee57cc6778f0a586d53fd0647173ae8ef45f3f775fe47adb476f1c2c385f8e"
+    },
+    {
+      "theme": "fluent3d",
+      "kindId": "hedgehog",
+      "path": "tiles/fluent3d/hedgehog.png",
+      "sourcePath": "assets/Hedgehog/3D/hedgehog_3d.png",
+      "sourceUrl": "https://raw.githubusercontent.com/microsoft/fluentui-emoji/1ffb34c752ecf5d402f04cfb4b392c77f57c54bc/assets/Hedgehog/3D/hedgehog_3d.png",
+      "bytes": 32095,
+      "sha256": "5c0d9bdeb079fb461fb670b09cbb844aab97860dd4a5a54eb6c62318c7f32f8d"
+    },
+    {
+      "theme": "fluent3d",
+      "kindId": "skunk",
+      "path": "tiles/fluent3d/skunk.png",
+      "sourcePath": "assets/Skunk/3D/skunk_3d.png",
+      "sourceUrl": "https://raw.githubusercontent.com/microsoft/fluentui-emoji/1ffb34c752ecf5d402f04cfb4b392c77f57c54bc/assets/Skunk/3D/skunk_3d.png",
+      "bytes": 36391,
+      "sha256": "4b761eda68239b85e88b6419f4683415f604176518436a04b83dbc7fe4b9442a"
+    },
+    {
+      "theme": "fluent3d",
+      "kindId": "bat",
+      "path": "tiles/fluent3d/bat.png",
+      "sourcePath": "assets/Bat/3D/bat_3d.png",
+      "sourceUrl": "https://raw.githubusercontent.com/microsoft/fluentui-emoji/1ffb34c752ecf5d402f04cfb4b392c77f57c54bc/assets/Bat/3D/bat_3d.png",
+      "bytes": 28591,
+      "sha256": "4044ac8c7d72df1e8ca9642b8995b0d3ce1ff62ebef02f5571e1812e4ab8330f"
+    },
+    {
+      "theme": "fluent3d",
+      "kindId": "penguin",
+      "path": "tiles/fluent3d/penguin.png",
+      "sourcePath": "assets/Penguin/3D/penguin_3d.png",
+      "sourceUrl": "https://raw.githubusercontent.com/microsoft/fluentui-emoji/1ffb34c752ecf5d402f04cfb4b392c77f57c54bc/assets/Penguin/3D/penguin_3d.png",
+      "bytes": 32955,
+      "sha256": "c513a326631f3758e3ef9729ed2aa3bba46432340657ae63f32fd0332f648341"
+    },
+    {
+      "theme": "fluent3d",
+      "kindId": "owl",
+      "path": "tiles/fluent3d/owl.png",
+      "sourcePath": "assets/Owl/3D/owl_3d.png",
+      "sourceUrl": "https://raw.githubusercontent.com/microsoft/fluentui-emoji/1ffb34c752ecf5d402f04cfb4b392c77f57c54bc/assets/Owl/3D/owl_3d.png",
+      "bytes": 38126,
+      "sha256": "7dfcdcdebd599787719d98f3057b0822522678e6752369ca3498a780ca7ba443"
+    },
+    {
+      "theme": "fluent3d",
+      "kindId": "duck",
+      "path": "tiles/fluent3d/duck.png",
+      "sourcePath": "assets/Duck/3D/duck_3d.png",
+      "sourceUrl": "https://raw.githubusercontent.com/microsoft/fluentui-emoji/1ffb34c752ecf5d402f04cfb4b392c77f57c54bc/assets/Duck/3D/duck_3d.png",
+      "bytes": 32162,
+      "sha256": "c45934c5d609fc03e9713d66ada5e08034b0b27bf29a37a39c726633b5c2d2e4"
+    },
+    {
+      "theme": "fluent3d",
+      "kindId": "flamingo",
+      "path": "tiles/fluent3d/flamingo.png",
+      "sourcePath": "assets/Flamingo/3D/flamingo_3d.png",
+      "sourceUrl": "https://raw.githubusercontent.com/microsoft/fluentui-emoji/1ffb34c752ecf5d402f04cfb4b392c77f57c54bc/assets/Flamingo/3D/flamingo_3d.png",
+      "bytes": 23943,
+      "sha256": "cda1374b5f4ad9aee904ce92af77b0279ffdf1aa438cb6123540811fa9d8781e"
+    },
+    {
+      "theme": "fluent3d",
+      "kindId": "peacock",
+      "path": "tiles/fluent3d/peacock.png",
+      "sourcePath": "assets/Peacock/3D/peacock_3d.png",
+      "sourceUrl": "https://raw.githubusercontent.com/microsoft/fluentui-emoji/1ffb34c752ecf5d402f04cfb4b392c77f57c54bc/assets/Peacock/3D/peacock_3d.png",
+      "bytes": 45590,
+      "sha256": "26b8b6d4430e47ba212c2af2b90ecf9f99bb7b72cb21e6e64b8496f016847cd6"
+    },
+    {
+      "theme": "fluent3d",
+      "kindId": "parrot",
+      "path": "tiles/fluent3d/parrot.png",
+      "sourcePath": "assets/Parrot/3D/parrot_3d.png",
+      "sourceUrl": "https://raw.githubusercontent.com/microsoft/fluentui-emoji/1ffb34c752ecf5d402f04cfb4b392c77f57c54bc/assets/Parrot/3D/parrot_3d.png",
+      "bytes": 31096,
+      "sha256": "458f758fd9ac7578259f5981fa903c0ecd2da0802a827889a7f7a25cf3603921"
+    },
+    {
+      "theme": "fluent3d",
+      "kindId": "turtle",
+      "path": "tiles/fluent3d/turtle.png",
+      "sourcePath": "assets/Turtle/3D/turtle_3d.png",
+      "sourceUrl": "https://raw.githubusercontent.com/microsoft/fluentui-emoji/1ffb34c752ecf5d402f04cfb4b392c77f57c54bc/assets/Turtle/3D/turtle_3d.png",
+      "bytes": 31010,
+      "sha256": "86486ad9e55664aad9e28af70a8b35dbbadd0678be5f0d1f0b1b5baba616649c"
+    },
+    {
+      "theme": "fluent3d",
+      "kindId": "snake",
+      "path": "tiles/fluent3d/snake.png",
+      "sourcePath": "assets/Snake/3D/snake_3d.png",
+      "sourceUrl": "https://raw.githubusercontent.com/microsoft/fluentui-emoji/1ffb34c752ecf5d402f04cfb4b392c77f57c54bc/assets/Snake/3D/snake_3d.png",
+      "bytes": 38393,
+      "sha256": "3d9ad552f970ebcf8d9adf27d0d08b4f783646a25378d6283e956e2f73c0466c"
+    },
+    {
+      "theme": "fluent3d",
+      "kindId": "sauropod",
+      "path": "tiles/fluent3d/sauropod.png",
+      "sourcePath": "assets/Sauropod/3D/sauropod_3d.png",
+      "sourceUrl": "https://raw.githubusercontent.com/microsoft/fluentui-emoji/1ffb34c752ecf5d402f04cfb4b392c77f57c54bc/assets/Sauropod/3D/sauropod_3d.png",
+      "bytes": 28655,
+      "sha256": "6f5008e7922aee11a3055f362af9d5dfbd3c872c9171cab16bf1bf4a893ebf4a"
+    },
+    {
+      "theme": "fluent3d",
+      "kindId": "dragon",
+      "path": "tiles/fluent3d/dragon.png",
+      "sourcePath": "assets/Dragon/3D/dragon_3d.png",
+      "sourceUrl": "https://raw.githubusercontent.com/microsoft/fluentui-emoji/1ffb34c752ecf5d402f04cfb4b392c77f57c54bc/assets/Dragon/3D/dragon_3d.png",
+      "bytes": 40277,
+      "sha256": "c29e7f01b3a376bdb2ce55e2b631fa00395a3ea9d0d4870b8475d494ba760f34"
+    },
+    {
+      "theme": "fluent3d",
+      "kindId": "spouting_whale",
+      "path": "tiles/fluent3d/spouting_whale.png",
+      "sourcePath": "assets/Spouting whale/3D/spouting_whale_3d.png",
+      "sourceUrl": "https://raw.githubusercontent.com/microsoft/fluentui-emoji/1ffb34c752ecf5d402f04cfb4b392c77f57c54bc/assets/Spouting%20whale/3D/spouting_whale_3d.png",
+      "bytes": 37332,
+      "sha256": "6d54f3331c142690c6762c4cf5e2b212a45e652e16653f1a765ce3346db0f8db"
+    },
+    {
+      "theme": "fluent3d",
+      "kindId": "fish",
+      "path": "tiles/fluent3d/fish.png",
+      "sourcePath": "assets/Fish/3D/fish_3d.png",
+      "sourceUrl": "https://raw.githubusercontent.com/microsoft/fluentui-emoji/1ffb34c752ecf5d402f04cfb4b392c77f57c54bc/assets/Fish/3D/fish_3d.png",
+      "bytes": 29593,
+      "sha256": "d219342f1f416f2a89b5f6d412743bc809ac75d3be3d8cff0bc0cf5af5e288fa"
+    },
+    {
+      "theme": "fluent3d",
+      "kindId": "tropical_fish",
+      "path": "tiles/fluent3d/tropical_fish.png",
+      "sourcePath": "assets/Tropical fish/3D/tropical_fish_3d.png",
+      "sourceUrl": "https://raw.githubusercontent.com/microsoft/fluentui-emoji/1ffb34c752ecf5d402f04cfb4b392c77f57c54bc/assets/Tropical%20fish/3D/tropical_fish_3d.png",
+      "bytes": 27051,
+      "sha256": "6179b36bbd40d25863d2dc7e9680a2e6d922f354fdada4fb707c5ebfae845808"
+    },
+    {
+      "theme": "fluent3d",
+      "kindId": "blowfish",
+      "path": "tiles/fluent3d/blowfish.png",
+      "sourcePath": "assets/Blowfish/3D/blowfish_3d.png",
+      "sourceUrl": "https://raw.githubusercontent.com/microsoft/fluentui-emoji/1ffb34c752ecf5d402f04cfb4b392c77f57c54bc/assets/Blowfish/3D/blowfish_3d.png",
+      "bytes": 29249,
+      "sha256": "46984bce881dea516089cdcbb66a9ce48ec3bbe5034d24678ce9f437ce28f547"
+    },
+    {
+      "theme": "fluent3d",
+      "kindId": "octopus",
+      "path": "tiles/fluent3d/octopus.png",
+      "sourcePath": "assets/Octopus/3D/octopus_3d.png",
+      "sourceUrl": "https://raw.githubusercontent.com/microsoft/fluentui-emoji/1ffb34c752ecf5d402f04cfb4b392c77f57c54bc/assets/Octopus/3D/octopus_3d.png",
+      "bytes": 34258,
+      "sha256": "4dfd49959bc303d641dca3b36c35c3d4d3c4b248c9394aa5879fe2c5edfeb089"
+    },
+    {
+      "theme": "fluent3d",
+      "kindId": "squid",
+      "path": "tiles/fluent3d/squid.png",
+      "sourcePath": "assets/Squid/3D/squid_3d.png",
+      "sourceUrl": "https://raw.githubusercontent.com/microsoft/fluentui-emoji/1ffb34c752ecf5d402f04cfb4b392c77f57c54bc/assets/Squid/3D/squid_3d.png",
+      "bytes": 46480,
+      "sha256": "eac8e1eec37ec616d6eea4bd507682c42a9c5bac32c9532855290691ee658fc2"
+    },
+    {
+      "theme": "fluent3d",
+      "kindId": "crab",
+      "path": "tiles/fluent3d/crab.png",
+      "sourcePath": "assets/Crab/3D/crab_3d.png",
+      "sourceUrl": "https://raw.githubusercontent.com/microsoft/fluentui-emoji/1ffb34c752ecf5d402f04cfb4b392c77f57c54bc/assets/Crab/3D/crab_3d.png",
+      "bytes": 34960,
+      "sha256": "5dab35d6ebc98078d272885769d6621976582003886911a040c608b52c548177"
+    },
+    {
+      "theme": "fluent3d",
+      "kindId": "lobster",
+      "path": "tiles/fluent3d/lobster.png",
+      "sourcePath": "assets/Lobster/3D/lobster_3d.png",
+      "sourceUrl": "https://raw.githubusercontent.com/microsoft/fluentui-emoji/1ffb34c752ecf5d402f04cfb4b392c77f57c54bc/assets/Lobster/3D/lobster_3d.png",
+      "bytes": 45272,
+      "sha256": "af70bf7c7983bccb4c72c9bae7dc769df39125b42d6a5622006c99de6261b7c2"
+    },
+    {
+      "theme": "fluent3d",
+      "kindId": "jellyfish",
+      "path": "tiles/fluent3d/jellyfish.png",
+      "sourcePath": "assets/Jellyfish/3D/jellyfish_3d.png",
+      "sourceUrl": "https://raw.githubusercontent.com/microsoft/fluentui-emoji/1ffb34c752ecf5d402f04cfb4b392c77f57c54bc/assets/Jellyfish/3D/jellyfish_3d.png",
+      "bytes": 33385,
+      "sha256": "b807bb54d0cffcf81ad27d8943fc03f2161e9359c7c24632c45fb24622a4962e"
+    },
+    {
+      "theme": "fluent3d",
+      "kindId": "coral",
+      "path": "tiles/fluent3d/coral.png",
+      "sourcePath": "assets/Coral/3D/coral_3d.png",
+      "sourceUrl": "https://raw.githubusercontent.com/microsoft/fluentui-emoji/1ffb34c752ecf5d402f04cfb4b392c77f57c54bc/assets/Coral/3D/coral_3d.png",
+      "bytes": 39470,
+      "sha256": "5155e159e72a019004966217eaba7849d0ef0be633827d60a47b658d235055a0"
+    },
+    {
+      "theme": "fluent3d",
+      "kindId": "oyster",
+      "path": "tiles/fluent3d/oyster.png",
+      "sourcePath": "assets/Oyster/3D/oyster_3d.png",
+      "sourceUrl": "https://raw.githubusercontent.com/microsoft/fluentui-emoji/1ffb34c752ecf5d402f04cfb4b392c77f57c54bc/assets/Oyster/3D/oyster_3d.png",
+      "bytes": 47115,
+      "sha256": "fb364215a17ad3b607f7bc8c97e093655a34c9a980283c5eb1566bcb1f114b38"
+    },
+    {
+      "theme": "fluent3d",
+      "kindId": "butterfly",
+      "path": "tiles/fluent3d/butterfly.png",
+      "sourcePath": "assets/Butterfly/3D/butterfly_3d.png",
+      "sourceUrl": "https://raw.githubusercontent.com/microsoft/fluentui-emoji/1ffb34c752ecf5d402f04cfb4b392c77f57c54bc/assets/Butterfly/3D/butterfly_3d.png",
+      "bytes": 60804,
+      "sha256": "2ee52f94c6383dafdd29f471d04c17141563d7fff790d33e16781a751f72b397"
+    },
+    {
+      "theme": "fluent3d",
+      "kindId": "honeybee",
+      "path": "tiles/fluent3d/honeybee.png",
+      "sourcePath": "assets/Honeybee/3D/honeybee_3d.png",
+      "sourceUrl": "https://raw.githubusercontent.com/microsoft/fluentui-emoji/1ffb34c752ecf5d402f04cfb4b392c77f57c54bc/assets/Honeybee/3D/honeybee_3d.png",
+      "bytes": 33068,
+      "sha256": "7769854974b0fe9d75ccf16943f7f01773c87a1b1f2f84feb16327be46c69ef2"
+    },
+    {
+      "theme": "fluent3d",
+      "kindId": "lady_beetle",
+      "path": "tiles/fluent3d/lady_beetle.png",
+      "sourcePath": "assets/Lady beetle/3D/lady_beetle_3d.png",
+      "sourceUrl": "https://raw.githubusercontent.com/microsoft/fluentui-emoji/1ffb34c752ecf5d402f04cfb4b392c77f57c54bc/assets/Lady%20beetle/3D/lady_beetle_3d.png",
+      "bytes": 40418,
+      "sha256": "2aaf2b3e1147a19237fd0350d094e8260023a2d3058ee8872f48f716c694bca1"
+    },
+    {
+      "theme": "fluent3d",
+      "kindId": "beetle",
+      "path": "tiles/fluent3d/beetle.png",
+      "sourcePath": "assets/Beetle/3D/beetle_3d.png",
+      "sourceUrl": "https://raw.githubusercontent.com/microsoft/fluentui-emoji/1ffb34c752ecf5d402f04cfb4b392c77f57c54bc/assets/Beetle/3D/beetle_3d.png",
+      "bytes": 42763,
+      "sha256": "13c6d2f00417ed5b3dc9a0d232a823ec68c64f568c50dfdc1c70a51b7e9a2d67"
+    },
+    {
+      "theme": "fluent3d",
+      "kindId": "caterpillar",
+      "path": "tiles/fluent3d/caterpillar.png",
+      "sourcePath": "assets/Bug/3D/bug_3d.png",
+      "sourceUrl": "https://raw.githubusercontent.com/microsoft/fluentui-emoji/1ffb34c752ecf5d402f04cfb4b392c77f57c54bc/assets/Bug/3D/bug_3d.png",
+      "bytes": 29533,
+      "sha256": "f8fca56bd7f689e758c7de388c343acecf1c40cc09e666e6fcc99c2e38df0031"
+    },
+    {
+      "theme": "fluent3d",
+      "kindId": "snail",
+      "path": "tiles/fluent3d/snail.png",
+      "sourcePath": "assets/Snail/3D/snail_3d.png",
+      "sourceUrl": "https://raw.githubusercontent.com/microsoft/fluentui-emoji/1ffb34c752ecf5d402f04cfb4b392c77f57c54bc/assets/Snail/3D/snail_3d.png",
+      "bytes": 45111,
+      "sha256": "4520e1a8ab0d83d7a42d7dddf8529be7d5c3b31bb0f7f4d79a44279748da2d9d"
+    },
+    {
+      "theme": "fluentflat",
+      "kindId": "elephant",
+      "path": "tiles/fluentflat/elephant.svg",
+      "sourcePath": "assets/Elephant/Flat/elephant_flat.svg",
+      "sourceUrl": "https://raw.githubusercontent.com/microsoft/fluentui-emoji/1ffb34c752ecf5d402f04cfb4b392c77f57c54bc/assets/Elephant/Flat/elephant_flat.svg",
+      "bytes": 1800,
+      "sha256": "756c630d03adf722b0686012db737f097650f24b8b77174c862e4bafb202fa44"
+    },
+    {
+      "theme": "fluentflat",
+      "kindId": "giraffe",
+      "path": "tiles/fluentflat/giraffe.svg",
+      "sourcePath": "assets/Giraffe/Flat/giraffe_flat.svg",
+      "sourceUrl": "https://raw.githubusercontent.com/microsoft/fluentui-emoji/1ffb34c752ecf5d402f04cfb4b392c77f57c54bc/assets/Giraffe/Flat/giraffe_flat.svg",
+      "bytes": 5547,
+      "sha256": "754e9905438473e77bdfbefae26c92bbb5240cd6c718bf1ec95aa190af0a317c"
+    },
+    {
+      "theme": "fluentflat",
+      "kindId": "rabbit",
+      "path": "tiles/fluentflat/rabbit.svg",
+      "sourcePath": "assets/Rabbit/Flat/rabbit_flat.svg",
+      "sourceUrl": "https://raw.githubusercontent.com/microsoft/fluentui-emoji/1ffb34c752ecf5d402f04cfb4b392c77f57c54bc/assets/Rabbit/Flat/rabbit_flat.svg",
+      "bytes": 2493,
+      "sha256": "e78f7552298062c599bd7290ff52bad25de352477a9475e34332c52eafe2c5d7"
+    },
+    {
+      "theme": "fluentflat",
+      "kindId": "pig",
+      "path": "tiles/fluentflat/pig.svg",
+      "sourcePath": "assets/Pig/Flat/pig_flat.svg",
+      "sourceUrl": "https://raw.githubusercontent.com/microsoft/fluentui-emoji/1ffb34c752ecf5d402f04cfb4b392c77f57c54bc/assets/Pig/Flat/pig_flat.svg",
+      "bytes": 1571,
+      "sha256": "790bb801b792327d607bf51f7410be069fb26f2a2908b2a691c851a947bdba08"
+    },
+    {
+      "theme": "fluentflat",
+      "kindId": "two_hump_camel",
+      "path": "tiles/fluentflat/two_hump_camel.svg",
+      "sourcePath": "assets/Two-hump camel/Flat/two-hump_camel_flat.svg",
+      "sourceUrl": "https://raw.githubusercontent.com/microsoft/fluentui-emoji/1ffb34c752ecf5d402f04cfb4b392c77f57c54bc/assets/Two-hump%20camel/Flat/two-hump_camel_flat.svg",
+      "bytes": 1878,
+      "sha256": "4023f622e3dad039b9a85cf05045fd4a559f71e4f53bf5a9b49c23863cb9e1a5"
+    },
+    {
+      "theme": "fluentflat",
+      "kindId": "kangaroo",
+      "path": "tiles/fluentflat/kangaroo.svg",
+      "sourcePath": "assets/Kangaroo/Flat/kangaroo_flat.svg",
+      "sourceUrl": "https://raw.githubusercontent.com/microsoft/fluentui-emoji/1ffb34c752ecf5d402f04cfb4b392c77f57c54bc/assets/Kangaroo/Flat/kangaroo_flat.svg",
+      "bytes": 2247,
+      "sha256": "6a207d887206c2d8f687f11173046dabec2cb9dcc42f1c5ae14e26c714ce6754"
+    },
+    {
+      "theme": "fluentflat",
+      "kindId": "hedgehog",
+      "path": "tiles/fluentflat/hedgehog.svg",
+      "sourcePath": "assets/Hedgehog/Flat/hedgehog_flat.svg",
+      "sourceUrl": "https://raw.githubusercontent.com/microsoft/fluentui-emoji/1ffb34c752ecf5d402f04cfb4b392c77f57c54bc/assets/Hedgehog/Flat/hedgehog_flat.svg",
+      "bytes": 3671,
+      "sha256": "4a5031b34d2be1c61a4cbe647acb450f1805ab1b4020f34421d7da829a9e752f"
+    },
+    {
+      "theme": "fluentflat",
+      "kindId": "skunk",
+      "path": "tiles/fluentflat/skunk.svg",
+      "sourcePath": "assets/Skunk/Flat/skunk_flat.svg",
+      "sourceUrl": "https://raw.githubusercontent.com/microsoft/fluentui-emoji/1ffb34c752ecf5d402f04cfb4b392c77f57c54bc/assets/Skunk/Flat/skunk_flat.svg",
+      "bytes": 3499,
+      "sha256": "5d94967df2dad09b9e98d27f6bcc0c625e49be2b0cbf6a2d816608a760934f58"
+    },
+    {
+      "theme": "fluentflat",
+      "kindId": "bat",
+      "path": "tiles/fluentflat/bat.svg",
+      "sourcePath": "assets/Bat/Flat/bat_flat.svg",
+      "sourceUrl": "https://raw.githubusercontent.com/microsoft/fluentui-emoji/1ffb34c752ecf5d402f04cfb4b392c77f57c54bc/assets/Bat/Flat/bat_flat.svg",
+      "bytes": 2502,
+      "sha256": "075190a2b390f5ec7eb456813d7b193fb87f81581fb9fb517022f46906499168"
+    },
+    {
+      "theme": "fluentflat",
+      "kindId": "penguin",
+      "path": "tiles/fluentflat/penguin.svg",
+      "sourcePath": "assets/Penguin/Flat/penguin_flat.svg",
+      "sourceUrl": "https://raw.githubusercontent.com/microsoft/fluentui-emoji/1ffb34c752ecf5d402f04cfb4b392c77f57c54bc/assets/Penguin/Flat/penguin_flat.svg",
+      "bytes": 2242,
+      "sha256": "7b48f396877956d5b0a32066ef7faf17eeb928bfe70edd7fe4b7a1e76284d425"
+    },
+    {
+      "theme": "fluentflat",
+      "kindId": "owl",
+      "path": "tiles/fluentflat/owl.svg",
+      "sourcePath": "assets/Owl/Flat/owl_flat.svg",
+      "sourceUrl": "https://raw.githubusercontent.com/microsoft/fluentui-emoji/1ffb34c752ecf5d402f04cfb4b392c77f57c54bc/assets/Owl/Flat/owl_flat.svg",
+      "bytes": 2627,
+      "sha256": "443a589d5c8ac73bb60deb4350570e25d21cad33a1e189d2e195aaab14856873"
+    },
+    {
+      "theme": "fluentflat",
+      "kindId": "duck",
+      "path": "tiles/fluentflat/duck.svg",
+      "sourcePath": "assets/Duck/Flat/duck_flat.svg",
+      "sourceUrl": "https://raw.githubusercontent.com/microsoft/fluentui-emoji/1ffb34c752ecf5d402f04cfb4b392c77f57c54bc/assets/Duck/Flat/duck_flat.svg",
+      "bytes": 1457,
+      "sha256": "4d793eb8e867817586ae2a03784cbad9814f0e89f195a3503c77f8cb8441e35d"
+    },
+    {
+      "theme": "fluentflat",
+      "kindId": "flamingo",
+      "path": "tiles/fluentflat/flamingo.svg",
+      "sourcePath": "assets/Flamingo/Flat/flamingo_flat.svg",
+      "sourceUrl": "https://raw.githubusercontent.com/microsoft/fluentui-emoji/1ffb34c752ecf5d402f04cfb4b392c77f57c54bc/assets/Flamingo/Flat/flamingo_flat.svg",
+      "bytes": 1573,
+      "sha256": "4718a9b69276db2394e6f674a1215807032303b775397ad25d86553e2f666e43"
+    },
+    {
+      "theme": "fluentflat",
+      "kindId": "peacock",
+      "path": "tiles/fluentflat/peacock.svg",
+      "sourcePath": "assets/Peacock/Flat/peacock_flat.svg",
+      "sourceUrl": "https://raw.githubusercontent.com/microsoft/fluentui-emoji/1ffb34c752ecf5d402f04cfb4b392c77f57c54bc/assets/Peacock/Flat/peacock_flat.svg",
+      "bytes": 8483,
+      "sha256": "869d281762e4e1bd88477dc16ca1a9c334ad940e69106ecf4fdeefcf98cf1090"
+    },
+    {
+      "theme": "fluentflat",
+      "kindId": "parrot",
+      "path": "tiles/fluentflat/parrot.svg",
+      "sourcePath": "assets/Parrot/Flat/parrot_flat.svg",
+      "sourceUrl": "https://raw.githubusercontent.com/microsoft/fluentui-emoji/1ffb34c752ecf5d402f04cfb4b392c77f57c54bc/assets/Parrot/Flat/parrot_flat.svg",
+      "bytes": 2735,
+      "sha256": "69a731b795971e20ef81ddd3f281ac008497f03579a716d8e401a5b7dc38ad23"
+    },
+    {
+      "theme": "fluentflat",
+      "kindId": "turtle",
+      "path": "tiles/fluentflat/turtle.svg",
+      "sourcePath": "assets/Turtle/Flat/turtle_flat.svg",
+      "sourceUrl": "https://raw.githubusercontent.com/microsoft/fluentui-emoji/1ffb34c752ecf5d402f04cfb4b392c77f57c54bc/assets/Turtle/Flat/turtle_flat.svg",
+      "bytes": 1879,
+      "sha256": "91215c4ddf01d1ae49b4e987ef4ce007a30ddae8818e40b7c6e2991c12ace35d"
+    },
+    {
+      "theme": "fluentflat",
+      "kindId": "snake",
+      "path": "tiles/fluentflat/snake.svg",
+      "sourcePath": "assets/Snake/Flat/snake_flat.svg",
+      "sourceUrl": "https://raw.githubusercontent.com/microsoft/fluentui-emoji/1ffb34c752ecf5d402f04cfb4b392c77f57c54bc/assets/Snake/Flat/snake_flat.svg",
+      "bytes": 3213,
+      "sha256": "e148456c9bc02d7d6256a28dc39a9f6c613978e7eaa84bb6713d6d93fb302c52"
+    },
+    {
+      "theme": "fluentflat",
+      "kindId": "sauropod",
+      "path": "tiles/fluentflat/sauropod.svg",
+      "sourcePath": "assets/Sauropod/Flat/sauropod_flat.svg",
+      "sourceUrl": "https://raw.githubusercontent.com/microsoft/fluentui-emoji/1ffb34c752ecf5d402f04cfb4b392c77f57c54bc/assets/Sauropod/Flat/sauropod_flat.svg",
+      "bytes": 1479,
+      "sha256": "482ea82cd86866e677e77e52fc930f7045cfebfa6aef443a4efcf66c2c3acfc7"
+    },
+    {
+      "theme": "fluentflat",
+      "kindId": "dragon",
+      "path": "tiles/fluentflat/dragon.svg",
+      "sourcePath": "assets/Dragon/Flat/dragon_flat.svg",
+      "sourceUrl": "https://raw.githubusercontent.com/microsoft/fluentui-emoji/1ffb34c752ecf5d402f04cfb4b392c77f57c54bc/assets/Dragon/Flat/dragon_flat.svg",
+      "bytes": 5995,
+      "sha256": "6900afb7a48edeca5ac2c3e326882ba08b9a81312494127dfd561fc8a8ab7aeb"
+    },
+    {
+      "theme": "fluentflat",
+      "kindId": "spouting_whale",
+      "path": "tiles/fluentflat/spouting_whale.svg",
+      "sourcePath": "assets/Spouting whale/Flat/spouting_whale_flat.svg",
+      "sourceUrl": "https://raw.githubusercontent.com/microsoft/fluentui-emoji/1ffb34c752ecf5d402f04cfb4b392c77f57c54bc/assets/Spouting%20whale/Flat/spouting_whale_flat.svg",
+      "bytes": 3375,
+      "sha256": "362050d04f38b7cd55e974244a7e2bcecafcd1922f2d72fee996c4f8e4a9822a"
+    },
+    {
+      "theme": "fluentflat",
+      "kindId": "fish",
+      "path": "tiles/fluentflat/fish.svg",
+      "sourcePath": "assets/Fish/Flat/fish_flat.svg",
+      "sourceUrl": "https://raw.githubusercontent.com/microsoft/fluentui-emoji/1ffb34c752ecf5d402f04cfb4b392c77f57c54bc/assets/Fish/Flat/fish_flat.svg",
+      "bytes": 1646,
+      "sha256": "1fc7329fd735a8b8bd7482a39bc100e3c347e7f0e9ce36473fde81d19e96a1ee"
+    },
+    {
+      "theme": "fluentflat",
+      "kindId": "tropical_fish",
+      "path": "tiles/fluentflat/tropical_fish.svg",
+      "sourcePath": "assets/Tropical fish/Flat/tropical_fish_flat.svg",
+      "sourceUrl": "https://raw.githubusercontent.com/microsoft/fluentui-emoji/1ffb34c752ecf5d402f04cfb4b392c77f57c54bc/assets/Tropical%20fish/Flat/tropical_fish_flat.svg",
+      "bytes": 1627,
+      "sha256": "56b1ba27b8871ba2bd7f59cf8ea9b68c4b289e4850d83bf1a22a1b5e4553819a"
+    },
+    {
+      "theme": "fluentflat",
+      "kindId": "blowfish",
+      "path": "tiles/fluentflat/blowfish.svg",
+      "sourcePath": "assets/Blowfish/Flat/blowfish_flat.svg",
+      "sourceUrl": "https://raw.githubusercontent.com/microsoft/fluentui-emoji/1ffb34c752ecf5d402f04cfb4b392c77f57c54bc/assets/Blowfish/Flat/blowfish_flat.svg",
+      "bytes": 2986,
+      "sha256": "2fd79b2e62da599f93ec5ee2af0415050549daa5bff5a9a61bc37e69920ed175"
+    },
+    {
+      "theme": "fluentflat",
+      "kindId": "octopus",
+      "path": "tiles/fluentflat/octopus.svg",
+      "sourcePath": "assets/Octopus/Flat/octopus_flat.svg",
+      "sourceUrl": "https://raw.githubusercontent.com/microsoft/fluentui-emoji/1ffb34c752ecf5d402f04cfb4b392c77f57c54bc/assets/Octopus/Flat/octopus_flat.svg",
+      "bytes": 3365,
+      "sha256": "50a262e105a309ee21273e1e31a1cff0982a1bf9562fb9d8310a0d61c0f511dd"
+    },
+    {
+      "theme": "fluentflat",
+      "kindId": "squid",
+      "path": "tiles/fluentflat/squid.svg",
+      "sourcePath": "assets/Squid/Flat/squid_flat.svg",
+      "sourceUrl": "https://raw.githubusercontent.com/microsoft/fluentui-emoji/1ffb34c752ecf5d402f04cfb4b392c77f57c54bc/assets/Squid/Flat/squid_flat.svg",
+      "bytes": 6501,
+      "sha256": "799fcf63e112cc9c395efde95704c97bbeb647c51e04cf853776c1bb8b1e948f"
+    },
+    {
+      "theme": "fluentflat",
+      "kindId": "crab",
+      "path": "tiles/fluentflat/crab.svg",
+      "sourcePath": "assets/Crab/Flat/crab_flat.svg",
+      "sourceUrl": "https://raw.githubusercontent.com/microsoft/fluentui-emoji/1ffb34c752ecf5d402f04cfb4b392c77f57c54bc/assets/Crab/Flat/crab_flat.svg",
+      "bytes": 3963,
+      "sha256": "27358ad17af6023fded1fc2fd9c374a16256e4ab6ec120f9312aebb12a9b8e28"
+    },
+    {
+      "theme": "fluentflat",
+      "kindId": "lobster",
+      "path": "tiles/fluentflat/lobster.svg",
+      "sourcePath": "assets/Lobster/Flat/lobster_flat.svg",
+      "sourceUrl": "https://raw.githubusercontent.com/microsoft/fluentui-emoji/1ffb34c752ecf5d402f04cfb4b392c77f57c54bc/assets/Lobster/Flat/lobster_flat.svg",
+      "bytes": 6248,
+      "sha256": "33a85ae15a9c2143267a5c5ebd28a4312a498629a1be784942688d042b39759a"
+    },
+    {
+      "theme": "fluentflat",
+      "kindId": "jellyfish",
+      "path": "tiles/fluentflat/jellyfish.svg",
+      "sourcePath": "assets/Jellyfish/Flat/jellyfish_flat.svg",
+      "sourceUrl": "https://raw.githubusercontent.com/microsoft/fluentui-emoji/1ffb34c752ecf5d402f04cfb4b392c77f57c54bc/assets/Jellyfish/Flat/jellyfish_flat.svg",
+      "bytes": 4273,
+      "sha256": "eafdf92dc015a21867d6c764f6b946e44691a8aa9b08f38977d3f1ec3993b922"
+    },
+    {
+      "theme": "fluentflat",
+      "kindId": "coral",
+      "path": "tiles/fluentflat/coral.svg",
+      "sourcePath": "assets/Coral/Flat/coral_flat.svg",
+      "sourceUrl": "https://raw.githubusercontent.com/microsoft/fluentui-emoji/1ffb34c752ecf5d402f04cfb4b392c77f57c54bc/assets/Coral/Flat/coral_flat.svg",
+      "bytes": 4247,
+      "sha256": "7ee3be48877663917e86ac9be6ebd4b271c654af08e1c1e6d86a904345232b19"
+    },
+    {
+      "theme": "fluentflat",
+      "kindId": "oyster",
+      "path": "tiles/fluentflat/oyster.svg",
+      "sourcePath": "assets/Oyster/Flat/oyster_flat.svg",
+      "sourceUrl": "https://raw.githubusercontent.com/microsoft/fluentui-emoji/1ffb34c752ecf5d402f04cfb4b392c77f57c54bc/assets/Oyster/Flat/oyster_flat.svg",
+      "bytes": 8192,
+      "sha256": "d4a3501a5261874d7e7a809c85a325759b1c509f9bfb6d3a52f99a309d39d33f"
+    },
+    {
+      "theme": "fluentflat",
+      "kindId": "butterfly",
+      "path": "tiles/fluentflat/butterfly.svg",
+      "sourcePath": "assets/Butterfly/Flat/butterfly_flat.svg",
+      "sourceUrl": "https://raw.githubusercontent.com/microsoft/fluentui-emoji/1ffb34c752ecf5d402f04cfb4b392c77f57c54bc/assets/Butterfly/Flat/butterfly_flat.svg",
+      "bytes": 4050,
+      "sha256": "118a7aee6fb3360fef0dcf86aeaac8e022c35c3f52529145750155a8893f50fc"
+    },
+    {
+      "theme": "fluentflat",
+      "kindId": "honeybee",
+      "path": "tiles/fluentflat/honeybee.svg",
+      "sourcePath": "assets/Honeybee/Flat/honeybee_flat.svg",
+      "sourceUrl": "https://raw.githubusercontent.com/microsoft/fluentui-emoji/1ffb34c752ecf5d402f04cfb4b392c77f57c54bc/assets/Honeybee/Flat/honeybee_flat.svg",
+      "bytes": 2981,
+      "sha256": "bb82291c1870bcc05fb694c0f0a4dc63ca0c593fc12e7edd17fc32264ae8d9d5"
+    },
+    {
+      "theme": "fluentflat",
+      "kindId": "lady_beetle",
+      "path": "tiles/fluentflat/lady_beetle.svg",
+      "sourcePath": "assets/Lady beetle/Flat/lady_beetle_flat.svg",
+      "sourceUrl": "https://raw.githubusercontent.com/microsoft/fluentui-emoji/1ffb34c752ecf5d402f04cfb4b392c77f57c54bc/assets/Lady%20beetle/Flat/lady_beetle_flat.svg",
+      "bytes": 4788,
+      "sha256": "c6db446e4774261821661bee4a6a8cf660e546ed20e492b8393d832a93c3d88b"
+    },
+    {
+      "theme": "fluentflat",
+      "kindId": "beetle",
+      "path": "tiles/fluentflat/beetle.svg",
+      "sourcePath": "assets/Beetle/Flat/beetle_flat.svg",
+      "sourceUrl": "https://raw.githubusercontent.com/microsoft/fluentui-emoji/1ffb34c752ecf5d402f04cfb4b392c77f57c54bc/assets/Beetle/Flat/beetle_flat.svg",
+      "bytes": 4921,
+      "sha256": "9ef11173f1ceed307a778b1b8a05fb033d827419f89d332abec8051f092c5b4a"
+    },
+    {
+      "theme": "fluentflat",
+      "kindId": "caterpillar",
+      "path": "tiles/fluentflat/caterpillar.svg",
+      "sourcePath": "assets/Bug/Flat/bug_flat.svg",
+      "sourceUrl": "https://raw.githubusercontent.com/microsoft/fluentui-emoji/1ffb34c752ecf5d402f04cfb4b392c77f57c54bc/assets/Bug/Flat/bug_flat.svg",
+      "bytes": 2844,
+      "sha256": "9954afd29a5a11530134219c1cc8ea60e91300cf535be238cfa94339f242876a"
+    },
+    {
+      "theme": "fluentflat",
+      "kindId": "snail",
+      "path": "tiles/fluentflat/snail.svg",
+      "sourcePath": "assets/Snail/Flat/snail_flat.svg",
+      "sourceUrl": "https://raw.githubusercontent.com/microsoft/fluentui-emoji/1ffb34c752ecf5d402f04cfb4b392c77f57c54bc/assets/Snail/Flat/snail_flat.svg",
+      "bytes": 1598,
+      "sha256": "b4cfa53534ccfd43624af756f1a8736c6a5a1603303fd59ae5ef8fea08b28a87"
+    },
+    {
+      "theme": "noto",
+      "kindId": "elephant",
+      "path": "tiles/noto/elephant.png",
+      "sourcePath": "2D/png/128/emoji_u1f418.png",
+      "sourceUrl": "https://raw.githubusercontent.com/googlefonts/noto-emoji/e20cbc2bbec1926686be9f9bee7d1d2cfa1fea0e/2D/png/128/emoji_u1f418.png",
+      "bytes": 3571,
+      "sha256": "ae577a32ebb75efe61947fbb3a231315fdf994bbae0626cb56b48de87d0d17c1"
+    },
+    {
+      "theme": "noto",
+      "kindId": "giraffe",
+      "path": "tiles/noto/giraffe.png",
+      "sourcePath": "2D/png/128/emoji_u1f992.png",
+      "sourceUrl": "https://raw.githubusercontent.com/googlefonts/noto-emoji/e20cbc2bbec1926686be9f9bee7d1d2cfa1fea0e/2D/png/128/emoji_u1f992.png",
+      "bytes": 4695,
+      "sha256": "9706daefa6f4dffa8474ccc21da14bcfce37c8be1726f6845164918b69a0ec1c"
+    },
+    {
+      "theme": "noto",
+      "kindId": "rabbit",
+      "path": "tiles/noto/rabbit.png",
+      "sourcePath": "2D/png/128/emoji_u1f407.png",
+      "sourceUrl": "https://raw.githubusercontent.com/googlefonts/noto-emoji/e20cbc2bbec1926686be9f9bee7d1d2cfa1fea0e/2D/png/128/emoji_u1f407.png",
+      "bytes": 4105,
+      "sha256": "d04d27f0e8fa968c96c1309aadf924816eaecb408f3a53536dc919175563408e"
+    },
+    {
+      "theme": "noto",
+      "kindId": "pig",
+      "path": "tiles/noto/pig.png",
+      "sourcePath": "2D/png/128/emoji_u1f416.png",
+      "sourceUrl": "https://raw.githubusercontent.com/googlefonts/noto-emoji/e20cbc2bbec1926686be9f9bee7d1d2cfa1fea0e/2D/png/128/emoji_u1f416.png",
+      "bytes": 3365,
+      "sha256": "5c71798a9cd18731b3ae68cb538a00ec6bdf550bd809893d06d090435101122a"
+    },
+    {
+      "theme": "noto",
+      "kindId": "two_hump_camel",
+      "path": "tiles/noto/two_hump_camel.png",
+      "sourcePath": "2D/png/128/emoji_u1f42b.png",
+      "sourceUrl": "https://raw.githubusercontent.com/googlefonts/noto-emoji/e20cbc2bbec1926686be9f9bee7d1d2cfa1fea0e/2D/png/128/emoji_u1f42b.png",
+      "bytes": 4263,
+      "sha256": "1149b8274eeb25ebff813771dedf61c66bf12bc850e63112f8c0874bd9d03dda"
+    },
+    {
+      "theme": "noto",
+      "kindId": "kangaroo",
+      "path": "tiles/noto/kangaroo.png",
+      "sourcePath": "2D/png/128/emoji_u1f998.png",
+      "sourceUrl": "https://raw.githubusercontent.com/googlefonts/noto-emoji/e20cbc2bbec1926686be9f9bee7d1d2cfa1fea0e/2D/png/128/emoji_u1f998.png",
+      "bytes": 3458,
+      "sha256": "3599f2653848c7071fd1d068c67d7fa39f84b0854be21bc3c3f6b19f272129d6"
+    },
+    {
+      "theme": "noto",
+      "kindId": "hedgehog",
+      "path": "tiles/noto/hedgehog.png",
+      "sourcePath": "2D/png/128/emoji_u1f994.png",
+      "sourceUrl": "https://raw.githubusercontent.com/googlefonts/noto-emoji/e20cbc2bbec1926686be9f9bee7d1d2cfa1fea0e/2D/png/128/emoji_u1f994.png",
+      "bytes": 6449,
+      "sha256": "4f31046d11261dd1ae06040f1e482f957b9f6a18b4a206d867ec887914d59a5a"
+    },
+    {
+      "theme": "noto",
+      "kindId": "skunk",
+      "path": "tiles/noto/skunk.png",
+      "sourcePath": "2D/png/128/emoji_u1f9a8.png",
+      "sourceUrl": "https://raw.githubusercontent.com/googlefonts/noto-emoji/e20cbc2bbec1926686be9f9bee7d1d2cfa1fea0e/2D/png/128/emoji_u1f9a8.png",
+      "bytes": 3454,
+      "sha256": "53a4433ae4f383202d7f4465362b5a47fd6dbcf4eb09f0a1bdae9e535bed1bb9"
+    },
+    {
+      "theme": "noto",
+      "kindId": "bat",
+      "path": "tiles/noto/bat.png",
+      "sourcePath": "2D/png/128/emoji_u1f987.png",
+      "sourceUrl": "https://raw.githubusercontent.com/googlefonts/noto-emoji/e20cbc2bbec1926686be9f9bee7d1d2cfa1fea0e/2D/png/128/emoji_u1f987.png",
+      "bytes": 5400,
+      "sha256": "5e62ffa116b66dbf2c3b4cbcbef844064d6201a83a4e63bba4ddb1b7c91f8ec8"
+    },
+    {
+      "theme": "noto",
+      "kindId": "penguin",
+      "path": "tiles/noto/penguin.png",
+      "sourcePath": "2D/png/128/emoji_u1f427.png",
+      "sourceUrl": "https://raw.githubusercontent.com/googlefonts/noto-emoji/e20cbc2bbec1926686be9f9bee7d1d2cfa1fea0e/2D/png/128/emoji_u1f427.png",
+      "bytes": 3826,
+      "sha256": "d71a470c07865c84c9385445f6c6194bc9556e7b533d45b9bd45e40be13e37da"
+    },
+    {
+      "theme": "noto",
+      "kindId": "owl",
+      "path": "tiles/noto/owl.png",
+      "sourcePath": "2D/png/128/emoji_u1f989.png",
+      "sourceUrl": "https://raw.githubusercontent.com/googlefonts/noto-emoji/e20cbc2bbec1926686be9f9bee7d1d2cfa1fea0e/2D/png/128/emoji_u1f989.png",
+      "bytes": 6561,
+      "sha256": "d714d6452b9fe4acae74b1c02dc3e6b42bf1c2762c11a74090cd1d53d2553a5e"
+    },
+    {
+      "theme": "noto",
+      "kindId": "duck",
+      "path": "tiles/noto/duck.png",
+      "sourcePath": "2D/png/128/emoji_u1f986.png",
+      "sourceUrl": "https://raw.githubusercontent.com/googlefonts/noto-emoji/e20cbc2bbec1926686be9f9bee7d1d2cfa1fea0e/2D/png/128/emoji_u1f986.png",
+      "bytes": 4077,
+      "sha256": "13556a4b8e591b923cd8a8ae9ad464942579f9f8aa7e51f3dca3111249be5723"
+    },
+    {
+      "theme": "noto",
+      "kindId": "flamingo",
+      "path": "tiles/noto/flamingo.png",
+      "sourcePath": "2D/png/128/emoji_u1f9a9.png",
+      "sourceUrl": "https://raw.githubusercontent.com/googlefonts/noto-emoji/e20cbc2bbec1926686be9f9bee7d1d2cfa1fea0e/2D/png/128/emoji_u1f9a9.png",
+      "bytes": 3663,
+      "sha256": "812e50e39c486c24e98d612493e669495ddc9664802a68d0e05f3400ca75b99e"
+    },
+    {
+      "theme": "noto",
+      "kindId": "peacock",
+      "path": "tiles/noto/peacock.png",
+      "sourcePath": "2D/png/128/emoji_u1f99a.png",
+      "sourceUrl": "https://raw.githubusercontent.com/googlefonts/noto-emoji/e20cbc2bbec1926686be9f9bee7d1d2cfa1fea0e/2D/png/128/emoji_u1f99a.png",
+      "bytes": 13304,
+      "sha256": "33c97c1b2ecbc7b8a1a3a573bdb0da75f95d86bf8ec0fa3afabf54ad79d737fd"
+    },
+    {
+      "theme": "noto",
+      "kindId": "parrot",
+      "path": "tiles/noto/parrot.png",
+      "sourcePath": "2D/png/128/emoji_u1f99c.png",
+      "sourceUrl": "https://raw.githubusercontent.com/googlefonts/noto-emoji/e20cbc2bbec1926686be9f9bee7d1d2cfa1fea0e/2D/png/128/emoji_u1f99c.png",
+      "bytes": 4350,
+      "sha256": "f2922a96fffa54349c586f19ca028997e18b224b2e6ba4cc32ce67f6cd60b5f9"
+    },
+    {
+      "theme": "noto",
+      "kindId": "turtle",
+      "path": "tiles/noto/turtle.png",
+      "sourcePath": "2D/png/128/emoji_u1f422.png",
+      "sourceUrl": "https://raw.githubusercontent.com/googlefonts/noto-emoji/e20cbc2bbec1926686be9f9bee7d1d2cfa1fea0e/2D/png/128/emoji_u1f422.png",
+      "bytes": 4199,
+      "sha256": "4489cffff80bd6e7b3599e754d5cdeedabee4a8fccc6e9ea97086f38205c66e8"
+    },
+    {
+      "theme": "noto",
+      "kindId": "snake",
+      "path": "tiles/noto/snake.png",
+      "sourcePath": "2D/png/128/emoji_u1f40d.png",
+      "sourceUrl": "https://raw.githubusercontent.com/googlefonts/noto-emoji/e20cbc2bbec1926686be9f9bee7d1d2cfa1fea0e/2D/png/128/emoji_u1f40d.png",
+      "bytes": 4309,
+      "sha256": "0bdbbbf34a8c2af264201e6bf3dea95961fb551985d5eeb739fdd9df2197b515"
+    },
+    {
+      "theme": "noto",
+      "kindId": "sauropod",
+      "path": "tiles/noto/sauropod.png",
+      "sourcePath": "2D/png/128/emoji_u1f995.png",
+      "sourceUrl": "https://raw.githubusercontent.com/googlefonts/noto-emoji/e20cbc2bbec1926686be9f9bee7d1d2cfa1fea0e/2D/png/128/emoji_u1f995.png",
+      "bytes": 3559,
+      "sha256": "a9eb46f8b6d1ac1dbca9e8d98e794c441c0eb5a5eb09a8e73e9614c064bdb1b5"
+    },
+    {
+      "theme": "noto",
+      "kindId": "dragon",
+      "path": "tiles/noto/dragon.png",
+      "sourcePath": "2D/png/128/emoji_u1f409.png",
+      "sourceUrl": "https://raw.githubusercontent.com/googlefonts/noto-emoji/e20cbc2bbec1926686be9f9bee7d1d2cfa1fea0e/2D/png/128/emoji_u1f409.png",
+      "bytes": 7475,
+      "sha256": "be77b388b94b4e466a40cbcdb35e8b35e5ca042d5ba4cc5b25b650b5321866d3"
+    },
+    {
+      "theme": "noto",
+      "kindId": "spouting_whale",
+      "path": "tiles/noto/spouting_whale.png",
+      "sourcePath": "2D/png/128/emoji_u1f433.png",
+      "sourceUrl": "https://raw.githubusercontent.com/googlefonts/noto-emoji/e20cbc2bbec1926686be9f9bee7d1d2cfa1fea0e/2D/png/128/emoji_u1f433.png",
+      "bytes": 6220,
+      "sha256": "d03483a18d05f5a3cc3c85bcd73cee653bb7a14d7c3c4ca893b9c9753dd1ab99"
+    },
+    {
+      "theme": "noto",
+      "kindId": "fish",
+      "path": "tiles/noto/fish.png",
+      "sourcePath": "2D/png/128/emoji_u1f41f.png",
+      "sourceUrl": "https://raw.githubusercontent.com/googlefonts/noto-emoji/e20cbc2bbec1926686be9f9bee7d1d2cfa1fea0e/2D/png/128/emoji_u1f41f.png",
+      "bytes": 3737,
+      "sha256": "64170ffc41e71265a4566304ddc61c6c9f53f3ef0dae30d34f5aad043f1eea28"
+    },
+    {
+      "theme": "noto",
+      "kindId": "tropical_fish",
+      "path": "tiles/noto/tropical_fish.png",
+      "sourcePath": "2D/png/128/emoji_u1f420.png",
+      "sourceUrl": "https://raw.githubusercontent.com/googlefonts/noto-emoji/e20cbc2bbec1926686be9f9bee7d1d2cfa1fea0e/2D/png/128/emoji_u1f420.png",
+      "bytes": 9265,
+      "sha256": "714a57747566c2de0afa3f7378174fe3548e40a1bcdade855f1ee227915b0659"
+    },
+    {
+      "theme": "noto",
+      "kindId": "blowfish",
+      "path": "tiles/noto/blowfish.png",
+      "sourcePath": "2D/png/128/emoji_u1f421.png",
+      "sourceUrl": "https://raw.githubusercontent.com/googlefonts/noto-emoji/e20cbc2bbec1926686be9f9bee7d1d2cfa1fea0e/2D/png/128/emoji_u1f421.png",
+      "bytes": 7609,
+      "sha256": "ef5d9f1ffd0caa76bf43ad75fa60f9a4afbd4f6061fe2f85b2b93a96d61362f6"
+    },
+    {
+      "theme": "noto",
+      "kindId": "octopus",
+      "path": "tiles/noto/octopus.png",
+      "sourcePath": "2D/png/128/emoji_u1f419.png",
+      "sourceUrl": "https://raw.githubusercontent.com/googlefonts/noto-emoji/e20cbc2bbec1926686be9f9bee7d1d2cfa1fea0e/2D/png/128/emoji_u1f419.png",
+      "bytes": 5911,
+      "sha256": "2dd823adc724819fdfcf1f2054c8cb4a0254378b3384728261569001ac49d9ce"
+    },
+    {
+      "theme": "noto",
+      "kindId": "squid",
+      "path": "tiles/noto/squid.png",
+      "sourcePath": "2D/png/128/emoji_u1f991.png",
+      "sourceUrl": "https://raw.githubusercontent.com/googlefonts/noto-emoji/e20cbc2bbec1926686be9f9bee7d1d2cfa1fea0e/2D/png/128/emoji_u1f991.png",
+      "bytes": 5198,
+      "sha256": "934768ea4064c4bc05461e8af7b6c8a4e58f09b2227837ece0ebfc400b67e466"
+    },
+    {
+      "theme": "noto",
+      "kindId": "crab",
+      "path": "tiles/noto/crab.png",
+      "sourcePath": "2D/png/128/emoji_u1f980.png",
+      "sourceUrl": "https://raw.githubusercontent.com/googlefonts/noto-emoji/e20cbc2bbec1926686be9f9bee7d1d2cfa1fea0e/2D/png/128/emoji_u1f980.png",
+      "bytes": 6117,
+      "sha256": "e8ffbfae22510df9c0282d38f6643baee304b7c679edf12040c04608a3af7a5a"
+    },
+    {
+      "theme": "noto",
+      "kindId": "lobster",
+      "path": "tiles/noto/lobster.png",
+      "sourcePath": "2D/png/128/emoji_u1f99e.png",
+      "sourceUrl": "https://raw.githubusercontent.com/googlefonts/noto-emoji/e20cbc2bbec1926686be9f9bee7d1d2cfa1fea0e/2D/png/128/emoji_u1f99e.png",
+      "bytes": 5190,
+      "sha256": "f1ca88566920353a5bc21d751d3b103a449d5faf42b157f431ccf64ba4b3dd99"
+    },
+    {
+      "theme": "noto",
+      "kindId": "jellyfish",
+      "path": "tiles/noto/jellyfish.png",
+      "sourcePath": "2D/png/128/emoji_u1fabc.png",
+      "sourceUrl": "https://raw.githubusercontent.com/googlefonts/noto-emoji/e20cbc2bbec1926686be9f9bee7d1d2cfa1fea0e/2D/png/128/emoji_u1fabc.png",
+      "bytes": 9764,
+      "sha256": "ec372d83ab93a841aace889664c2056c261151215584462a2394203051763a11"
+    },
+    {
+      "theme": "noto",
+      "kindId": "coral",
+      "path": "tiles/noto/coral.png",
+      "sourcePath": "2D/png/128/emoji_u1fab8.png",
+      "sourceUrl": "https://raw.githubusercontent.com/googlefonts/noto-emoji/e20cbc2bbec1926686be9f9bee7d1d2cfa1fea0e/2D/png/128/emoji_u1fab8.png",
+      "bytes": 8259,
+      "sha256": "1cd2b8e623862414d485a26c87e9637748e33e2fb34f8f9d964109719d6a38d2"
+    },
+    {
+      "theme": "noto",
+      "kindId": "oyster",
+      "path": "tiles/noto/oyster.png",
+      "sourcePath": "2D/png/128/emoji_u1f9aa.png",
+      "sourceUrl": "https://raw.githubusercontent.com/googlefonts/noto-emoji/e20cbc2bbec1926686be9f9bee7d1d2cfa1fea0e/2D/png/128/emoji_u1f9aa.png",
+      "bytes": 6793,
+      "sha256": "11de476e2b1ef5a80244b624eba857fc6a644648d2f759c65315b6b93d1c73f6"
+    },
+    {
+      "theme": "noto",
+      "kindId": "butterfly",
+      "path": "tiles/noto/butterfly.png",
+      "sourcePath": "2D/png/128/emoji_u1f98b.png",
+      "sourceUrl": "https://raw.githubusercontent.com/googlefonts/noto-emoji/e20cbc2bbec1926686be9f9bee7d1d2cfa1fea0e/2D/png/128/emoji_u1f98b.png",
+      "bytes": 9711,
+      "sha256": "31af3062d684f784297deab9a640ed38c29a2add03d78ef1b298926dcd194be3"
+    },
+    {
+      "theme": "noto",
+      "kindId": "honeybee",
+      "path": "tiles/noto/honeybee.png",
+      "sourcePath": "2D/png/128/emoji_u1f41d.png",
+      "sourceUrl": "https://raw.githubusercontent.com/googlefonts/noto-emoji/e20cbc2bbec1926686be9f9bee7d1d2cfa1fea0e/2D/png/128/emoji_u1f41d.png",
+      "bytes": 5337,
+      "sha256": "1600250a183109b42716f70e22411008eaaa03bd57d334ea422fed02e40e926a"
+    },
+    {
+      "theme": "noto",
+      "kindId": "lady_beetle",
+      "path": "tiles/noto/lady_beetle.png",
+      "sourcePath": "2D/png/128/emoji_u1f41e.png",
+      "sourceUrl": "https://raw.githubusercontent.com/googlefonts/noto-emoji/e20cbc2bbec1926686be9f9bee7d1d2cfa1fea0e/2D/png/128/emoji_u1f41e.png",
+      "bytes": 5294,
+      "sha256": "865ff08bcf56c0d26e443d92357a000f525f660d8f9936d859b07b03a8c74894"
+    },
+    {
+      "theme": "noto",
+      "kindId": "beetle",
+      "path": "tiles/noto/beetle.png",
+      "sourcePath": "2D/png/128/emoji_u1fab2.png",
+      "sourceUrl": "https://raw.githubusercontent.com/googlefonts/noto-emoji/e20cbc2bbec1926686be9f9bee7d1d2cfa1fea0e/2D/png/128/emoji_u1fab2.png",
+      "bytes": 6025,
+      "sha256": "b8c43f94825c9e1f80d60761cf270b02f964b79b3aaa4c17dfeae99a603c4c46"
+    },
+    {
+      "theme": "noto",
+      "kindId": "caterpillar",
+      "path": "tiles/noto/caterpillar.png",
+      "sourcePath": "2D/png/128/emoji_u1f41b.png",
+      "sourceUrl": "https://raw.githubusercontent.com/googlefonts/noto-emoji/e20cbc2bbec1926686be9f9bee7d1d2cfa1fea0e/2D/png/128/emoji_u1f41b.png",
+      "bytes": 4713,
+      "sha256": "64fb49a969ce997d725302289cb52cf6c8b0aa76611bf3651928bbd33838d9ab"
+    },
+    {
+      "theme": "noto",
+      "kindId": "snail",
+      "path": "tiles/noto/snail.png",
+      "sourcePath": "2D/png/128/emoji_u1f40c.png",
+      "sourceUrl": "https://raw.githubusercontent.com/googlefonts/noto-emoji/e20cbc2bbec1926686be9f9bee7d1d2cfa1fea0e/2D/png/128/emoji_u1f40c.png",
+      "bytes": 4479,
+      "sha256": "6b7ccb6d14597c05b64c2341bba43ee7588f45ab8ea357a326889caa4cf4c3f1"
+    },
+    {
+      "theme": "twemoji",
+      "kindId": "elephant",
+      "path": "tiles/twemoji/elephant.svg",
+      "sourcePath": "assets/svg/1f418.svg",
+      "sourceUrl": "https://raw.githubusercontent.com/jdecked/twemoji/b6b55fef1e8636b540a6d016a4729ca8cdf2e60b/assets/svg/1f418.svg",
+      "bytes": 997,
+      "sha256": "b23f4d2146dcf07d2dc7fc72d206788581f0ec8c5979a2704ad93d772bc83682"
+    },
+    {
+      "theme": "twemoji",
+      "kindId": "giraffe",
+      "path": "tiles/twemoji/giraffe.svg",
+      "sourcePath": "assets/svg/1f992.svg",
+      "sourceUrl": "https://raw.githubusercontent.com/jdecked/twemoji/b6b55fef1e8636b540a6d016a4729ca8cdf2e60b/assets/svg/1f992.svg",
+      "bytes": 3460,
+      "sha256": "07a63c7cec7bf62f111d9967e3fd519a90c5148204e1cd99fc1811bba48ce9a9"
+    },
+    {
+      "theme": "twemoji",
+      "kindId": "rabbit",
+      "path": "tiles/twemoji/rabbit.svg",
+      "sourcePath": "assets/svg/1f407.svg",
+      "sourceUrl": "https://raw.githubusercontent.com/jdecked/twemoji/b6b55fef1e8636b540a6d016a4729ca8cdf2e60b/assets/svg/1f407.svg",
+      "bytes": 1222,
+      "sha256": "3d1e7029bea8b6cf2d550d4810e5ce11c1f50d8df1c22a45c9e0dff8e9694db3"
+    },
+    {
+      "theme": "twemoji",
+      "kindId": "pig",
+      "path": "tiles/twemoji/pig.svg",
+      "sourcePath": "assets/svg/1f416.svg",
+      "sourceUrl": "https://raw.githubusercontent.com/jdecked/twemoji/b6b55fef1e8636b540a6d016a4729ca8cdf2e60b/assets/svg/1f416.svg",
+      "bytes": 926,
+      "sha256": "0ff3bbb78d83d494ac21abbc63e95f1db5ea594c82f8efe4e3b08cf85d104642"
+    },
+    {
+      "theme": "twemoji",
+      "kindId": "two_hump_camel",
+      "path": "tiles/twemoji/two_hump_camel.svg",
+      "sourcePath": "assets/svg/1f42b.svg",
+      "sourceUrl": "https://raw.githubusercontent.com/jdecked/twemoji/b6b55fef1e8636b540a6d016a4729ca8cdf2e60b/assets/svg/1f42b.svg",
+      "bytes": 1457,
+      "sha256": "14051dd6da81e773db75f60f9d548a3d950b7f2098f081c72cc44ed575d9c5ca"
+    },
+    {
+      "theme": "twemoji",
+      "kindId": "kangaroo",
+      "path": "tiles/twemoji/kangaroo.svg",
+      "sourcePath": "assets/svg/1f998.svg",
+      "sourceUrl": "https://raw.githubusercontent.com/jdecked/twemoji/b6b55fef1e8636b540a6d016a4729ca8cdf2e60b/assets/svg/1f998.svg",
+      "bytes": 1967,
+      "sha256": "b8d61f1e5d5aa393302e4f3845bb912e6a1168878e24341476ad0dc0c8a626f4"
+    },
+    {
+      "theme": "twemoji",
+      "kindId": "hedgehog",
+      "path": "tiles/twemoji/hedgehog.svg",
+      "sourcePath": "assets/svg/1f994.svg",
+      "sourceUrl": "https://raw.githubusercontent.com/jdecked/twemoji/b6b55fef1e8636b540a6d016a4729ca8cdf2e60b/assets/svg/1f994.svg",
+      "bytes": 4917,
+      "sha256": "f0e84b08ea2056f50c9f63d4296e8c824e100fad65ceec9c62b388f7a0e9b86d"
+    },
+    {
+      "theme": "twemoji",
+      "kindId": "skunk",
+      "path": "tiles/twemoji/skunk.svg",
+      "sourcePath": "assets/svg/1f9a8.svg",
+      "sourceUrl": "https://raw.githubusercontent.com/jdecked/twemoji/b6b55fef1e8636b540a6d016a4729ca8cdf2e60b/assets/svg/1f9a8.svg",
+      "bytes": 1836,
+      "sha256": "fb8e434cda82690fffb6f02ee0bb22a4d21d2dbda578b9b72b150a82ebbcec07"
+    },
+    {
+      "theme": "twemoji",
+      "kindId": "bat",
+      "path": "tiles/twemoji/bat.svg",
+      "sourcePath": "assets/svg/1f987.svg",
+      "sourceUrl": "https://raw.githubusercontent.com/jdecked/twemoji/b6b55fef1e8636b540a6d016a4729ca8cdf2e60b/assets/svg/1f987.svg",
+      "bytes": 1850,
+      "sha256": "15e1e1bac9988be3960759f24289e3a5bfb04ad0a42a88f1ab10680df1bfa61c"
+    },
+    {
+      "theme": "twemoji",
+      "kindId": "penguin",
+      "path": "tiles/twemoji/penguin.svg",
+      "sourcePath": "assets/svg/1f427.svg",
+      "sourceUrl": "https://raw.githubusercontent.com/jdecked/twemoji/b6b55fef1e8636b540a6d016a4729ca8cdf2e60b/assets/svg/1f427.svg",
+      "bytes": 1254,
+      "sha256": "68dc119e054a8660c1d0e7ee999b649be22309e050a7f68ba9458f36eb2db489"
+    },
+    {
+      "theme": "twemoji",
+      "kindId": "owl",
+      "path": "tiles/twemoji/owl.svg",
+      "sourcePath": "assets/svg/1f989.svg",
+      "sourceUrl": "https://raw.githubusercontent.com/jdecked/twemoji/b6b55fef1e8636b540a6d016a4729ca8cdf2e60b/assets/svg/1f989.svg",
+      "bytes": 2729,
+      "sha256": "9305c70ce193140e274162fd3237143ffa5fcaeedf15ce573291f076ddecc508"
+    },
+    {
+      "theme": "twemoji",
+      "kindId": "duck",
+      "path": "tiles/twemoji/duck.svg",
+      "sourcePath": "assets/svg/1f986.svg",
+      "sourceUrl": "https://raw.githubusercontent.com/jdecked/twemoji/b6b55fef1e8636b540a6d016a4729ca8cdf2e60b/assets/svg/1f986.svg",
+      "bytes": 1472,
+      "sha256": "74114f0e02acbd2a91b55f72e597c27d5c8da1fe2d03910ccd17a5180102c89b"
+    },
+    {
+      "theme": "twemoji",
+      "kindId": "flamingo",
+      "path": "tiles/twemoji/flamingo.svg",
+      "sourcePath": "assets/svg/1f9a9.svg",
+      "sourceUrl": "https://raw.githubusercontent.com/jdecked/twemoji/b6b55fef1e8636b540a6d016a4729ca8cdf2e60b/assets/svg/1f9a9.svg",
+      "bytes": 2746,
+      "sha256": "df7e3f837657268451b7bbff123254f520050c4ab336955b6fcac1782aad63fc"
+    },
+    {
+      "theme": "twemoji",
+      "kindId": "peacock",
+      "path": "tiles/twemoji/peacock.svg",
+      "sourcePath": "assets/svg/1f99a.svg",
+      "sourceUrl": "https://raw.githubusercontent.com/jdecked/twemoji/b6b55fef1e8636b540a6d016a4729ca8cdf2e60b/assets/svg/1f99a.svg",
+      "bytes": 3370,
+      "sha256": "6f9be75cbe9c98a640ea9410a0bfbb472da7a8e0f383a24b807fbeb0832dc395"
+    },
+    {
+      "theme": "twemoji",
+      "kindId": "parrot",
+      "path": "tiles/twemoji/parrot.svg",
+      "sourcePath": "assets/svg/1f99c.svg",
+      "sourceUrl": "https://raw.githubusercontent.com/jdecked/twemoji/b6b55fef1e8636b540a6d016a4729ca8cdf2e60b/assets/svg/1f99c.svg",
+      "bytes": 1982,
+      "sha256": "6ca5357a83bea09872817fb4f6f24f0b287e9f5dff221f0e6be733a342a84c5f"
+    },
+    {
+      "theme": "twemoji",
+      "kindId": "turtle",
+      "path": "tiles/twemoji/turtle.svg",
+      "sourcePath": "assets/svg/1f422.svg",
+      "sourceUrl": "https://raw.githubusercontent.com/jdecked/twemoji/b6b55fef1e8636b540a6d016a4729ca8cdf2e60b/assets/svg/1f422.svg",
+      "bytes": 1164,
+      "sha256": "c79bb7aa13c847aead252a730ab44f5e631d8409569717b963d1f0f476252342"
+    },
+    {
+      "theme": "twemoji",
+      "kindId": "snake",
+      "path": "tiles/twemoji/snake.svg",
+      "sourcePath": "assets/svg/1f40d.svg",
+      "sourceUrl": "https://raw.githubusercontent.com/jdecked/twemoji/b6b55fef1e8636b540a6d016a4729ca8cdf2e60b/assets/svg/1f40d.svg",
+      "bytes": 1003,
+      "sha256": "0b5464f87e1571fffee05d254c8fe1cf1f880c20d8a8c100b942537606dab54b"
+    },
+    {
+      "theme": "twemoji",
+      "kindId": "sauropod",
+      "path": "tiles/twemoji/sauropod.svg",
+      "sourcePath": "assets/svg/1f995.svg",
+      "sourceUrl": "https://raw.githubusercontent.com/jdecked/twemoji/b6b55fef1e8636b540a6d016a4729ca8cdf2e60b/assets/svg/1f995.svg",
+      "bytes": 2110,
+      "sha256": "45c396d083562bf9b3ae01227efc6c7351e2c225ff614e4438c14385e80ba414"
+    },
+    {
+      "theme": "twemoji",
+      "kindId": "dragon",
+      "path": "tiles/twemoji/dragon.svg",
+      "sourcePath": "assets/svg/1f409.svg",
+      "sourceUrl": "https://raw.githubusercontent.com/jdecked/twemoji/b6b55fef1e8636b540a6d016a4729ca8cdf2e60b/assets/svg/1f409.svg",
+      "bytes": 3370,
+      "sha256": "5ed37e8ecb5244d0866dd20e2ea3dd3b5cc0e87c5dd19ef817548ac4b7bf4e4a"
+    },
+    {
+      "theme": "twemoji",
+      "kindId": "spouting_whale",
+      "path": "tiles/twemoji/spouting_whale.svg",
+      "sourcePath": "assets/svg/1f433.svg",
+      "sourceUrl": "https://raw.githubusercontent.com/jdecked/twemoji/b6b55fef1e8636b540a6d016a4729ca8cdf2e60b/assets/svg/1f433.svg",
+      "bytes": 789,
+      "sha256": "28d63fec48ab0c89355c23de6727b6fe04de522a4760f9cfa8361f7de40a745d"
+    },
+    {
+      "theme": "twemoji",
+      "kindId": "fish",
+      "path": "tiles/twemoji/fish.svg",
+      "sourcePath": "assets/svg/1f41f.svg",
+      "sourceUrl": "https://raw.githubusercontent.com/jdecked/twemoji/b6b55fef1e8636b540a6d016a4729ca8cdf2e60b/assets/svg/1f41f.svg",
+      "bytes": 1349,
+      "sha256": "caa8008ee6dbae76478943d4d233519d362e75858f9c9928090b5928cda3b2d8"
+    },
+    {
+      "theme": "twemoji",
+      "kindId": "tropical_fish",
+      "path": "tiles/twemoji/tropical_fish.svg",
+      "sourcePath": "assets/svg/1f420.svg",
+      "sourceUrl": "https://raw.githubusercontent.com/jdecked/twemoji/b6b55fef1e8636b540a6d016a4729ca8cdf2e60b/assets/svg/1f420.svg",
+      "bytes": 1143,
+      "sha256": "353483a66fe92a11ebbe734da83f47f6d0526a75175a05e5fc6ec7b2d4890c3a"
+    },
+    {
+      "theme": "twemoji",
+      "kindId": "blowfish",
+      "path": "tiles/twemoji/blowfish.svg",
+      "sourcePath": "assets/svg/1f421.svg",
+      "sourceUrl": "https://raw.githubusercontent.com/jdecked/twemoji/b6b55fef1e8636b540a6d016a4729ca8cdf2e60b/assets/svg/1f421.svg",
+      "bytes": 1137,
+      "sha256": "564eea40ad270a3a4466b61c385fdb4944cff6ece00551159d4308ac38aca958"
+    },
+    {
+      "theme": "twemoji",
+      "kindId": "octopus",
+      "path": "tiles/twemoji/octopus.svg",
+      "sourcePath": "assets/svg/1f419.svg",
+      "sourceUrl": "https://raw.githubusercontent.com/jdecked/twemoji/b6b55fef1e8636b540a6d016a4729ca8cdf2e60b/assets/svg/1f419.svg",
+      "bytes": 843,
+      "sha256": "92d125d9c4c2d7e7d8ff450d0fb1cd80c089804fa06663cf1e12ac29ed173c54"
+    },
+    {
+      "theme": "twemoji",
+      "kindId": "squid",
+      "path": "tiles/twemoji/squid.svg",
+      "sourcePath": "assets/svg/1f991.svg",
+      "sourceUrl": "https://raw.githubusercontent.com/jdecked/twemoji/b6b55fef1e8636b540a6d016a4729ca8cdf2e60b/assets/svg/1f991.svg",
+      "bytes": 1449,
+      "sha256": "bd44e1d4db19744c519d1d6490873ca76f8894680b6bfd529d89585196cb9cf7"
+    },
+    {
+      "theme": "twemoji",
+      "kindId": "crab",
+      "path": "tiles/twemoji/crab.svg",
+      "sourcePath": "assets/svg/1f980.svg",
+      "sourceUrl": "https://raw.githubusercontent.com/jdecked/twemoji/b6b55fef1e8636b540a6d016a4729ca8cdf2e60b/assets/svg/1f980.svg",
+      "bytes": 4870,
+      "sha256": "7c95cad49ca19cee604037d049a7f154fb02b785a95b9d32f99d7efe33cb2218"
+    },
+    {
+      "theme": "twemoji",
+      "kindId": "lobster",
+      "path": "tiles/twemoji/lobster.svg",
+      "sourcePath": "assets/svg/1f99e.svg",
+      "sourceUrl": "https://raw.githubusercontent.com/jdecked/twemoji/b6b55fef1e8636b540a6d016a4729ca8cdf2e60b/assets/svg/1f99e.svg",
+      "bytes": 6071,
+      "sha256": "c6ef048c73f3038412ca909ec412ebf53fe7dc9dbab6b13dec485cac8c11851a"
+    },
+    {
+      "theme": "twemoji",
+      "kindId": "jellyfish",
+      "path": "tiles/twemoji/jellyfish.svg",
+      "sourcePath": "assets/svg/1fabc.svg",
+      "sourceUrl": "https://raw.githubusercontent.com/jdecked/twemoji/b6b55fef1e8636b540a6d016a4729ca8cdf2e60b/assets/svg/1fabc.svg",
+      "bytes": 2988,
+      "sha256": "cdde79d74d14930ea1e5901ca213b0dc993356ac7dc3b74c1615881ead5369c3"
+    },
+    {
+      "theme": "twemoji",
+      "kindId": "coral",
+      "path": "tiles/twemoji/coral.svg",
+      "sourcePath": "assets/svg/1fab8.svg",
+      "sourceUrl": "https://raw.githubusercontent.com/jdecked/twemoji/b6b55fef1e8636b540a6d016a4729ca8cdf2e60b/assets/svg/1fab8.svg",
+      "bytes": 3296,
+      "sha256": "311e6feda5c880a874a7ee52b7665f5d712fb4b3116825ea2e2444592cee4b94"
+    },
+    {
+      "theme": "twemoji",
+      "kindId": "oyster",
+      "path": "tiles/twemoji/oyster.svg",
+      "sourcePath": "assets/svg/1f9aa.svg",
+      "sourceUrl": "https://raw.githubusercontent.com/jdecked/twemoji/b6b55fef1e8636b540a6d016a4729ca8cdf2e60b/assets/svg/1f9aa.svg",
+      "bytes": 2692,
+      "sha256": "2f06b6266a975bc181a54448f77de3dabd0ac1de84f3d9a730f6d63cfa29b410"
+    },
+    {
+      "theme": "twemoji",
+      "kindId": "butterfly",
+      "path": "tiles/twemoji/butterfly.svg",
+      "sourcePath": "assets/svg/1f98b.svg",
+      "sourceUrl": "https://raw.githubusercontent.com/jdecked/twemoji/b6b55fef1e8636b540a6d016a4729ca8cdf2e60b/assets/svg/1f98b.svg",
+      "bytes": 5042,
+      "sha256": "6ce1f664bbdfbcf69732b00f55cc257469a26c115b8891526193e0ea837f836a"
+    },
+    {
+      "theme": "twemoji",
+      "kindId": "honeybee",
+      "path": "tiles/twemoji/honeybee.svg",
+      "sourcePath": "assets/svg/1f41d.svg",
+      "sourceUrl": "https://raw.githubusercontent.com/jdecked/twemoji/b6b55fef1e8636b540a6d016a4729ca8cdf2e60b/assets/svg/1f41d.svg",
+      "bytes": 1768,
+      "sha256": "462a19f9db69d8938155c589be0aeed4ce3538ea734c2d3278b205c83932de3d"
+    },
+    {
+      "theme": "twemoji",
+      "kindId": "lady_beetle",
+      "path": "tiles/twemoji/lady_beetle.svg",
+      "sourcePath": "assets/svg/1f41e.svg",
+      "sourceUrl": "https://raw.githubusercontent.com/jdecked/twemoji/b6b55fef1e8636b540a6d016a4729ca8cdf2e60b/assets/svg/1f41e.svg",
+      "bytes": 1984,
+      "sha256": "e846ca01f190e98e1e3c57d8d24b984c64f5dbb0aabad93997f10b5dd8ef3587"
+    },
+    {
+      "theme": "twemoji",
+      "kindId": "beetle",
+      "path": "tiles/twemoji/beetle.svg",
+      "sourcePath": "assets/svg/1fab2.svg",
+      "sourceUrl": "https://raw.githubusercontent.com/jdecked/twemoji/b6b55fef1e8636b540a6d016a4729ca8cdf2e60b/assets/svg/1fab2.svg",
+      "bytes": 3735,
+      "sha256": "0f91886a04d327dae2be3ea9f653dfcd2e68320ca0243c89d80d7413ec206652"
+    },
+    {
+      "theme": "twemoji",
+      "kindId": "caterpillar",
+      "path": "tiles/twemoji/caterpillar.svg",
+      "sourcePath": "assets/svg/1f41b.svg",
+      "sourceUrl": "https://raw.githubusercontent.com/jdecked/twemoji/b6b55fef1e8636b540a6d016a4729ca8cdf2e60b/assets/svg/1f41b.svg",
+      "bytes": 2845,
+      "sha256": "4baa20e467a3f55ea47d4baf2520a7c9c91a9ce03ddeb9e48e4ba6f703689876"
+    },
+    {
+      "theme": "twemoji",
+      "kindId": "snail",
+      "path": "tiles/twemoji/snail.svg",
+      "sourcePath": "assets/svg/1f40c.svg",
+      "sourceUrl": "https://raw.githubusercontent.com/jdecked/twemoji/b6b55fef1e8636b540a6d016a4729ca8cdf2e60b/assets/svg/1f40c.svg",
+      "bytes": 1364,
+      "sha256": "2ea85c06c823529e21d018820d1b1326eb7ae30d118a7f252fb35315e3e512a1"
+    },
+    {
+      "theme": "openmoji",
+      "kindId": "elephant",
+      "path": "tiles/openmoji/elephant.svg",
+      "sourcePath": "color/svg/1F418.svg",
+      "sourceUrl": "https://raw.githubusercontent.com/hfg-gmuend/openmoji/f9fc506a3f913be9897ab0181d611d4c910a4104/color/svg/1F418.svg",
+      "bytes": 4368,
+      "sha256": "7901471e55dfc825d76dab37cb21f9792e5d9ba9c9c7219ec6af7a1c21682fa7"
+    },
+    {
+      "theme": "openmoji",
+      "kindId": "giraffe",
+      "path": "tiles/openmoji/giraffe.svg",
+      "sourcePath": "color/svg/1F992.svg",
+      "sourceUrl": "https://raw.githubusercontent.com/hfg-gmuend/openmoji/f9fc506a3f913be9897ab0181d611d4c910a4104/color/svg/1F992.svg",
+      "bytes": 2540,
+      "sha256": "06bc70765de41b89a8ba2386fdac5e65129ac29df6347fe183b0d25f8bb3c306"
+    },
+    {
+      "theme": "openmoji",
+      "kindId": "rabbit",
+      "path": "tiles/openmoji/rabbit.svg",
+      "sourcePath": "color/svg/1F407.svg",
+      "sourceUrl": "https://raw.githubusercontent.com/hfg-gmuend/openmoji/f9fc506a3f913be9897ab0181d611d4c910a4104/color/svg/1F407.svg",
+      "bytes": 4683,
+      "sha256": "9aeb783c0b7be68b541edcc595bb436e850f6fed8dca7949ab3aab2121a07a97"
+    },
+    {
+      "theme": "openmoji",
+      "kindId": "pig",
+      "path": "tiles/openmoji/pig.svg",
+      "sourcePath": "color/svg/1F416.svg",
+      "sourceUrl": "https://raw.githubusercontent.com/hfg-gmuend/openmoji/f9fc506a3f913be9897ab0181d611d4c910a4104/color/svg/1F416.svg",
+      "bytes": 3043,
+      "sha256": "7a45c52cac97fc3bfb9c4317ee102da490ac5a8d860a41821378d346ee4ca5ca"
+    },
+    {
+      "theme": "openmoji",
+      "kindId": "two_hump_camel",
+      "path": "tiles/openmoji/two_hump_camel.svg",
+      "sourcePath": "color/svg/1F42B.svg",
+      "sourceUrl": "https://raw.githubusercontent.com/hfg-gmuend/openmoji/f9fc506a3f913be9897ab0181d611d4c910a4104/color/svg/1F42B.svg",
+      "bytes": 4560,
+      "sha256": "52bd40664643677aa623d9f06d85846ac62dee9c8c588bcfb5a38a58435db13c"
+    },
+    {
+      "theme": "openmoji",
+      "kindId": "kangaroo",
+      "path": "tiles/openmoji/kangaroo.svg",
+      "sourcePath": "color/svg/1F998.svg",
+      "sourceUrl": "https://raw.githubusercontent.com/hfg-gmuend/openmoji/f9fc506a3f913be9897ab0181d611d4c910a4104/color/svg/1F998.svg",
+      "bytes": 5199,
+      "sha256": "32adad00cb1230e9eef1bf3506213509ea6d8c6663af4b7da656636785b2a9fa"
+    },
+    {
+      "theme": "openmoji",
+      "kindId": "hedgehog",
+      "path": "tiles/openmoji/hedgehog.svg",
+      "sourcePath": "color/svg/1F994.svg",
+      "sourceUrl": "https://raw.githubusercontent.com/hfg-gmuend/openmoji/f9fc506a3f913be9897ab0181d611d4c910a4104/color/svg/1F994.svg",
+      "bytes": 4536,
+      "sha256": "b6cc55f561dfa8cda35d8085a1e2fe86bd1d6083bb59f6d94d14df5eb03e4b24"
+    },
+    {
+      "theme": "openmoji",
+      "kindId": "skunk",
+      "path": "tiles/openmoji/skunk.svg",
+      "sourcePath": "color/svg/1F9A8.svg",
+      "sourceUrl": "https://raw.githubusercontent.com/hfg-gmuend/openmoji/f9fc506a3f913be9897ab0181d611d4c910a4104/color/svg/1F9A8.svg",
+      "bytes": 4847,
+      "sha256": "d492607ea7035948ef9cc5360c103995be524a89b6918cab90d369eee20dd2d0"
+    },
+    {
+      "theme": "openmoji",
+      "kindId": "bat",
+      "path": "tiles/openmoji/bat.svg",
+      "sourcePath": "color/svg/1F987.svg",
+      "sourceUrl": "https://raw.githubusercontent.com/hfg-gmuend/openmoji/f9fc506a3f913be9897ab0181d611d4c910a4104/color/svg/1F987.svg",
+      "bytes": 2010,
+      "sha256": "4cf1fce0da84941e93a6a91ba30fc91c22bdea8381a1c5ffa517981750663884"
+    },
+    {
+      "theme": "openmoji",
+      "kindId": "penguin",
+      "path": "tiles/openmoji/penguin.svg",
+      "sourcePath": "color/svg/1F427.svg",
+      "sourceUrl": "https://raw.githubusercontent.com/hfg-gmuend/openmoji/f9fc506a3f913be9897ab0181d611d4c910a4104/color/svg/1F427.svg",
+      "bytes": 2941,
+      "sha256": "6cac4561b51d9695a9ebc010d2f2923dc78e4fc106ecb043f25069120e6bdd74"
+    },
+    {
+      "theme": "openmoji",
+      "kindId": "owl",
+      "path": "tiles/openmoji/owl.svg",
+      "sourcePath": "color/svg/1F989.svg",
+      "sourceUrl": "https://raw.githubusercontent.com/hfg-gmuend/openmoji/f9fc506a3f913be9897ab0181d611d4c910a4104/color/svg/1F989.svg",
+      "bytes": 2505,
+      "sha256": "9237423e6c8d37e6ba2a02b779183d6a8ebdd212bc8cd4e5c8bc0a7de989ab51"
+    },
+    {
+      "theme": "openmoji",
+      "kindId": "duck",
+      "path": "tiles/openmoji/duck.svg",
+      "sourcePath": "color/svg/1F986.svg",
+      "sourceUrl": "https://raw.githubusercontent.com/hfg-gmuend/openmoji/f9fc506a3f913be9897ab0181d611d4c910a4104/color/svg/1F986.svg",
+      "bytes": 3165,
+      "sha256": "2868892a8885544800ffefc1a9282c68e1a706066ec955493d30bc72d76281e3"
+    },
+    {
+      "theme": "openmoji",
+      "kindId": "flamingo",
+      "path": "tiles/openmoji/flamingo.svg",
+      "sourcePath": "color/svg/1F9A9.svg",
+      "sourceUrl": "https://raw.githubusercontent.com/hfg-gmuend/openmoji/f9fc506a3f913be9897ab0181d611d4c910a4104/color/svg/1F9A9.svg",
+      "bytes": 1473,
+      "sha256": "dc3c4b7e9f2269ff374fee3fa7a673d3ba321d987a601ed3db32717e17472f56"
+    },
+    {
+      "theme": "openmoji",
+      "kindId": "peacock",
+      "path": "tiles/openmoji/peacock.svg",
+      "sourcePath": "color/svg/1F99A.svg",
+      "sourceUrl": "https://raw.githubusercontent.com/hfg-gmuend/openmoji/f9fc506a3f913be9897ab0181d611d4c910a4104/color/svg/1F99A.svg",
+      "bytes": 6677,
+      "sha256": "73b90d7f77828fa41cd6d550cbb161b256221e32e6c1e5b671aa11ac7f54e68e"
+    },
+    {
+      "theme": "openmoji",
+      "kindId": "parrot",
+      "path": "tiles/openmoji/parrot.svg",
+      "sourcePath": "color/svg/1F99C.svg",
+      "sourceUrl": "https://raw.githubusercontent.com/hfg-gmuend/openmoji/f9fc506a3f913be9897ab0181d611d4c910a4104/color/svg/1F99C.svg",
+      "bytes": 4250,
+      "sha256": "09f73898075506b6dde9141e9bd034879c7388b37e76a657c7ec5b98ae02f4cb"
+    },
+    {
+      "theme": "openmoji",
+      "kindId": "turtle",
+      "path": "tiles/openmoji/turtle.svg",
+      "sourcePath": "color/svg/1F422.svg",
+      "sourceUrl": "https://raw.githubusercontent.com/hfg-gmuend/openmoji/f9fc506a3f913be9897ab0181d611d4c910a4104/color/svg/1F422.svg",
+      "bytes": 5910,
+      "sha256": "c3054c9394a9710c47d7057eebd48b31fe7292a555eacadb6eb47ed5a8b5d829"
+    },
+    {
+      "theme": "openmoji",
+      "kindId": "snake",
+      "path": "tiles/openmoji/snake.svg",
+      "sourcePath": "color/svg/1F40D.svg",
+      "sourceUrl": "https://raw.githubusercontent.com/hfg-gmuend/openmoji/f9fc506a3f913be9897ab0181d611d4c910a4104/color/svg/1F40D.svg",
+      "bytes": 2243,
+      "sha256": "898bd3d2954d350b06035778ca081ac6193d5e5424f6d6ed0f5ed00b21e4a153"
+    },
+    {
+      "theme": "openmoji",
+      "kindId": "sauropod",
+      "path": "tiles/openmoji/sauropod.svg",
+      "sourcePath": "color/svg/1F995.svg",
+      "sourceUrl": "https://raw.githubusercontent.com/hfg-gmuend/openmoji/f9fc506a3f913be9897ab0181d611d4c910a4104/color/svg/1F995.svg",
+      "bytes": 1038,
+      "sha256": "6f3b4eb18ef15939d02180930a5c6f8e8eb3f8f9eb1c80a2aeb7008d6d0fbab2"
+    },
+    {
+      "theme": "openmoji",
+      "kindId": "dragon",
+      "path": "tiles/openmoji/dragon.svg",
+      "sourcePath": "color/svg/1F409.svg",
+      "sourceUrl": "https://raw.githubusercontent.com/hfg-gmuend/openmoji/f9fc506a3f913be9897ab0181d611d4c910a4104/color/svg/1F409.svg",
+      "bytes": 3843,
+      "sha256": "8ab58824843e8d2fb7e43675223133f12904847c59e8956708940c182bafe4f0"
+    },
+    {
+      "theme": "openmoji",
+      "kindId": "spouting_whale",
+      "path": "tiles/openmoji/spouting_whale.svg",
+      "sourcePath": "color/svg/1F433.svg",
+      "sourceUrl": "https://raw.githubusercontent.com/hfg-gmuend/openmoji/f9fc506a3f913be9897ab0181d611d4c910a4104/color/svg/1F433.svg",
+      "bytes": 7397,
+      "sha256": "c648a7085ea84a3df8fd254ff2eaa938b6daafa951d2d580ae1908f0a5a52cc7"
+    },
+    {
+      "theme": "openmoji",
+      "kindId": "fish",
+      "path": "tiles/openmoji/fish.svg",
+      "sourcePath": "color/svg/1F41F.svg",
+      "sourceUrl": "https://raw.githubusercontent.com/hfg-gmuend/openmoji/f9fc506a3f913be9897ab0181d611d4c910a4104/color/svg/1F41F.svg",
+      "bytes": 1266,
+      "sha256": "7a7ce0d35b38b61549bf1ab5342df3a443d9974d138fa95b5abdc3ce9b6e8cdf"
+    },
+    {
+      "theme": "openmoji",
+      "kindId": "tropical_fish",
+      "path": "tiles/openmoji/tropical_fish.svg",
+      "sourcePath": "color/svg/1F420.svg",
+      "sourceUrl": "https://raw.githubusercontent.com/hfg-gmuend/openmoji/f9fc506a3f913be9897ab0181d611d4c910a4104/color/svg/1F420.svg",
+      "bytes": 2834,
+      "sha256": "c0395b59d99e196c663d9ae022b0edd94c29609c7adefcb3a0c364095784fb16"
+    },
+    {
+      "theme": "openmoji",
+      "kindId": "blowfish",
+      "path": "tiles/openmoji/blowfish.svg",
+      "sourcePath": "color/svg/1F421.svg",
+      "sourceUrl": "https://raw.githubusercontent.com/hfg-gmuend/openmoji/f9fc506a3f913be9897ab0181d611d4c910a4104/color/svg/1F421.svg",
+      "bytes": 4935,
+      "sha256": "8ef9a7770471317fd1b81688a95f902fcf88b695bdb042c0cfca6e6db83eafe3"
+    },
+    {
+      "theme": "openmoji",
+      "kindId": "octopus",
+      "path": "tiles/openmoji/octopus.svg",
+      "sourcePath": "color/svg/1F419.svg",
+      "sourceUrl": "https://raw.githubusercontent.com/hfg-gmuend/openmoji/f9fc506a3f913be9897ab0181d611d4c910a4104/color/svg/1F419.svg",
+      "bytes": 2426,
+      "sha256": "e193d8d3890788d14d99b9c77dc409b091e99258d7d45bf1ad00359671858c93"
+    },
+    {
+      "theme": "openmoji",
+      "kindId": "squid",
+      "path": "tiles/openmoji/squid.svg",
+      "sourcePath": "color/svg/1F991.svg",
+      "sourceUrl": "https://raw.githubusercontent.com/hfg-gmuend/openmoji/f9fc506a3f913be9897ab0181d611d4c910a4104/color/svg/1F991.svg",
+      "bytes": 4143,
+      "sha256": "9bb6d943291196b81ec5484f5423ba7880b84d279120751bc647339d15aba921"
+    },
+    {
+      "theme": "openmoji",
+      "kindId": "crab",
+      "path": "tiles/openmoji/crab.svg",
+      "sourcePath": "color/svg/1F980.svg",
+      "sourceUrl": "https://raw.githubusercontent.com/hfg-gmuend/openmoji/f9fc506a3f913be9897ab0181d611d4c910a4104/color/svg/1F980.svg",
+      "bytes": 4463,
+      "sha256": "be92f07c4f875dae9e8bd7e18bf5276af7901126f1c2077dd1c70660484e56f2"
+    },
+    {
+      "theme": "openmoji",
+      "kindId": "lobster",
+      "path": "tiles/openmoji/lobster.svg",
+      "sourcePath": "color/svg/1F99E.svg",
+      "sourceUrl": "https://raw.githubusercontent.com/hfg-gmuend/openmoji/f9fc506a3f913be9897ab0181d611d4c910a4104/color/svg/1F99E.svg",
+      "bytes": 9878,
+      "sha256": "ae217323ed89472530b8b1babbe4849f74aec3ee55df2b01291794b88f1f872c"
+    },
+    {
+      "theme": "openmoji",
+      "kindId": "jellyfish",
+      "path": "tiles/openmoji/jellyfish.svg",
+      "sourcePath": "color/svg/1FABC.svg",
+      "sourceUrl": "https://raw.githubusercontent.com/hfg-gmuend/openmoji/f9fc506a3f913be9897ab0181d611d4c910a4104/color/svg/1FABC.svg",
+      "bytes": 3411,
+      "sha256": "b6e78c7e91311a10f4056a9f9b474668c38c33e519e9e0b07b30977dce9c1065"
+    },
+    {
+      "theme": "openmoji",
+      "kindId": "coral",
+      "path": "tiles/openmoji/coral.svg",
+      "sourcePath": "color/svg/1FAB8.svg",
+      "sourceUrl": "https://raw.githubusercontent.com/hfg-gmuend/openmoji/f9fc506a3f913be9897ab0181d611d4c910a4104/color/svg/1FAB8.svg",
+      "bytes": 5848,
+      "sha256": "713ac501a229dfc9571eb24bf18a5a1560402cb8464a9142e76771503aaa3497"
+    },
+    {
+      "theme": "openmoji",
+      "kindId": "oyster",
+      "path": "tiles/openmoji/oyster.svg",
+      "sourcePath": "color/svg/1F9AA.svg",
+      "sourceUrl": "https://raw.githubusercontent.com/hfg-gmuend/openmoji/f9fc506a3f913be9897ab0181d611d4c910a4104/color/svg/1F9AA.svg",
+      "bytes": 7713,
+      "sha256": "233e318cc2fb7651744bde58b331225d77b84fb43909c493a5720978395348be"
+    },
+    {
+      "theme": "openmoji",
+      "kindId": "butterfly",
+      "path": "tiles/openmoji/butterfly.svg",
+      "sourcePath": "color/svg/1F98B.svg",
+      "sourceUrl": "https://raw.githubusercontent.com/hfg-gmuend/openmoji/f9fc506a3f913be9897ab0181d611d4c910a4104/color/svg/1F98B.svg",
+      "bytes": 4303,
+      "sha256": "47b4971766ec7d4d913142eac844bb33c526b72839209c8acb531483a2f4072d"
+    },
+    {
+      "theme": "openmoji",
+      "kindId": "honeybee",
+      "path": "tiles/openmoji/honeybee.svg",
+      "sourcePath": "color/svg/1F41D.svg",
+      "sourceUrl": "https://raw.githubusercontent.com/hfg-gmuend/openmoji/f9fc506a3f913be9897ab0181d611d4c910a4104/color/svg/1F41D.svg",
+      "bytes": 5190,
+      "sha256": "d37d39f309a3c79b01227a0b81fb8073679842f546fdd745a506b8d9cae026a4"
+    },
+    {
+      "theme": "openmoji",
+      "kindId": "lady_beetle",
+      "path": "tiles/openmoji/lady_beetle.svg",
+      "sourcePath": "color/svg/1F41E.svg",
+      "sourceUrl": "https://raw.githubusercontent.com/hfg-gmuend/openmoji/f9fc506a3f913be9897ab0181d611d4c910a4104/color/svg/1F41E.svg",
+      "bytes": 2273,
+      "sha256": "0a04f127f13d75520ccc3cf25f75da2ce2d96389fe2a87b2ce9e12ebab4626b2"
+    },
+    {
+      "theme": "openmoji",
+      "kindId": "beetle",
+      "path": "tiles/openmoji/beetle.svg",
+      "sourcePath": "color/svg/1FAB2.svg",
+      "sourceUrl": "https://raw.githubusercontent.com/hfg-gmuend/openmoji/f9fc506a3f913be9897ab0181d611d4c910a4104/color/svg/1FAB2.svg",
+      "bytes": 5284,
+      "sha256": "ccaf2e9996bb407df9be072149e2b8498431020bfdfaf000b8eec565597856f0"
+    },
+    {
+      "theme": "openmoji",
+      "kindId": "caterpillar",
+      "path": "tiles/openmoji/caterpillar.svg",
+      "sourcePath": "color/svg/1F41B.svg",
+      "sourceUrl": "https://raw.githubusercontent.com/hfg-gmuend/openmoji/f9fc506a3f913be9897ab0181d611d4c910a4104/color/svg/1F41B.svg",
+      "bytes": 5792,
+      "sha256": "a79fa1119c3acc39328d6c3641bd0e4d8865962982db65022e53f0bbcaf4896b"
+    },
+    {
+      "theme": "openmoji",
+      "kindId": "snail",
+      "path": "tiles/openmoji/snail.svg",
+      "sourcePath": "color/svg/1F40C.svg",
+      "sourceUrl": "https://raw.githubusercontent.com/hfg-gmuend/openmoji/f9fc506a3f913be9897ab0181d611d4c910a4104/color/svg/1F40C.svg",
+      "bytes": 1463,
+      "sha256": "cf0a2dce1a9bad6d9a9c11d58296daf8da76bf5d8389b6d26202151422186e20"
+    }
+  ]
+}
