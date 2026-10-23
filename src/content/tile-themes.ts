@@ -4,7 +4,6 @@ export const TILE_THEMES = [
   {
     id: 'fluent3d',
     label: 'Fluent 3D',
-    description: '柔和的微立體玩具風格',
     extension: 'png',
     license: 'MIT',
     licenseFile: 'fluent-emoji-MIT.txt',
@@ -14,7 +13,6 @@ export const TILE_THEMES = [
   {
     id: 'fluentflat',
     label: 'Fluent Flat',
-    description: '圓潤清晰的扁平色塊',
     extension: 'svg',
     license: 'MIT',
     licenseFile: 'fluent-emoji-MIT.txt',
@@ -24,7 +22,6 @@ export const TILE_THEMES = [
   {
     id: 'noto',
     label: 'Noto Color Emoji',
-    description: '簡潔鮮明的彩色卡通',
     extension: 'png',
     license: 'Apache-2.0',
     licenseFile: 'noto-emoji-Apache-2.0.txt',
@@ -35,7 +32,6 @@ export const TILE_THEMES = [
   {
     id: 'twemoji',
     label: 'Twemoji',
-    description: '明亮清楚的線條插畫',
     extension: 'svg',
     license: 'CC-BY-4.0',
     licenseFile: 'twemoji-CC-BY-4.0.txt',
@@ -45,7 +41,6 @@ export const TILE_THEMES = [
   {
     id: 'openmoji',
     label: 'OpenMoji',
-    description: '粗黑線條的貼紙風格',
     extension: 'svg',
     license: 'CC-BY-SA-4.0',
     licenseFile: 'openmoji-CC-BY-SA-4.0.txt',
