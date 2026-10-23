@@ -4,12 +4,44 @@ Verified on 2026-10-23 with the repository's Node 24.16.0 runtime.
 
 ## Automated checks
 
-- `npm test`: 70 tests passed across four files, including per-level species
-  sampling, seed replay, chance-kind scope, curation, and asset integrity.
+- `npm test`: 78 tests passed across four files, including per-level species
+  sampling, seed replay, chance-kind scope, curation, asset integrity, untimed
+  Zen sessions, and mode preference migration.
 - `npm run build`: passed, including `vue-tsc` checking of TypeScript and Vue
   templates and the Vite production bundle.
 - `git diff --check`: passed.
 - All 375 local animal images match their recorded SHA-256 digests.
+
+## Classic and Zen browser checks
+
+These checks used the production preview and actual controls, without editing
+hidden game state or injecting a prepared board.
+
+- Classic's weak, strong, and super-strong difficulties started with the
+  original 5:20, 3:45, and 2:40 countdowns and 8/5/5 starting resources.
+- Zen selection survived a reload and hid the Classic difficulty controls.
+  Its board displayed an untimed label and no countdown bar. Changing the
+  next-game mode to Classic during Zen did not alter the current mode or
+  display a running-timer warning. Restart retained Zen and reset the score,
+  resources, and 144-tile board. Classic still showed its timer warning.
+- Both mode buttons measured exactly 195 CSS pixels at 1280 × 720 and
+  142.5 CSS pixels at 375 × 812.
+- Zen rendered all five themes' 75 preview images and 144 board images at
+  desktop and narrow widths. Switching themes preserved the board's complete
+  kind/position signature and untimed state.
+- A blocked Zen pair was rejected. A successful two-turn outer-ring match
+  removed two tiles and awarded four points. Hint highlighted a legal pair;
+  shuffle and paid resume each consumed a shuffle resource.
+- A natural Zen run exhausted its shuffles and reached a no-move result after
+  13 matches with 52 points. Confirming returned to the menu without name
+  entry; Classic's strong leaderboard remained empty.
+- Both modes fit 375 × 812, 844 × 390, 683 × 384, and 320 × 180 CSS viewports
+  without page scrolling, with nonzero board area and visible actions. Zen
+  was also checked at 1280 × 720. Temporary viewport overrides were reset.
+
+Unit tests cover arbitrary elapsed ticks, Zen card rewards, level continuation,
+restart, and final completion. This browser pass did not play a complete
+eleven-level Zen campaign.
 
 ## Expanded-pool browser checks
 

@@ -27,6 +27,7 @@ function board(grid: ReadonlyArray<ReadonlyArray<string | null>>): Board {
 function sessionWith(
   grid: ReadonlyArray<ReadonlyArray<string | null>>,
   options: {
+    mode?: 'classic' | 'zen';
     difficulty?: 0 | 1 | 2;
     levelIndex?: number;
     seed?: number;
@@ -40,6 +41,7 @@ function sessionWith(
       cols: grid[0]?.length ?? 0,
       timeLimitMs: options.timeLimitMs ?? testLayout.timeLimitMs,
     },
+    mode: options.mode,
     difficulty: options.difficulty,
     levelIndex: options.levelIndex,
     board: board(grid),
@@ -149,6 +151,14 @@ describe('GameSession level kind sampling', () => {
 });
 
 describe('GameSession matching, score, and timer', () => {
+  it('defaults to Classic mode', () => {
+    const session = sessionWith([['a', 'a']]);
+
+    expect(session.mode).toBe('classic');
+    expect(session.difficulty).toBe(1);
+    expect(session.timeLeftMs).toBe(10_000);
+  });
+
   it('selects, deselects, and reports kind and path mismatches', () => {
     const session = sessionWith([
       ['a', 'b', 'b', 'a'],
@@ -207,6 +217,128 @@ describe('GameSession matching, score, and timer', () => {
     session.resume();
     expect(session.tick(1_000)).toBe('lost');
     expect(session.lossReason).toBe('timeout');
+  });
+});
+
+describe('GameSession Zen mode', () => {
+  it('uses normal difficulty and never times out during arbitrarily long ticks', () => {
+    const session = sessionWith([['a', 'a', 'b', 'b']], {
+      mode: 'zen',
+      difficulty: 2,
+    });
+
+    expect(session.mode).toBe('zen');
+    expect(session.difficulty).toBe(1);
+    expect(session.timeLeftMs).toBe(0);
+    expect(session.tick(Number.MAX_SAFE_INTEGER)).toBe('playing');
+    expect(session.tick(Number.POSITIVE_INFINITY)).toBe('playing');
+    expect(session.timeLeftMs).toBe(0);
+    expect(session.lossReason).toBeNull();
+  });
+
+  it('scores matches and clears without match time or a remaining-time bonus', () => {
+    const session = sessionWith([['a', 'a']], {
+      mode: 'zen',
+      difficulty: 0,
+    });
+
+    const result = match(session, 0, 0, 0, 1);
+
+    expect(result).toMatchObject({ points: 4, phase: 'won' });
+    expect(session.lastBonus).toBe(100);
+    expect(session.score).toBe(104);
+    expect(Number.isFinite(session.score)).toBe(true);
+    expect(session.timeLeftMs).toBe(0);
+  });
+
+  it('continues levels and retains Zen mode after restart', () => {
+    const session = sessionWith([['a', 'a']], { mode: 'zen', difficulty: 2 });
+    match(session, 0, 0, 0, 1);
+
+    expect(session.continueLevel()).toBe(true);
+    expect(session.levelIndex).toBe(1);
+    expect(session.mode).toBe('zen');
+    expect(session.difficulty).toBe(1);
+    expect(session.timeLeftMs).toBe(0);
+    expect(session.tick(86_400_000)).toBe('playing');
+
+    session.restart(17);
+    expect(session.mode).toBe('zen');
+    expect(session.difficulty).toBe(1);
+    expect(session.levelIndex).toBe(0);
+    expect(session.timeLeftMs).toBe(0);
+    expect(session.tick(86_400_000)).toBe('playing');
+  });
+
+  it('keeps limited hints and shuffles and charges a shuffle on resume', () => {
+    const session = sessionWith([['a', 'a', 'b', 'b']], { mode: 'zen' });
+
+    expect(session.hintResource).toBe(5);
+    expect(session.shuffleResource).toBe(5);
+    expect(session.hint()).not.toBeNull();
+    expect(session.hintResource).toBe(4);
+
+    session.pause();
+    expect(session.phase).toBe('paused');
+    expect(session.shuffleResource).toBe(5);
+    expect(session.tick(86_400_000)).toBe('paused');
+    session.resume();
+    expect(session.phase).toBe('playing');
+    expect(session.shuffleResource).toBe(4);
+    expect(session.timeLeftMs).toBe(0);
+  });
+
+  it('completes the final level with the normal resource and completion bonuses', () => {
+    const session = sessionWith([['a', 'a']], {
+      mode: 'zen',
+      difficulty: 0,
+      levelIndex: 10,
+    });
+
+    match(session, 0, 0, 0, 1);
+
+    expect(session.phase).toBe('completed');
+    expect(session.lastBonus).toBe(13_500);
+    expect(session.score).toBe(13_544);
+    expect(session.timeLeftMs).toBe(0);
+  });
+
+  it('replaces all time cards with usable hint and shuffle rewards', () => {
+    const kind = TILE_KINDS[0]!.id;
+    const session = sessionWith(
+      Array.from({ length: 4 }, () => [kind, kind]),
+      { mode: 'zen', seed: seedForRepeatedKind(kind, 3) },
+    );
+    for (let row = 0; row < 3; row += 1) match(session, row, 0, row, 1);
+
+    expect(session.phase).toBe('cards');
+    expect(session.cards).toHaveLength(18);
+    expect(session.cards.some((card) => card.reward.kind === 'time')).toBe(false);
+    expect(
+      session.cards.every(
+        (card) =>
+          (card.reward.kind === 'hint' || card.reward.kind === 'shuffle') &&
+          card.reward.amount > 0,
+      ),
+    ).toBe(true);
+
+    const hintsBefore = session.hintResource;
+    const shufflesBefore = session.shuffleResource;
+    while (session.phase === 'cards') {
+      const hintIndex = session.cards.findIndex(
+        (card) => !card.revealed && card.reward.kind === 'hint',
+      );
+      const shuffleIndex = session.cards.findIndex(
+        (card) => !card.revealed && card.reward.kind === 'shuffle',
+      );
+      const index = hintIndex >= 0 ? hintIndex : shuffleIndex;
+      expect(session.chooseCard(index)).not.toBeNull();
+    }
+    expect(
+      session.hintResource > hintsBefore ||
+        session.shuffleResource > shufflesBefore,
+    ).toBe(true);
+    expect(session.timeLeftMs).toBe(0);
   });
 });
 

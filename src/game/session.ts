@@ -3,6 +3,7 @@ import {
   LEVEL_KIND_COUNT,
   LEVELS,
   type Difficulty,
+  type GameMode,
   type LayoutDefinition,
 } from '../content/layouts';
 import { Board, type Point, type Tile } from '../core/board';
@@ -47,6 +48,7 @@ export type SelectionResult =
 
 export interface GameSessionOptions {
   readonly layout: LayoutDefinition;
+  readonly mode?: GameMode;
   readonly difficulty?: Difficulty;
   readonly levelIndex?: number;
   readonly seed?: number;
@@ -93,7 +95,18 @@ const CARD_REWARDS: ReadonlyArray<CardReward> = [
   { kind: 'hint', amount: 3 },
 ];
 
+const ZEN_CARD_REWARDS: ReadonlyArray<CardReward> = [
+  { kind: 'hint', amount: 1 },
+  { kind: 'shuffle', amount: 1 },
+  { kind: 'hint', amount: 1 },
+  { kind: 'shuffle', amount: 2 },
+  { kind: 'hint', amount: 2 },
+  { kind: 'shuffle', amount: 3 },
+  ...CARD_REWARDS.filter((reward) => reward.kind !== 'time'),
+];
+
 export class GameSession {
+  readonly mode: GameMode;
   readonly difficulty: Difficulty;
 
   private readonly initialLayout: LayoutDefinition;
@@ -122,7 +135,8 @@ export class GameSession {
   private currentLastBonus = 0;
 
   constructor(options: GameSessionOptions) {
-    this.difficulty = options.difficulty ?? 1;
+    this.mode = options.mode ?? 'classic';
+    this.difficulty = this.mode === 'zen' ? 1 : (options.difficulty ?? 1);
     this.currentLevelIndex = options.levelIndex ?? 0;
     if (this.currentLevelIndex < 0 || this.currentLevelIndex >= LEVELS.length) {
       throw new RangeError(`Level index must be between 0 and ${LEVELS.length - 1}.`);
@@ -143,7 +157,7 @@ export class GameSession {
         this.currentLayout.kindIds,
         this.rng,
       );
-    this.timeLeft = this.currentLayout.timeLimitMs;
+    this.timeLeft = this.mode === 'zen' ? 0 : this.currentLayout.timeLimitMs;
     this.hintCount = this.difficulty === 0 ? 8 : 5;
     this.shuffleCount = this.difficulty === 0 ? 8 : 5;
     this.startBoardState();
@@ -267,10 +281,12 @@ export class GameSession {
 
     const points = this.pairScore();
     this.currentScore += points;
-    this.timeLeft = Math.min(
-      this.currentLayout.timeLimitMs,
-      this.timeLeft + MATCH_TIME_MS[this.difficulty],
-    );
+    if (this.mode === 'classic') {
+      this.timeLeft = Math.min(
+        this.currentLayout.timeLimitMs,
+        this.timeLeft + MATCH_TIME_MS[this.difficulty],
+      );
+    }
 
     if (first.kind === this.currentChanceKind) {
       this.starCount += 1;
@@ -306,7 +322,11 @@ export class GameSession {
   }
 
   tick(deltaMs: number): Phase {
-    if (this.currentPhase !== 'playing' || deltaMs <= 0) {
+    if (
+      this.mode === 'zen' ||
+      this.currentPhase !== 'playing' ||
+      deltaMs <= 0
+    ) {
       return this.currentPhase;
     }
 
@@ -396,7 +416,7 @@ export class GameSession {
       this.currentLayout.kindIds,
       this.rng,
     );
-    this.timeLeft = this.currentLayout.timeLimitMs;
+    this.timeLeft = this.mode === 'zen' ? 0 : this.currentLayout.timeLimitMs;
     this.currentPhase = 'playing';
     this.currentLastBonus = 0;
     this.selectedTile = null;
@@ -450,7 +470,7 @@ export class GameSession {
     this.currentPhase = 'playing';
     this.selectedTile = null;
     this.currentScore = 0;
-    this.timeLeft = this.currentLayout.timeLimitMs;
+    this.timeLeft = this.mode === 'zen' ? 0 : this.currentLayout.timeLimitMs;
     this.hintUses = 0;
     this.shuffleUses = 0;
     this.matchCount = 0;
@@ -490,7 +510,8 @@ export class GameSession {
 
   private finishLevel(): void {
     const factor = (this.difficulty + 1) * (this.currentLevelIndex + 1);
-    const wholeSeconds = Math.floor((this.timeLeft - 1) / 1000);
+    const wholeSeconds =
+      this.mode === 'zen' ? 0 : Math.floor((this.timeLeft - 1) / 1000);
     let bonus = 50 * factor + 2 * factor * wholeSeconds;
 
     if (this.currentLevelIndex === LEVELS.length - 1) {
@@ -515,7 +536,9 @@ export class GameSession {
   private openCards(): void {
     const picks = CARD_PICK_TABLES[this.difficulty];
     this.remainingPicks = picks[Math.floor(this.rng() * picks.length)]!;
-    const rewards = CARD_REWARDS.map((reward) => ({ ...reward }));
+    const cardRewards =
+      this.mode === 'zen' ? ZEN_CARD_REWARDS : CARD_REWARDS;
+    const rewards = cardRewards.map((reward) => ({ ...reward }));
     shuffleInPlace(rewards, this.rng);
     this.cardEntries = rewards.map((reward) => ({ reward, revealed: false }));
     this.currentPhase = 'cards';
@@ -523,11 +546,16 @@ export class GameSession {
 
   private applyReward(reward: CardReward): void {
     if (reward.kind === 'time') {
-      this.timeLeft = Math.min(
-        this.currentLayout.timeLimitMs,
-        this.timeLeft + reward.amount,
-      );
-    } else if (reward.kind === 'shuffle') {
+      if (this.mode === 'classic') {
+        this.timeLeft = Math.min(
+          this.currentLayout.timeLimitMs,
+          this.timeLeft + reward.amount,
+        );
+      }
+      return;
+    }
+
+    if (reward.kind === 'shuffle') {
       this.shuffleCount += reward.amount;
     } else {
       this.hintCount += reward.amount;

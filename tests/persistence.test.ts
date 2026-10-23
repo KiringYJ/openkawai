@@ -12,19 +12,27 @@ function memoryStorage(): StorageAccess {
 }
 
 describe('settings persistence', () => {
-  it('remembers theme and next-game difficulty', () => {
+  it('remembers theme, mode, and next-game Classic difficulty', () => {
     const storage = memoryStorage();
-    expect(saveSettings(storage, { tileTheme: 'openmoji', difficulty: 2 })).toBe(true);
-    expect(loadSettings(storage)).toEqual({ tileTheme: 'openmoji', difficulty: 2 });
+    expect(saveSettings(storage, { tileTheme: 'openmoji', mode: 'zen', difficulty: 2 })).toBe(true);
+    expect(loadSettings(storage)).toEqual({ tileTheme: 'openmoji', mode: 'zen', difficulty: 2 });
+    expect(saveSettings(storage, { ...loadSettings(storage), mode: 'classic' })).toBe(true);
+    expect(loadSettings(storage)).toEqual({ tileTheme: 'openmoji', mode: 'classic', difficulty: 2 });
+  });
+
+  it('keeps existing preferences in Classic mode when no mode was stored', () => {
+    const storage = memoryStorage();
+    storage.setItem(SETTINGS_KEY, JSON.stringify({ tileTheme: 'openmoji', difficulty: 2 }));
+    expect(loadSettings(storage)).toEqual({ tileTheme: 'openmoji', mode: 'classic', difficulty: 2 });
   });
 
   it('remembers Fluent Animated and migrates the retired Fluent Flat setting', () => {
     const storage = memoryStorage();
-    expect(saveSettings(storage, { tileTheme: 'fluentanimated', difficulty: 0 })).toBe(true);
-    expect(loadSettings(storage)).toEqual({ tileTheme: 'fluentanimated', difficulty: 0 });
+    expect(saveSettings(storage, { tileTheme: 'fluentanimated', mode: 'classic', difficulty: 0 })).toBe(true);
+    expect(loadSettings(storage)).toEqual({ tileTheme: 'fluentanimated', mode: 'classic', difficulty: 0 });
 
     storage.setItem(SETTINGS_KEY, JSON.stringify({ tileTheme: 'fluentflat', difficulty: 2 }));
-    expect(loadSettings(storage)).toEqual({ tileTheme: 'fluentanimated', difficulty: 2 });
+    expect(loadSettings(storage)).toEqual({ tileTheme: 'fluentanimated', mode: 'classic', difficulty: 2 });
   });
 
   it('falls back independently for unknown or malformed values', () => {
@@ -34,7 +42,11 @@ describe('settings persistence', () => {
     storage.setItem(SETTINGS_KEY, JSON.stringify({ tileTheme: '../../secret', difficulty: 0 }));
     expect(loadSettings(storage)).toEqual({ ...DEFAULT_SETTINGS, difficulty: 0 });
     storage.setItem(SETTINGS_KEY, JSON.stringify({ tileTheme: 'noto', difficulty: 9 }));
-    expect(loadSettings(storage)).toEqual({ tileTheme: 'noto', difficulty: 1 });
+    expect(loadSettings(storage)).toEqual({ tileTheme: 'noto', mode: 'classic', difficulty: 1 });
+    storage.setItem(SETTINGS_KEY, JSON.stringify({ tileTheme: 'noto', mode: 'unknown', difficulty: 2 }));
+    expect(loadSettings(storage)).toEqual({ tileTheme: 'noto', mode: 'classic', difficulty: 2 });
+    storage.setItem(SETTINGS_KEY, JSON.stringify({ tileTheme: 'noto', mode: 'zen', difficulty: -1 }));
+    expect(loadSettings(storage)).toEqual({ tileTheme: 'noto', mode: 'zen', difficulty: 1 });
   });
 
   it('keeps the game usable when browser storage is unavailable', () => {

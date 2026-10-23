@@ -2,15 +2,16 @@
 import { VAlert, VBtn, VCard, VCardActions, VCardText, VCardTitle, VDialog, VDivider, VSelect } from 'vuetify/components';
 import { TILE_KINDS } from '../content/tile-kinds';
 import { TILE_THEMES, type TileThemeId } from '../content/tile-themes';
-import { LEVEL_KIND_COUNT, type Difficulty } from '../content/layouts';
+import { LEVEL_KIND_COUNT, type Difficulty, type GameMode } from '../content/layouts';
 import type { Settings } from '../config/settings';
 import TileArtwork from './TileArtwork.vue';
 
-defineProps<{ modelValue: boolean; settings: Settings; inGame: boolean; storageAvailable: boolean }>();
+defineProps<{ modelValue: boolean; settings: Settings; timedGame: boolean; storageAvailable: boolean }>();
 const emit = defineEmits<{
   'update:modelValue': [value: boolean]; 'update:settings': [value: Settings];
 }>();
 const difficulties = [{ title: '弱', value: 0 }, { title: '強', value: 1 }, { title: '超強', value: 2 }];
+const modes = [{ title: 'Classic mode', value: 'classic' }, { title: 'Zen mode', value: 'zen' }];
 </script>
 
 <template>
@@ -31,11 +32,16 @@ const difficulties = [{ title: '弱', value: 0 }, { title: '強', value: 1 }, { 
         <p v-if="settings.tileTheme === 'fluentanimated'" class="text-caption text-medium-emphasis mb-5">未提供動畫的圖案使用 Fluent 3D 靜態圖。偏好減少動態效果時，全部改用靜態圖。</p>
         <VDivider class="mb-5" />
         <VSelect
-          :model-value="settings.difficulty" :items="difficulties" label="新遊戲難度"
+          :model-value="settings.mode" :items="modes" label="新遊戲模式"
+          @update:model-value="emit('update:settings', { ...settings, mode: $event as GameMode })"
+        />
+        <VSelect
+          v-if="settings.mode === 'classic'" :model-value="settings.difficulty" :items="difficulties" label="Classic 難度"
           @update:model-value="emit('update:settings', { ...settings, difficulty: $event as Difficulty })"
         />
-        <p class="text-caption text-medium-emphasis mt-3">難度於下次遊戲生效。設定儲存於此瀏覽器。</p>
-        <VAlert v-if="inGame" type="info" variant="tonal" density="compact" class="mt-4">計時持續進行。</VAlert>
+        <p v-if="settings.mode === 'zen'" class="text-body-2 mb-3">Zen mode 沒有時間限制。</p>
+        <p class="text-caption text-medium-emphasis mt-3">模式與難度於下次遊戲生效。設定儲存於此瀏覽器。</p>
+        <VAlert v-if="timedGame" type="info" variant="tonal" density="compact" class="mt-4">計時持續進行。</VAlert>
         <VAlert v-if="!storageAvailable" type="warning" variant="tonal" density="compact" class="mt-4">無法儲存，僅保留於本次頁面。</VAlert>
       </VCardText>
       <VCardActions class="pa-5 pt-0"><VBtn color="primary" variant="flat" block @click="emit('update:modelValue', false)">關閉</VBtn></VCardActions>

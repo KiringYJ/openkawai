@@ -5,8 +5,9 @@ interface and an independently implemented, deterministic TypeScript game core.
 
 The game implements the rules in [`re/RULESET.md`](re/RULESET.md) with a
 deliberate animal-pool adaptation: each level randomly selects 36 kinds from
-75 candidates. It retains a 16 × 9 board, 11 levels, three difficulties, finite
-resources, chance cards, and browser-local best records. The artwork is from
+75 candidates. It retains a 16 × 9 board, 11 levels, finite resources, and
+chance cards. Classic mode offers the original three difficulties and
+browser-local best records; Zen mode has no time limit. The artwork is from
 four independent open emoji libraries, with five selectable themes, independent
 of the original game's assets.
 
@@ -54,17 +55,22 @@ and tooling versions are recorded in `package.json` and `package-lock.json`.
 - Each level randomly selects 36 distinct animal kinds from 75 candidates.
   Each board starts with four copies of each selected kind: 144 tiles,
   or 72 pairs. Each level has its own rearrangement rule.
-- Choose 弱, 強, or 超強. Matching adds points and time; clearing a level
-  adds the confirmed time bonus and carries score/resources to the next level.
+- Choose Classic mode for 弱, 強, or 超強. Matching adds points and time;
+  clearing a level adds the confirmed time bonus and carries score/resources
+  to the next level.
+- Choose Zen mode to play all 11 levels without a countdown or timeout.
+  It uses the strong difficulty's match scores and starting resources, with
+  no time bonus. Time cards become hint or shuffle rewards. Hints, shuffles,
+  pause costs, and no-move failures still apply.
 - Hints and shuffles are limited. A hint remains active until a match. A board
   with no legal moves automatically spends a shuffle; without one, the run ends.
 - Pausing requires a shuffle resource. Resuming spends one and reshuffles.
 - Match the current chance animal to earn a star. Three stars open an
   18-card reward screen; stars carry across levels until the cards are used.
-- Completed or failed runs can enter a separate top-ten table per difficulty.
+- Completed or failed Classic runs can enter a separate top-ten table per difficulty.
   Registration is optional: skip or dismiss the name dialog to return to the
   menu without saving. Names accept A–Z and spaces, up to 16 characters;
-  blank names are allowed.
+  blank names are allowed. Zen runs do not enter the Classic records.
 
 Keyboard: arrows move between tiles, Enter/Space selects, H hints, S shuffles,
 P pauses/resumes, R restarts, and Escape cancels selection. Right-click also
@@ -79,8 +85,9 @@ Open **設定** to switch between **Fluent 3D**, **Fluent Animated**,
 75 candidates, selected for full-body artwork in all four libraries, with
 obvious pests and confusing variants excluded. Switching styles preserves
 the level's 36 selected kinds, positions, selection, score, and progress.
-Settings include a preview of all 75 candidates and a
-default difficulty for the next new game.
+Settings include a preview of all 75 candidates, a default mode, and a
+Classic difficulty for the next new game. Changing these preferences during
+play leaves the current run's mode and difficulty intact, including on restart.
 
 Fluent Animated includes 73 animated animals; coral and oyster use Fluent 3D
 static artwork because upstream has no animations for them. When the system
@@ -89,9 +96,9 @@ Previously saved Fluent Flat selections switch to Fluent Animated.
 
 Settings and best records use this browser's `localStorage`. They persist
 across reloads; an unfinished run does not. If storage is unavailable, the
-game works in memory and shows a notice. Opening settings or instructions
-during play does not stop the timer. Elapsed time also counts in background
-tabs. Use the game's paid pause when taking a break.
+game works in memory and shows a notice. In Classic mode, opening settings
+or instructions during play does not stop the timer. Elapsed time also counts
+in background tabs. Use the game's paid pause when taking a break.
 
 ## Scope and evidence
 
@@ -104,7 +111,8 @@ Web adaptations are deliberate: seeded uniform shuffles replace the original
 VB random sequence, each level samples 36 kinds from a curated animal pool
 ([selection policy](docs/ANIMAL_SELECTION.md)), artwork comes from open emoji projects, score tables use
 browser storage instead of a Windows `.hst` file, score registration can be
-skipped, and lowercase name input is normalized to uppercase. Original audio,
+skipped, lowercase name input is normalized to uppercase, and Zen provides
+an untimed alternative to the original Classic rules. Original audio,
 original artwork, and exact animation timings are outside scope. A service
 worker, saved-run restore, and custom asset-pack upload are not implemented.
 
@@ -143,7 +151,12 @@ music, fonts, or runtime DLLs included.
 
 **openkawai** 是《KAWAI 連連看 2004》的瀏覽器重寫版，介面使用 Vue 與
 Vuetify。每關從 75 種候選動物隨機選取 36 種，各四張，實作 16 × 9 棋盤、
-11 關消牌變形、三種難度、計時與計分、有限提示／洗牌、機會翻牌及最佳紀錄。
+11 關消牌變形、計分、有限提示／洗牌及機會翻牌。Classic mode 保留弱、強、
+超強三種計時難度與最佳紀錄；Zen mode 沒有時間限制。
+
+Zen 保留 11 關、提示／洗牌次數、暫停費用與無解時的結束規則，沒有時間加分，
+時間牌改為提示或洗牌獎勵，成績不列入 Classic 最佳紀錄。主選單與設定可選擇
+模式；模式和 Classic 難度會保存，遊戲中的變更於下次新遊戲生效。
 
 在「設定」可切換 Fluent 3D、Fluent Animated、Noto Color Emoji、Twemoji、
 OpenMoji，預覽全部 75 種候選動物。候選須在四個圖庫都有全身像，排除害蟲

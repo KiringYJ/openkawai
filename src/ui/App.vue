@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed, onMounted, onUnmounted, ref, shallowRef } from 'vue';
 import {
-  VAlert, VApp, VBtn, VCard, VCardActions, VCardText, VCardTitle, VChip,
+  VAlert, VApp, VBtn, VBtnToggle, VCard, VCardActions, VCardText, VCardTitle, VChip,
   VContainer, VDialog, VDivider, VIcon, VMain, VProgressLinear,
   VSpacer, VTab, VTable, VTabs, VTextField,
 } from 'vuetify/components';
@@ -58,20 +58,20 @@ const game = computed(() => {
   const current = session.value;
   return current ? {
     board: current.board, phase: current.phase, layout: current.layout,
-    difficulty: current.difficulty, levelIndex: current.levelIndex, score: current.score,
+    mode: current.mode, difficulty: current.difficulty, levelIndex: current.levelIndex, score: current.score,
     selected: current.selected, hint: current.activeHint, hints: current.hintResource,
     shuffles: current.shuffleResource, chance: current.chanceKind, stars: current.stars,
     cards: current.cards, picks: current.picksRemaining, bonus: current.lastBonus,
     lossReason: current.lossReason,
   } : null;
 });
-const menuDifficulty = computed(() => DIFFICULTIES[settings.value.difficulty]!);
+const menuDifficulty = computed(() => DIFFICULTIES[settings.value.mode === 'zen' ? 1 : settings.value.difficulty]!);
 const recordRows = computed(() => Array.from({ length: 10 }, (_, rank) => ({
   rank: rank + 1, entry: highScores.value[recordsDifficulty.value][rank],
 })));
 const provisionalRecords = computed(() => {
   const current = game.value;
-  if (!current) return [];
+  if (!current || current.mode !== 'classic') return [];
   const table = highScores.value[current.difficulty];
   const rank = highScoreRank(table, current.score);
   const preview = insertHighScore(table, {
@@ -138,7 +138,8 @@ function clearEffects(): void {
 
 function startGame(): void {
   clearEffects();
-  session.value = new GameSession({ difficulty: settings.value.difficulty, layout: createLayout(settings.value.difficulty) });
+  const difficulty = menuDifficulty.value.value;
+  session.value = new GameSession({ mode: settings.value.mode, difficulty, layout: createLayout(difficulty) });
   lastTick = performance.now();
   sync();
 }
@@ -224,7 +225,7 @@ function toMenu(): void {
 function finishRun(): void {
   const current = game.value;
   if (!current) return;
-  if (qualifiesForHighScore(highScores.value[current.difficulty], current.score)) {
+  if (current.mode === 'classic' && qualifiesForHighScore(highScores.value[current.difficulty], current.score)) {
     enteredName.value = '';
     nameEntry.value = true;
   } else toMenu();
@@ -232,7 +233,7 @@ function finishRun(): void {
 
 function saveRecord(): void {
   const current = game.value;
-  if (!current) return;
+  if (!current || current.mode !== 'classic') return;
   highScores.value = recordHighScore(highScores.value, current.difficulty, {
     name: enteredName.value, score: current.score, level: current.phase === 'completed' ? 11 : current.levelIndex,
   });
@@ -244,7 +245,12 @@ function saveRecord(): void {
 function confirmLeave(): void {
   const action = leaveAction.value;
   leaveAction.value = null;
-  if (action === 'restart') startGame();
+  if (action === 'restart') {
+    clearEffects();
+    session.value?.restart();
+    lastTick = performance.now();
+    sync();
+  }
 }
 
 function keyboard(event: KeyboardEvent): void {
@@ -292,13 +298,21 @@ onUnmounted(() => {
         <main v-if="!game" class="menu-layout">
             <VCard border class="menu-panel pa-6">
               <h1 class="menu-title mb-6">KAWAI 連連看 2004</h1>
-              <h2 class="text-subtitle-2 mb-3">難度</h2>
-              <div class="difficulty-options">
-                <VBtn v-for="difficulty in DIFFICULTIES" :key="difficulty.value" height="44" :variant="settings.difficulty === difficulty.value ? 'tonal' : 'outlined'" :color="settings.difficulty === difficulty.value ? 'primary' : undefined" :aria-pressed="settings.difficulty === difficulty.value" @click="updateSettings({ ...settings, difficulty: difficulty.value })">
-                  {{ difficulty.title }}
-                </VBtn>
-              </div>
-              <p class="text-caption text-medium-emphasis mt-4 mb-4">第一關 {{ formatTime(menuDifficulty.seconds * 1000) }} · 提示 {{ menuDifficulty.resources }} 次 · 洗牌 {{ menuDifficulty.resources }} 次</p>
+              <h2 class="text-subtitle-2 mb-3">遊戲模式</h2>
+              <VBtnToggle :model-value="settings.mode" mandatory divided color="primary" variant="outlined" class="d-flex mb-5" aria-label="遊戲模式" @update:model-value="updateSettings({ ...settings, mode: $event })">
+                <VBtn value="classic" class="w-50" :aria-pressed="settings.mode === 'classic'">Classic mode</VBtn>
+                <VBtn value="zen" class="w-50" :aria-pressed="settings.mode === 'zen'">Zen mode</VBtn>
+              </VBtnToggle>
+              <template v-if="settings.mode === 'classic'">
+                <h2 class="text-subtitle-2 mb-3">Classic 難度</h2>
+                <div class="difficulty-options">
+                  <VBtn v-for="difficulty in DIFFICULTIES" :key="difficulty.value" height="44" :variant="settings.difficulty === difficulty.value ? 'tonal' : 'outlined'" :color="settings.difficulty === difficulty.value ? 'primary' : undefined" :aria-pressed="settings.difficulty === difficulty.value" @click="updateSettings({ ...settings, difficulty: difficulty.value })">
+                    {{ difficulty.title }}
+                  </VBtn>
+                </div>
+              </template>
+              <p class="text-caption text-medium-emphasis mt-4 mb-4">{{ settings.mode === 'zen' ? '無時間限制' : `第一關 ${formatTime(menuDifficulty.seconds * 1000)}` }} · 提示 {{ menuDifficulty.resources }} 次 · 洗牌 {{ menuDifficulty.resources }} 次</p>
+              <p v-if="settings.mode === 'zen'" class="text-caption text-medium-emphasis mb-4">共 11 關，提示與洗牌有次數限制。不列入 Classic 最佳紀錄。</p>
               <VBtn id="start-game" color="primary" variant="flat" size="large" block @click="startGame">開始遊戲</VBtn>
             </VCard>
         </main>
@@ -309,9 +323,9 @@ onUnmounted(() => {
               <div class="board-toolbar">
                 <div class="level-heading">
                   <h1 class="level-title">{{ game.layout.name }}</h1>
-                  <VChip color="primary" variant="tonal" size="x-small">{{ DIFFICULTIES[game.difficulty]?.title }} · {{ game.levelIndex + 1 }} / 11</VChip>
+                  <VChip color="primary" variant="tonal" size="x-small">{{ game.mode === 'zen' ? 'Zen' : `Classic · ${DIFFICULTIES[game.difficulty]?.title}` }} · {{ game.levelIndex + 1 }} / 11</VChip>
                 </div>
-                <div class="clock-stat" :class="{ 'text-error': timeLeft <= 30000 }"><span class="text-caption">剩餘時間</span><strong>{{ formatTime(timeLeft) }}</strong></div>
+                <div class="clock-stat" :class="{ 'text-error': game.mode === 'classic' && timeLeft <= 30000 }"><span class="text-caption">{{ game.mode === 'zen' ? '時間' : '剩餘時間' }}</span><strong>{{ game.mode === 'zen' ? '不限時' : formatTime(timeLeft) }}</strong></div>
                 <div class="board-stat"><span class="text-caption">分數</span><strong>{{ game.score.toLocaleString() }}</strong></div>
                 <aside class="chance-panel" aria-label="機會圖案，配對得 1 星，3 星可翻牌" title="配對此圖案得 1 星；3 星可翻牌。">
                   <div class="chance-animal" role="img" :aria-label="`機會圖案：${tileKind(game.chance).label}`"><TileArtwork :kind="game.chance" :theme="settings.tileTheme" /></div>
@@ -321,7 +335,8 @@ onUnmounted(() => {
                   </div>
                 </aside>
               </div>
-              <VProgressLinear :model-value="timeLeft / game.layout.timeLimitMs * 100" :color="timeLeft <= 30000 ? 'error' : 'primary'" height="5" :aria-label="`剩餘時間 ${formatTime(timeLeft)}`" />
+              <VProgressLinear v-if="game.mode === 'classic'" :model-value="timeLeft / game.layout.timeLimitMs * 100" :color="timeLeft <= 30000 ? 'error' : 'primary'" height="5" :aria-label="`剩餘時間 ${formatTime(timeLeft)}`" />
+              <VDivider v-else />
               <div class="board-surface" :class="{ 'board-surface--covered': game.phase === 'paused' }">
                 <GameBoard :board="game.board" :revision="revision" :selected="game.selected" :hint="game.hint" :theme="settings.tileTheme" :disabled="!isPlaying" :path="path" :mismatch="mismatch" @select="selectTile" @cancel="cancelSelection" />
               </div>
@@ -341,14 +356,14 @@ onUnmounted(() => {
       </VContainer>
     </VMain>
 
-    <SettingsDialog v-model="settingsOpen" :settings="settings" :in-game="isPlaying" :storage-available="storageAvailable" @update:settings="updateSettings" />
+    <SettingsDialog v-model="settingsOpen" :settings="settings" :timed-game="isPlaying && game?.mode === 'classic'" :storage-available="storageAvailable" @update:settings="updateSettings" />
 
     <VDialog :model-value="game?.phase === 'paused'" persistent max-width="430" aria-labelledby="pause-title">
-      <VCard class="pa-3"><VCardText class="text-center pt-8"><VIcon :icon="mdiPause" size="40" color="primary" /><h2 id="pause-title" class="mt-4 mb-3">暫停</h2><p>計時已停止。繼續時會洗牌並消耗 1 次洗牌。</p><p class="text-caption mt-3">剩餘 {{ game?.shuffles }} 次洗牌</p></VCardText><VCardActions class="pa-5"><VBtn block variant="flat" color="primary" :prepend-icon="mdiPlay" @click="resume">繼續遊戲</VBtn></VCardActions></VCard>
+      <VCard class="pa-3"><VCardText class="text-center pt-8"><VIcon :icon="mdiPause" size="40" color="primary" /><h2 id="pause-title" class="mt-4 mb-3">暫停</h2><p><template v-if="game?.mode === 'classic'">計時已停止。</template>繼續時會洗牌並消耗 1 次洗牌。</p><p class="text-caption mt-3">剩餘 {{ game?.shuffles }} 次洗牌</p></VCardText><VCardActions class="pa-5"><VBtn block variant="flat" color="primary" :prepend-icon="mdiPlay" @click="resume">繼續遊戲</VBtn></VCardActions></VCard>
     </VDialog>
 
     <VDialog :model-value="game?.phase === 'cards'" persistent max-width="680" aria-labelledby="cards-title">
-      <VCard><VCardTitle id="cards-title" class="dialog-heading"><VIcon :icon="mdiCardsOutline" color="primary" class="mr-2" />機會翻牌</VCardTitle><VCardText><p class="mb-5">可翻 {{ game?.picks }} 張；計時暫停。</p><div class="chance-cards"><VBtn v-for="(card, index) in game?.cards" :key="index" class="chance-card" height="88" :variant="card.revealed ? 'tonal' : 'flat'" :color="card.revealed ? 'secondary' : 'primary'" :disabled="card.revealed" :aria-label="card.revealed ? rewardLabel(card.reward) : `翻開第 ${index + 1} 張牌`" @click="chooseCard(index)"><span v-if="card.revealed">{{ rewardLabel(card.reward) }}</span><VIcon v-else :icon="mdiCardsOutline" size="26" /></VBtn></div><p v-if="lastReward" class="text-body-2 text-primary mt-4" role="status">{{ lastReward }}</p></VCardText></VCard>
+      <VCard><VCardTitle id="cards-title" class="dialog-heading"><VIcon :icon="mdiCardsOutline" color="primary" class="mr-2" />機會翻牌</VCardTitle><VCardText><p class="mb-5">可翻 {{ game?.picks }} 張{{ game?.mode === 'classic' ? '；計時暫停。' : '，獲得提示或洗牌。' }}</p><div class="chance-cards"><VBtn v-for="(card, index) in game?.cards" :key="index" class="chance-card" height="88" :variant="card.revealed ? 'tonal' : 'flat'" :color="card.revealed ? 'secondary' : 'primary'" :disabled="card.revealed" :aria-label="card.revealed ? rewardLabel(card.reward) : `翻開第 ${index + 1} 張牌`" @click="chooseCard(index)"><span v-if="card.revealed">{{ rewardLabel(card.reward) }}</span><VIcon v-else :icon="mdiCardsOutline" size="26" /></VBtn></div><p v-if="lastReward" class="text-body-2 text-primary mt-4" role="status">{{ lastReward }}</p></VCardText></VCard>
     </VDialog>
 
     <VDialog :model-value="resultOpen" persistent max-width="470" aria-labelledby="result-title">
@@ -383,11 +398,26 @@ onUnmounted(() => {
     </VDialog>
 
     <VDialog v-model="recordsOpen" max-width="620" aria-labelledby="records-title">
-      <VCard><VCardTitle id="records-title" class="dialog-heading">最佳紀錄</VCardTitle><VTabs v-model="recordsDifficulty" color="primary" grow><VTab v-for="difficulty in DIFFICULTIES" :key="difficulty.value" :value="difficulty.value">{{ difficulty.title }}</VTab></VTabs><VCardText class="pt-2"><VTable density="comfortable"><thead><tr><th>排名</th><th>玩家</th><th class="text-right">分數</th><th class="text-right">關卡</th></tr></thead><tbody><tr v-for="row in recordRows" :key="row.rank"><td>{{ String(row.rank).padStart(2, '0') }}</td><td>{{ row.entry ? row.entry.name.trim() || '（未署名）' : '—' }}</td><td class="text-right font-weight-bold">{{ row.entry?.score.toLocaleString() ?? '—' }}</td><td class="text-right">{{ row.entry ? row.entry.level === 11 ? 'ALL PASS' : row.entry.level + 1 : '—' }}</td></tr></tbody></VTable><p class="text-caption text-medium-emphasis mt-3">各難度前十名，儲存於此瀏覽器。</p></VCardText><VCardActions class="pa-5 pt-0"><VSpacer /><VBtn color="primary" @click="recordsOpen = false">關閉</VBtn></VCardActions></VCard>
+      <VCard><VCardTitle id="records-title" class="dialog-heading">Classic 最佳紀錄</VCardTitle><VTabs v-model="recordsDifficulty" color="primary" grow><VTab v-for="difficulty in DIFFICULTIES" :key="difficulty.value" :value="difficulty.value">{{ difficulty.title }}</VTab></VTabs><VCardText class="pt-2"><VTable density="comfortable"><thead><tr><th>排名</th><th>玩家</th><th class="text-right">分數</th><th class="text-right">關卡</th></tr></thead><tbody><tr v-for="row in recordRows" :key="row.rank"><td>{{ String(row.rank).padStart(2, '0') }}</td><td>{{ row.entry ? row.entry.name.trim() || '（未署名）' : '—' }}</td><td class="text-right font-weight-bold">{{ row.entry?.score.toLocaleString() ?? '—' }}</td><td class="text-right">{{ row.entry ? row.entry.level === 11 ? 'ALL PASS' : row.entry.level + 1 : '—' }}</td></tr></tbody></VTable><p class="text-caption text-medium-emphasis mt-3">Classic 各難度前十名，儲存於此瀏覽器。</p></VCardText><VCardActions class="pa-5 pt-0"><VSpacer /><VBtn color="primary" @click="recordsOpen = false">關閉</VBtn></VCardActions></VCard>
     </VDialog>
 
     <VDialog v-model="rulesOpen" max-width="580" aria-labelledby="rules-title">
-      <VCard><VCardTitle id="rules-title" class="dialog-heading">玩法</VCardTitle><VCardText><ol class="rules-list"><li><strong>配對相同圖案。</strong>連線只能經過空格，最多轉兩次彎，可繞行棋盤外框。</li><li><strong>清除棋盤。</strong>每關 72 對，共 11 關。配對加分並補充時間；各關消牌後的排列方式不同。</li><li><strong>提示與洗牌。</strong>每次消耗 1 次。無解時自動洗牌；無可配對圖案且無法洗牌時結束。</li><li><strong>機會翻牌。</strong>配對當前機會圖案得 1 星，3 星可翻牌獲得時間、提示或洗牌。每次配對後會更新機會圖案。</li><li><strong>暫停。</strong>需有洗牌次數。繼續時消耗 1 次並洗牌。</li></ol><VDivider class="my-4" /><p class="text-body-2">鍵盤：方向鍵移動、Enter／空白鍵選取、H 提示、S 洗牌、P 暫停／繼續、R 重新開始、Esc 取消選取。滑鼠右鍵也可取消。</p></VCardText><VCardActions class="pa-5 pt-0"><VBtn block color="primary" variant="flat" @click="rulesOpen = false">關閉</VBtn></VCardActions></VCard>
+      <VCard>
+        <VCardTitle id="rules-title" class="dialog-heading">玩法</VCardTitle>
+        <VCardText>
+          <ol class="rules-list">
+            <li><strong>遊戲模式。</strong>Classic mode 有弱、強、超強三種難度；Zen mode 不限時，沒有時間加分，也不列入 Classic 最佳紀錄。</li>
+            <li><strong>配對相同圖案。</strong>連線只能經過空格，最多轉兩次彎，可繞行棋盤外框。</li>
+            <li><strong>清除棋盤。</strong>每關 72 對，共 11 關。配對加分，Classic 另補充時間；各關消牌後的排列方式不同。</li>
+            <li><strong>提示與洗牌。</strong>每次消耗 1 次。無解時自動洗牌；無可配對圖案且無法洗牌時結束。</li>
+            <li><strong>機會翻牌。</strong>配對當前機會圖案得 1 星，3 星可翻牌獲得提示或洗牌，Classic 另有時間獎勵。每次配對後會更新機會圖案。</li>
+            <li><strong>暫停。</strong>需有洗牌次數。繼續時消耗 1 次並洗牌。</li>
+          </ol>
+          <VDivider class="my-4" />
+          <p class="text-body-2">鍵盤：方向鍵移動、Enter／空白鍵選取、H 提示、S 洗牌、P 暫停／繼續、R 重新開始、Esc 取消選取。滑鼠右鍵也可取消。</p>
+        </VCardText>
+        <VCardActions class="pa-5 pt-0"><VBtn block color="primary" variant="flat" @click="rulesOpen = false">關閉</VBtn></VCardActions>
+      </VCard>
     </VDialog>
 
     <VDialog v-model="creditsOpen" max-width="580" aria-labelledby="credits-title">

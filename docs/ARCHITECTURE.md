@@ -75,10 +75,19 @@ selection, including selected kinds already removed, rather than every
 candidate or only the remaining tiles. Small custom layouts retain all their
 kinds when fewer than 36 are supplied.
 
-The view passes measured elapsed milliseconds to `tick`. Time continues in
-background tabs and while settings/instructions are open; only session phases
-that freeze time stop it. The app settles elapsed time before a tile or helper
-action, preventing an action after an expired countdown from saving the round.
+The view passes measured elapsed milliseconds to `tick`. In Classic, time
+continues in background tabs and while settings/instructions are open; only
+session phases that freeze time stop it. The app settles elapsed time before
+a tile or helper action, preventing an action after an expired countdown from
+saving the round.
+
+`GameMode` is independent of Classic's three `Difficulty` values. Sessions
+default to `classic`; `zen` uses the strong difficulty's scores, resources,
+and card-pick weights. Zen keeps `timeLeftMs` at zero as an inactive timer,
+ignores elapsed ticks and time top-ups, and omits the remaining-time clear
+bonus. Its 18-card deck replaces time slots with hint/shuffle rewards. The
+same level, pause, and no-move transitions apply. Mode is fixed for the
+session and retained on restart. Only Classic runs can register high scores.
 
 ## Rendering and input
 
@@ -117,6 +126,11 @@ returns to the menu without changing either score table or storage.
 Qualification is strictly above tenth place; ties are placed below existing
 equal scores. Level 11 is the completed-game sentinel. Reload restores
 preferences/records, not a session.
+
+Settings preserve the next-game mode and Classic difficulty independently.
+Older settings without a mode load as Classic; unknown modes fall back to
+Classic without discarding valid theme or difficulty values. Mode changes do
+not alter a running session, and the existing Classic score format is unchanged.
 
 ## Verification
 

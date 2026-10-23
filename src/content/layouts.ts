@@ -1,6 +1,7 @@
 import { TILE_KINDS } from './tile-kinds';
 
 export type Difficulty = 0 | 1 | 2;
+export type GameMode = 'classic' | 'zen';
 
 export const LEVEL_KIND_COUNT = 36;
 
